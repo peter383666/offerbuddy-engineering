@@ -2,7 +2,7 @@
 
 ## Product
 
-OfferBuddy is a job application tracking and optimisation platform designed to help job seekers manage opportunities, applications, and interview preparation in one place.
+OfferBuddy is an AI-assisted job application tracking and optimisation platform designed to help job seekers capture job opportunities, manage applications, and improve their job search process in one place.
 
 ## Problem
 
@@ -35,16 +35,37 @@ OfferBuddy will provide a single workflow for:
 
 ## Initial Value Proposition
 
-For the first release, OfferBuddy should make job tracking faster and more reliable than using a spreadsheet.
+For the first release, OfferBuddy should make job tracking significantly faster and more reliable than using a spreadsheet.
 
-A user should be able to paste a job advertisement link, review the extracted information, save the application, and track its status.
+A user should be able to paste a job advertisement URL, allow OfferBuddy to extract key job information using AI, review and correct the extracted information, and save the opportunity as an application record.
+
+Manual entry must remain available when automatic retrieval or AI extraction is unavailable.
+
+## MVP AI Capability
+
+The MVP includes a limited AI-assisted information extraction capability.
+
+AI will be used to convert job advertisement content into structured data such as:
+
+- Job title
+- Company name
+- Location
+- Employment type
+- Salary information when available
+- Job description
+- Required skills or keywords
+- Source platform
+
+AI output is treated as a draft rather than trusted business data.
+
+The user must be able to review and edit the extracted information before saving it.
 
 ## Long-Term Direction
 
 Future versions may include:
 
-- AI-assisted job description analysis
 - Resume-to-job matching
+- Resume optimisation
 - Application quality recommendations
 - Interview question generation
 - Mock interview workflows
@@ -52,6 +73,7 @@ Future versions may include:
 - Browser extension integration
 - Email-based status detection
 - Job discovery and recommendation
+- Automated application assistance
 - Support for markets outside Australia
 
 ## Product Principles
@@ -60,9 +82,9 @@ Future versions may include:
 
 The product must first replace the current spreadsheet-based workflow before introducing advanced automation.
 
-### Manual before automatic
+### Manual fallback remains available
 
-Users should always be able to enter and correct information manually before automated extraction is added.
+Users should always be able to enter and correct information manually when automated retrieval or AI extraction is unavailable or inaccurate.
 
 ### Incremental delivery
 
@@ -75,3 +97,9 @@ The first release should not use microservices, Kubernetes, or unnecessary distr
 ### Maintain user control
 
 AI-generated or automatically extracted data should be reviewable and editable by the user.
+
+### AI assists but does not decide
+
+AI-generated information must be treated as a draft.
+
+Users must be able to review, correct, or replace AI-generated values before those values become part of their application records.

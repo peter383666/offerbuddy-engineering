@@ -1,6 +1,6 @@
 # OfferBuddy Engineering
 
-OfferBuddy is a job application tracking and optimisation platform initially designed for the Australian technology job market.
+OfferBuddy is an AI-assisted job application tracking and optimisation platform initially designed for the Australian technology job market.
 
 This repository documents the engineering process behind OfferBuddy, including product discovery, architecture decisions, delivery planning, quality strategy, and deployment design.
 
@@ -10,11 +10,13 @@ The production source code is maintained in a separate private repository.
 
 OfferBuddy aims to help job seekers:
 
-- Save job opportunities from job advertisement links
+- Save job opportunities by pasting job advertisement URLs
+- Use AI to extract key job information
+- Review and correct automatically extracted information
 - Track application progress in one place
 - Reduce repetitive manual data entry
 - Analyse application activity and conversion rates
-- Prepare for future AI-assisted job matching and interview preparation
+- Prepare for future AI-assisted matching and interview preparation
 
 ## Engineering Approach
 
@@ -55,28 +57,38 @@ Current priorities:
 
 The first release will focus on:
 
-- User authentication
-- Saving a job application
-- Extracting basic job information from a URL
-- Managing application status
-- Viewing application history
-- Basic application statistics
+- Google authentication
+- Submitting a job advertisement URL
+- Retrieving publicly accessible job content
+- AI-assisted extraction of structured job information
+- Reviewing and correcting extracted information
+- Manual entry when extraction is unavailable
+- Saving and managing job applications
+- Updating application statuses
+- Searching and filtering applications
+- Viewing basic application statistics
 
 ## Technology Direction
 
 The current planned technology stack is:
 
-- React or Next.js
+- React
 - TypeScript
+- Vite
 - Java 21
 - Spring Boot
 - PostgreSQL
-- Redis where justified
+- Google OAuth 2.0 and OpenID Connect
+- External AI extraction provider
 - Docker
 - GitHub Actions
-- Cloud-based deployment
+- Docker-based cloud deployment
 
 Technology decisions will be recorded through Architecture Decision Records.
+
+The MVP includes AI only for job advertisement information extraction.
+
+Resume optimisation, interview generation, mock interviews, and automated applications remain future capabilities.
 
 ## Documentation Status
 

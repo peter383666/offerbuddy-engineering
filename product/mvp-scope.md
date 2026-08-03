@@ -2,28 +2,52 @@
 
 ## Objective
 
-The MVP will replace the current spreadsheet-based job application tracking process with a simple web application.
+The MVP will replace the current spreadsheet-based job application tracking process with an AI-assisted web application.
 
-The product should allow a user to save a job opportunity, maintain its application status, and review basic application activity.
+The product should allow a user to paste a job advertisement URL, automatically extract key job information, review the extracted result, save the opportunity, maintain its application status, and review basic application activity.
 
 ## In Scope
 
-### User Account
+### Authentication
 
-- Register an account
-- Log in and log out
-- Access only the user's own application records
+* Sign in using a Google account
+* Automatically create the OfferBuddy user profile after the first successful sign-in
+* Maintain an authenticated session
+* Sign out
+* Access only the user's own application records
 
-### Job Capture
+
+### AI-Assisted Job Capture
 
 - Paste a job advertisement URL
-- Enter or review the job title
-- Enter or review the company name
-- Record the job location
-- Record the source platform
+- Validate the submitted URL
+- Retrieve publicly accessible job advertisement content where permitted
+- Send relevant job content to an AI provider for structured extraction
+- Extract the job title
+- Extract the company name
+- Extract the location
+- Extract the employment type when available
+- Extract salary information when available
+- Extract the job description
+- Extract relevant skills or keywords where practical
+- Identify the source platform where practical
+- Display extracted information as an editable draft
+- Allow the user to correct or replace extracted information
 - Save the original job advertisement URL
-- Store the job description where available
-- Allow manual correction of extracted information
+- Support manual data entry when retrieval or AI extraction fails
+
+### Job Parsing Status
+
+The system should distinguish between parsing outcomes such as:
+
+- Pending
+- Processing
+- Completed
+- Partially Completed
+- Failed
+- Manual Entry
+
+A parsing failure must not prevent the user from saving the application manually.
 
 ### Application Tracking
 
@@ -72,7 +96,10 @@ The following capabilities are not part of the first MVP:
 - Automatic email status detection
 - Resume generation
 - Resume optimisation
+- Resume-to-job matching
 - AI mock interviews
+- Interview question generation
+- Cover letter generation
 - Voice interview calls
 - Advanced job matching
 - Multi-country localisation
@@ -88,13 +115,16 @@ The following capabilities are not part of the first MVP:
 
 The MVP will be considered successful when a user can:
 
-1. Create an account
-2. Paste or manually enter a job opportunity
-3. Save the job as an application record
-4. Update the application through its lifecycle
-5. Search and filter existing applications
-6. View basic application statistics
-7. Use the application instead of the existing spreadsheet for normal job tracking
+1. Sign in using Google
+2. Paste a supported job advertisement URL
+3. Receive an editable draft containing extracted job information
+4. Correct incomplete or inaccurate extracted values
+5. Save the job as an application record
+6. Manually enter information when extraction fails
+7. Update the application through its lifecycle
+8. Search and filter existing applications
+9. View basic application statistics
+10. Use OfferBuddy instead of the existing spreadsheet for normal job tracking
 
 ## Constraints
 
@@ -103,3 +133,8 @@ The MVP will be considered successful when a user can:
 - The first release should minimise infrastructure cost
 - The application should be deployable using Docker
 - The architecture should support future growth without introducing unnecessary complexity
+- AI output may be incomplete or inaccurate.
+- External job websites may block or limit automated retrieval.
+- Job website HTML structures may change without notice.
+- The core workflow must remain usable when the AI provider is unavailable.
+- AI usage should be designed with cost limits and response-size controls.

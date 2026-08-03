@@ -32,6 +32,8 @@ Target duration: 1 week
 - [ ] Write the initial product vision
 - [ ] Define MVP scope
 - [ ] Draft initial user stories
+- [x] Confirm AI-assisted job parsing as an MVP capability
+- [x] Update MVP documents to reflect AI-assisted job capture
 
 ### Architecture
 
@@ -40,6 +42,11 @@ Target duration: 1 week
 - [ ] Record ADR-001
 - [ ] Define initial application modules
 - [ ] Draft the initial data model
+- [ ] Define the AI-assisted parsing flow
+- [ ] Define the AI provider boundary
+- [ ] Define manual fallback behaviour
+- [ ] Define parsing status handling
+- [ ] Define AI response validation requirements
 
 ### Development Foundation
 
@@ -49,6 +56,10 @@ Target duration: 1 week
 - [ ] Add PostgreSQL
 - [ ] Add project-level README
 - [ ] Confirm local startup process
+- [ ] Select the initial AI provider and model
+- [ ] Create the job extraction provider interface
+- [ ] Define the structured extraction response schema
+- [ ] Configure AI credentials through environment variables
 
 ### Delivery
 
@@ -64,6 +75,11 @@ Target duration: 1 week
 - [ ] Add frontend test foundation
 - [ ] Add basic GitHub Actions workflow
 - [ ] Define the initial Definition of Done
+- [ ] Define test cases for valid AI extraction responses
+- [ ] Define test cases for incomplete AI responses
+- [ ] Define test cases for invalid structured output
+- [ ] Define test cases for provider timeout and failure
+- [ ] Confirm manual entry works when parsing fails
 
 ## Definition of Done
 
@@ -75,6 +91,10 @@ Sprint 0 is complete when:
 - A basic CI workflow runs successfully
 - At least one change has been delivered through a feature branch and pull request
 - The architecture decisions are documented
+- The AI-assisted job parsing workflow is documented consistently.
+- The system architecture includes the external AI provider.
+- Manual entry and AI failure fallback are explicitly defined.
+- The planned provider integration does not bypass backend validation.
 
 ## Notes
 
