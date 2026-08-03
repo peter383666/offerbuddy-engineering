@@ -1,95 +1,331 @@
 # OfferBuddy Engineering
 
-OfferBuddy is an AI-assisted job application tracking and optimisation platform initially designed for the Australian technology job market.
+> AI-assisted Job Application Tracker
 
-This repository documents the engineering process behind OfferBuddy, including product discovery, architecture decisions, delivery planning, quality strategy, and deployment design.
+Engineering documentation for the OfferBuddy project.
 
-The production source code is maintained in a separate private repository.
+---
 
-## Project Goals
+# Project Status
 
-OfferBuddy aims to help job seekers:
+| Area | Status |
+|------|--------|
+| Product Design | ✅ Complete |
+| Architecture | ✅ Complete |
+| Sprint 0 | 🚧 In Progress |
+| Sprint 1 | ⏳ Planned |
+| Backend Development | ⏳ Planned |
+| Frontend Development | ⏳ Planned |
+| Deployment | ⏳ Planned |
 
-- Save job opportunities by pasting job advertisement URLs
-- Use AI to extract key job information
-- Review and correct automatically extracted information
-- Track application progress in one place
-- Reduce repetitive manual data entry
-- Analyse application activity and conversion rates
-- Prepare for future AI-assisted matching and interview preparation
+---
 
-## Engineering Approach
+# Project Overview
 
-The project is being developed iteratively using:
+OfferBuddy is an AI-assisted job application tracking platform designed to help job seekers organise applications, reduce repetitive manual work, and improve their job search through structured workflows and data-driven insights.
 
-- Incremental MVP delivery
-- A modular monolith architecture
-- Architecture Decision Records
-- Versioned product and technical documentation
-- Automated testing and continuous integration
-- Docker-based deployment
+Unlike a simple spreadsheet or bookmark manager, OfferBuddy focuses on the complete application lifecycle—from recording submitted applications to analysing job search performance and, in future versions, supporting semi-automated and automated application workflows.
 
-## Repository Structure
+This repository contains the engineering documentation for the project, including product planning, architecture, technical decisions, delivery planning, and engineering standards.
 
-| Directory       | Purpose                                          |
-| --------------- | ------------------------------------------------ |
-| `product/`      | Product vision, MVP scope, and user stories      |
-| `architecture/` | System context, container design, and data model |
-| `decisions/`    | Architecture Decision Records                    |
-| `delivery/`     | Roadmap, sprint plans, and delivery progress     |
-| `quality/`      | Testing strategy and non-functional requirements |
-| `operations/`   | Deployment and operational design                |
-| `assets/`       | Architecture diagrams and product screenshots    |
+The application source code is maintained in a separate repository.
 
-## Current Status
+---
 
-**Phase:** Sprint 0 — Product and Engineering Foundation
+# Vision
 
-Current priorities:
+Build a production-quality software project using an industry-standard software development lifecycle while solving a real problem faced during the Australian technology job search process.
 
-1. Define the MVP scope
-2. Confirm the initial architecture
-3. Establish the codebase and development workflow
-4. Prepare the local development environment
-5. Deliver the first end-to-end job application tracking flow
+The long-term vision is to evolve OfferBuddy from a personal productivity tool into a SaaS platform for job seekers.
 
-## Planned MVP
+---
 
-The first release will focus on:
+# Development Philosophy
 
-- Google authentication
-- Submitting a job advertisement URL
-- Retrieving publicly accessible job content
-- AI-assisted extraction of structured job information
-- Reviewing and correcting extracted information
-- Manual entry when extraction is unavailable
-- Saving and managing job applications
-- Updating application statuses
-- Searching and filtering applications
-- Viewing basic application statistics
+OfferBuddy is developed using an iterative and incremental approach.
 
-## Technology Direction
+The objective is not to build every planned feature immediately.
 
-The current planned technology stack is:
+Each iteration delivers a working improvement that can be used in real job searching.
+
+Documentation evolves together with the product.
+
+Architecture decisions are documented before implementation whenever practical.
+
+---
+
+# Engineering Principles
+
+- Simplicity before complexity
+- Build working software first
+- Architecture supports future growth
+- AI assists users rather than replacing user decisions
+- Documentation evolves with implementation
+- Measure before optimising
+- Avoid premature microservices
+- Deliver value in small iterations
+
+---
+
+# Software Development Lifecycle
+
+```text
+Requirements
+        ↓
+Architecture & Design
+        ↓
+Sprint Planning
+        ↓
+Implementation
+        ↓
+Testing
+        ↓
+Deployment
+        ↓
+Feedback
+        ↓
+Next Iteration
+```
+
+Current stage:
+
+**Sprint 0 — Engineering Setup**
+
+---
+
+# Repository Structure
+
+```text
+offerbuddy-engineering/
+│
+├── product/
+│   ├── product-vision.md
+│   ├── mvp-scope.md
+│   └── user-stories.md
+│
+├── technology/
+│   └── tech-stack.md
+│
+├── architecture/
+│   ├── system-context.md
+│   ├── container-design.md
+│   └── data-model.md
+│
+├── decisions/
+│   ├── ADR-001-modular-monolith.md
+│   ├── ADR-002-google-authentication.md
+│   ├── ADR-003-ai-assisted-job-extraction.md
+│   └── ADR-004-ai-provider-abstraction.md
+│
+├── delivery/
+│   ├── roadmap.md
+│   └── sprint-0.md
+│
+├── quality/
+│   └── testing-strategy.md
+│
+├── operations/
+│   └── deployment-strategy.md
+│
+└── assets/
+    ├── diagrams/
+    └── screenshots/
+```
+
+---
+
+# Documentation
+
+## Product
+
+| Document | Purpose |
+|----------|---------|
+| Product Vision | Product goals and long-term direction |
+| MVP Scope | Initial product scope |
+| User Stories | Functional requirements |
+
+---
+
+## Architecture
+
+| Document | Purpose |
+|----------|---------|
+| System Context | External systems and boundaries |
+| Container Design | High-level application architecture |
+| Data Model | Business entities and relationships |
+
+---
+
+## Technology
+
+| Document | Purpose |
+|----------|---------|
+| Tech Stack | Selected technologies and technical rationale |
+
+---
+
+## Architecture Decision Records
+
+| ADR | Description |
+|-----|-------------|
+| ADR-001 | Modular Monolith |
+| ADR-002 | Google Authentication |
+| ADR-003 | AI-assisted Job Parsing |
+| ADR-004 | AI Provider Abstraction |
+
+---
+
+# Technology Stack
+
+## Frontend
 
 - React
 - TypeScript
 - Vite
+
+## Backend
+
 - Java 21
 - Spring Boot
+
+## Database
+
 - PostgreSQL
-- Google OAuth 2.0 and OpenID Connect
-- External AI extraction provider
+
+## Authentication
+
+- Google OAuth 2.0
+- OpenID Connect
+
+## Infrastructure
+
 - Docker
 - GitHub Actions
-- Docker-based cloud deployment
 
-Technology decisions will be recorded through Architecture Decision Records.
+## AI
 
-The MVP includes AI only for job advertisement information extraction.
+- External Large Language Model Provider
 
-Resume optimisation, interview generation, mock interviews, and automated applications remain future capabilities.
+---
 
-## Documentation Status
+# Architecture Overview
 
-This documentation evolves together with the product. Documents represent the current engineering direction and may be updated as new requirements and implementation constraints are discovered.
+> Architecture diagrams will be added as the project evolves.
+
+Planned diagrams include:
+
+- System Context Diagram
+- Container Diagram
+- Entity Relationship Diagram
+- Application Flow Diagram
+
+---
+
+# MVP Workflow
+
+```text
+Paste Job URL
+        ↓
+AI extracts job information
+        ↓
+User reviews and edits
+        ↓
+Confirm application details
+        ↓
+Record submitted application
+        ↓
+Track application lifecycle
+        ↓
+Analyse job search performance
+```
+
+---
+
+# Roadmap
+
+## Phase 1
+
+AI-assisted application recording
+
+## Phase 2
+
+Application analytics
+
+## Phase 3
+
+Resume optimisation
+
+## Phase 4
+
+Interview preparation
+
+## Phase 5
+
+Semi-automated application workflow
+
+## Phase 6
+
+Automated job application platform
+
+---
+
+# Current Milestone
+
+## Sprint 0
+
+Engineering foundation
+
+Completed
+
+- Product definition
+- MVP scope
+- User stories
+- Technology selection
+- Architecture
+- Data model
+- Architecture Decision Records
+
+In Progress
+
+- Engineering setup
+- Repository structure
+- Development workflow
+- GitHub Project
+- Milestone planning
+
+Next
+
+Sprint 1
+
+Record the first job application
+
+---
+
+# Release History
+
+| Version | Description |
+|----------|-------------|
+| engineering-v0.1 | Product and architecture documentation completed |
+
+---
+
+# Future Enhancements
+
+The following capabilities are intentionally deferred until after the MVP:
+
+- Resume optimisation
+- Resume matching
+- AI interview preparation
+- Browser extension
+- Email integration
+- Semi-automated applications
+- Automated job applications
+- Multi-user SaaS platform
+
+---
+
+# License
+
+This repository contains engineering documentation for the OfferBuddy project.
+
+Application source code is maintained separately.
