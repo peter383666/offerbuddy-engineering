@@ -43,17 +43,6 @@ Job seekers who actively apply for jobs every day.
 
 ---
 
-## Today's Focus
-
-Displays important items that require attention today.
-
-Examples:
-
-- Follow up an application
-- Upcoming interview
-- Recently parsed job awaiting confirmation
-
----
 
 ## Recent Activity
 
