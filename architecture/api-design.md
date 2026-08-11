@@ -914,6 +914,12 @@ Example:
 
 The response contains extracted job information available from the source.
 
+The OpenAPI contract represents this payload as `ParsedJobResponse`. It is
+separate from the confirmed `JobResponse` nested in an Application because a
+parse result must preserve `sourceUrl` but may have missing extracted fields,
+whereas a confirmed Job requires company and position but may originate from
+manual entry without a URL.
+
 The frontend must allow the user to review and modify extracted values before creating an application.
 
 ---

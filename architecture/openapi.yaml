@@ -67,7 +67,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/JobResponse'
+                $ref: '#/components/schemas/ParsedJobResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -293,7 +293,7 @@ components:
           type: string
           format: uri
 
-    JobResponse:
+    ParsedJobResponse:
       type: object
       required:
         - sourceUrl
@@ -331,6 +331,54 @@ components:
         sourceUrl:
           type: string
           format: uri
+        description:
+          type: string
+          nullable: true
+        whatYoullDo:
+          type: string
+          nullable: true
+        whatWereLookingFor:
+          type: string
+          nullable: true
+
+    JobResponse:
+      type: object
+      required:
+        - companyName
+        - jobTitle
+      properties:
+        jobId:
+          type: string
+          nullable: true
+        companyName:
+          type: string
+        jobTitle:
+          type: string
+        location:
+          type: string
+          nullable: true
+        employmentType:
+          type: string
+          nullable: true
+        workplaceType:
+          type: string
+          nullable: true
+        salaryText:
+          type: string
+          nullable: true
+        visaSponsorship:
+          type: boolean
+          nullable: true
+        sourcePlatform:
+          type: string
+          nullable: true
+        externalJobId:
+          type: string
+          nullable: true
+        sourceUrl:
+          type: string
+          format: uri
+          nullable: true
         description:
           type: string
           nullable: true
