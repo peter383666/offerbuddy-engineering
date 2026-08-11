@@ -23,7 +23,8 @@ This sprint focuses on building a complete end-to-end workflow that can be used 
 
 # Sprint Goal
 
-Build the first usable MVP of OfferBuddy that completely replaces Excel for daily job application tracking.
+Deliver a usable OfferBuddy MVP that replaces the spreadsheet-based job
+application tracking workflow.
 
 ---
 
@@ -35,45 +36,32 @@ At the end of this sprint, OfferBuddy should become the primary daily tool for t
 
 ---
 
-# Sprint Scope
+# Scope
 
 ## Progress
 
 | Workstream | Status | Evidence / next step |
 |---|---|---|
 | Sprint planning | Completed | Sprint goal, scope, success criteria, and risks recorded here |
-| Database design | Completed | Domain and persistence decisions recorded in `architecture/data-model.md` |
+| Technical design | Completed | Architecture, API, and database designs aligned for implementation |
+| Database design | Completed | Detailed schema design reflected at domain level in `architecture/data-model.md` |
 | UI design | Substantially completed | Design system and Home, Applications, and New Application specifications recorded |
 | REST API design | Completed | API contract and OpenAPI specification aligned for Sprint 1 |
-| Database migration alignment | Ready to implement | Align the initial Flyway schema with the final data and API contracts |
-| Backend implementation | Not started | Begin after migration alignment |
+| Backend implementation | Not started | Begin after the technical-design checkpoint |
 | Frontend implementation | Not started | Implement against the reviewed OpenAPI contract |
 | Automated testing | Not started | Add backend and frontend foundations with implementation |
 
-The API contract is the frontend/backend integration boundary. Flyway
-migrations and backend persistence models must preserve the rules in the data
-model without leaking table structure into API responses.
-
-## Product
-
-* User authentication
-* Dashboard
-* AI Job Parsing
-* Job Application management
-* Company management (basic)
-* Search and filtering
-* Application status management
-
-## Engineering
-
-* UI design
-* Database design
-* REST API design
-* Backend implementation
-* Frontend implementation
-* Unit testing
-* Local Docker deployment
-* Engineering documentation updates
+- Google authentication
+- Create an Application manually or from reviewed job-parsing results
+- View Applications
+- Search and filter Applications
+- View Application detail
+- Update Application data and status
+- Delete an Application
+- Home page
+- Frontend/backend integration
+- Automated testing
+- Production deployment
 
 ---
 
@@ -81,16 +69,36 @@ model without leaking table structure into API responses.
 
 The following features are intentionally excluded from Sprint 1.
 
-* Resume Analysis
-* Interview Management
-* Chrome Extension
-* Automated Job Tracking
-* AI Interview Assistant
-* Email Automation
-* Analytics Dashboard
-* Public SaaS features
+- Application analytics
+- Application statistics
+- Total application count
+- Advanced reporting
+- AI cover letter generation
+- Resume analysis
+- Interview management and AI interview assistance
+- Automated job application
+- Automated job tracking
+- Browser extension
+- Email automation
+- Public SaaS features
 
 These will be delivered in future phases.
+
+---
+
+# Implementation Order
+
+1. Finalize technical design
+2. Authentication
+3. Application creation
+4. Application list and search
+5. Application detail
+6. Home page
+7. Frontend/backend integration
+8. Sprint-level testing
+9. Production deployment
+
+This order aligns with GitHub Issues #14 through #22.
 
 ---
 
@@ -112,6 +120,7 @@ Sprint 1 is considered successful when all of the following conditions are met.
 
 * Backend and frontend are integrated.
 * Docker deployment works locally.
+* The Sprint 1 application is deployed to the selected production environment.
 * Core unit tests pass.
 * Engineering documentation is updated.
 * GitHub Release v0.2.0 is published.
@@ -160,10 +169,6 @@ A Sprint 1 task is complete only when all of the following are satisfied.
 The Sprint Backlog will be managed through GitHub Issues.
 
 Each feature will be implemented using the GitHub Flow workflow.
-
-The first implementation item must align the Sprint 1 Flyway migration with the
-accepted data model and OpenAPI contract before Application persistence code is
-built on top of it.
 
 ---
 
