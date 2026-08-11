@@ -1,0 +1,642 @@
+openapi: 3.0.3
+
+info:
+  title: OfferBuddy API
+  version: 1.0.0
+  description: |
+    REST API contract for the OfferBuddy Sprint 1 MVP.
+
+servers:
+  - url: http://localhost:8080
+    description: Local development
+
+security:
+  - sessionCookie: []
+
+tags:
+  - name: Authentication
+  - name: Users
+  - name: Jobs
+  - name: Applications
+
+paths:
+
+  /api/v1/users/me:
+    get:
+      tags:
+        - Users
+      summary: Get current user
+      operationId: getCurrentUser
+      responses:
+        '200':
+          description: Current authenticated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentUserResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/auth/logout:
+    post:
+      tags:
+        - Authentication
+      summary: Logout current user
+      operationId: logout
+      responses:
+        '204':
+          description: Logout successful
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/jobs/parse:
+    post:
+      tags:
+        - Jobs
+      summary: Parse job information from a URL
+      operationId: parseJob
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParseJobRequest'
+      responses:
+        '200':
+          description: Job parsed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParsedJobResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          description: Job page cannot be processed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/applications:
+    post:
+      tags:
+        - Applications
+      summary: Create an application
+      operationId: createApplication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApplicationRequest'
+      responses:
+        '201':
+          description: Application created
+          headers:
+            Location:
+              description: URI of the created application
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationDetailResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    get:
+      tags:
+        - Applications
+      summary: List applications
+      operationId: listApplications
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+
+        - name: size
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+
+        - name: companyName
+          in: query
+          schema:
+            type: string
+
+        - name: jobTitle
+          in: query
+          description: Case-insensitive partial match on position title
+          schema:
+            type: string
+
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/ApplicationStatus'
+
+        - name: sort
+          in: query
+          schema:
+            type: string
+            example: appliedAt,desc
+
+      responses:
+        '200':
+          description: Paginated application list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationPageResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/applications/{applicationId}:
+    parameters:
+      - name: applicationId
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      tags:
+        - Applications
+      summary: Get application detail
+      operationId: getApplication
+      responses:
+        '200':
+          description: Application detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationDetailResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags:
+        - Applications
+      summary: Update editable application fields
+      operationId: updateApplication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateApplicationRequest'
+      responses:
+        '200':
+          description: Application updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationDetailResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      tags:
+        - Applications
+      summary: Delete application
+      operationId: deleteApplication
+      responses:
+        '204':
+          description: Application deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/applications/{applicationId}/status:
+    patch:
+      tags:
+        - Applications
+      summary: Update application status
+      operationId: updateApplicationStatus
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateApplicationStatusRequest'
+      responses:
+        '200':
+          description: Application status updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationStatusResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: JSESSIONID
+      description: Secure HTTP-only OfferBuddy session cookie
+
+  schemas:
+
+    CurrentUserResponse:
+      type: object
+      required:
+        - userId
+        - email
+      properties:
+        userId:
+          type: string
+        email:
+          type: string
+          format: email
+        displayName:
+          type: string
+          nullable: true
+        avatarUrl:
+          type: string
+          nullable: true
+
+    ParseJobRequest:
+      type: object
+      required:
+        - url
+      properties:
+        url:
+          type: string
+          format: uri
+
+    ParsedJobResponse:
+      type: object
+      required:
+        - sourceUrl
+      properties:
+        jobId:
+          type: string
+          nullable: true
+        companyName:
+          type: string
+          nullable: true
+        jobTitle:
+          type: string
+          nullable: true
+        location:
+          type: string
+          nullable: true
+        employmentType:
+          type: string
+          nullable: true
+        workplaceType:
+          type: string
+          nullable: true
+        salaryText:
+          type: string
+          nullable: true
+        visaSponsorship:
+          type: boolean
+          nullable: true
+        sourcePlatform:
+          type: string
+          nullable: true
+        externalJobId:
+          type: string
+          nullable: true
+        sourceUrl:
+          type: string
+          format: uri
+        description:
+          type: string
+          nullable: true
+        whatYoullDo:
+          type: string
+          nullable: true
+        whatWereLookingFor:
+          type: string
+          nullable: true
+
+    JobResponse:
+      type: object
+      required:
+        - companyName
+        - jobTitle
+      properties:
+        jobId:
+          type: string
+          nullable: true
+        companyName:
+          type: string
+        jobTitle:
+          type: string
+        location:
+          type: string
+          nullable: true
+        employmentType:
+          type: string
+          nullable: true
+        workplaceType:
+          type: string
+          nullable: true
+        salaryText:
+          type: string
+          nullable: true
+        visaSponsorship:
+          type: boolean
+          nullable: true
+        sourcePlatform:
+          type: string
+          nullable: true
+        externalJobId:
+          type: string
+          nullable: true
+        sourceUrl:
+          type: string
+          format: uri
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        whatYoullDo:
+          type: string
+          nullable: true
+        whatWereLookingFor:
+          type: string
+          nullable: true
+
+    CreateApplicationRequest:
+      type: object
+      required:
+        - job
+        - appliedAt
+      properties:
+        job:
+          $ref: '#/components/schemas/JobInput'
+        appliedAt:
+          type: string
+          format: date
+        notes:
+          type: string
+          nullable: true
+
+    JobInput:
+      type: object
+      required:
+        - companyName
+        - jobTitle
+      properties:
+        companyName:
+          type: string
+        jobTitle:
+          type: string
+        location:
+          type: string
+          nullable: true
+        employmentType:
+          type: string
+          nullable: true
+        workplaceType:
+          type: string
+          nullable: true
+        salaryText:
+          type: string
+          nullable: true
+        visaSponsorship:
+          type: boolean
+          nullable: true
+        sourcePlatform:
+          type: string
+          nullable: true
+        externalJobId:
+          type: string
+          nullable: true
+        sourceUrl:
+          type: string
+          format: uri
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        whatYoullDo:
+          type: string
+          nullable: true
+        whatWereLookingFor:
+          type: string
+          nullable: true
+
+    UpdateApplicationRequest:
+      type: object
+      required:
+        - status
+        - appliedAt
+      properties:
+        status:
+          $ref: '#/components/schemas/ApplicationStatus'
+        appliedAt:
+          type: string
+          format: date
+        notes:
+          type: string
+          nullable: true
+
+    UpdateApplicationStatusRequest:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          $ref: '#/components/schemas/ApplicationStatus'
+
+    ApplicationStatus:
+      type: string
+      enum:
+        - APPLIED
+        - NO_RESPONSE
+        - INTERVIEW
+        - OFFER
+        - REJECTED
+        - WITHDRAWN
+
+    ApplicationSummaryResponse:
+      type: object
+      required:
+        - applicationId
+        - companyName
+        - jobTitle
+        - status
+        - appliedAt
+      properties:
+        applicationId:
+          type: string
+        companyName:
+          type: string
+        jobTitle:
+          type: string
+        location:
+          type: string
+          nullable: true
+        workplaceType:
+          type: string
+          nullable: true
+        visaSponsorship:
+          type: boolean
+          nullable: true
+        status:
+          $ref: '#/components/schemas/ApplicationStatus'
+        appliedAt:
+          type: string
+          format: date
+
+    ApplicationDetailResponse:
+      type: object
+      required:
+        - applicationId
+        - job
+        - status
+        - appliedAt
+        - createdAt
+        - updatedAt
+      properties:
+        applicationId:
+          type: string
+        job:
+          $ref: '#/components/schemas/JobResponse'
+        status:
+          $ref: '#/components/schemas/ApplicationStatus'
+        appliedAt:
+          type: string
+          format: date
+        notes:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    ApplicationStatusResponse:
+      type: object
+      required:
+        - applicationId
+        - status
+        - updatedAt
+      properties:
+        applicationId:
+          type: string
+        status:
+          $ref: '#/components/schemas/ApplicationStatus'
+        updatedAt:
+          type: string
+          format: date-time
+
+    ApplicationPageResponse:
+      type: object
+      required:
+        - content
+        - page
+        - size
+        - totalElements
+        - totalPages
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationSummaryResponse'
+        page:
+          type: integer
+        size:
+          type: integer
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+
+    FieldError:
+      type: object
+      required:
+        - field
+        - code
+        - message
+      properties:
+        field:
+          type: string
+        code:
+          type: string
+        message:
+          type: string
+
+    ErrorResponse:
+      type: object
+      required:
+        - code
+        - message
+        - timestamp
+        - path
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        path:
+          type: string
+        requestId:
+          type: string
+          nullable: true
+        fieldErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldError'
+
+  responses:
+
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'

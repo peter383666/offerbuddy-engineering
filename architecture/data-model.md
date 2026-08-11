@@ -22,7 +22,7 @@ Detailed PostgreSQL column types, indexes, constraints, and Flyway migration scr
 
 # Domain Model Overview
 
-The MVP contains the following core entities:
+The conceptual MVP model contains the following entities:
 
 * User
 * External Identity
@@ -30,9 +30,15 @@ The MVP contains the following core entities:
 * Job
 * Application
 * Application Status History
-* Job Parsing Request
+* Job Parsing Request (optional persistence in Sprint 1)
 
 The central business entity is `Application`.
+
+Sprint 1 requires persistence for User, Job, Application, and Application
+Status History. External Identity and Company may be represented within their
+own tables or folded into the User and Job persistence models respectively,
+provided their domain rules remain enforced. Job Parsing Request persistence is
+optional for the synchronous Sprint 1 parsing flow.
 
 An application represents a user's confirmed submission to a specific job.
 
@@ -255,6 +261,7 @@ It stores information about the position itself rather than the user's applicati
 | `employmentType`    | Employment arrangement                |
 | `workplaceType`     | On-site, hybrid, remote, or unknown   |
 | `salaryText`        | Salary text as advertised             |
+| `visaSponsorship`   | Whether sponsorship is advertised     |
 | `description`       | Confirmed job description             |
 | `skills`            | Extracted or confirmed skills         |
 | `sourcePlatform`    | Platform where the job was advertised |
@@ -368,7 +375,7 @@ The MVP does not create applications for jobs that were only viewed or saved.
 
 ```text
 APPLIED
-SCREENING
+NO_RESPONSE
 INTERVIEW
 OFFER
 REJECTED
@@ -849,18 +856,73 @@ The most important model rules are:
 
 ---
 
-# Open Decisions
+# Sprint 1 Persistence Design
+
+## Sprint 1 Persistence Decisions
+
+The following decisions are fixed for Sprint 1 implementation:
+
+| Area | Sprint 1 decision |
+|---|---|
+| Identifiers | Use internal `BIGINT` identity keys and public UUID domain identifiers |
+| Application date | Store `appliedAt` as PostgreSQL `DATE` |
+| Timestamps | Store audit and status-change timestamps as `TIMESTAMPTZ` in UTC |
+| Job description | Store confirmed job content as plain text |
+| Application creation | Create the Application and initial `APPLIED` status-history row in one transaction |
+| Manual entry | `sourcePlatform`, `sourceUrl`, and parsing metadata are optional |
+| Duplicate handling | Do not enforce a unique user/job constraint; possible duplicates may produce a warning |
+| Job editing | Job fields are immutable through the Sprint 1 Application update API |
+| Deletion | The API exposes deletion without committing clients to hard-delete or soft-delete storage details |
+
+### Sprint 1 Physical Schema Requirements
+
+The Flyway schema used for Sprint 1 must support the accepted API and domain
+rules. At minimum it must provide:
+
+* user ownership for every Application
+* Company and Job information required by `JobInput`
+* optional source information for manual entry
+* employment type, workplace type, salary text, and visa-sponsorship data
+* all accepted Application statuses, including `NO_RESPONSE`
+* Application status history, including the initial `APPLIED` event
+* foreign keys or equivalent database constraints that preserve valid ownership
+  and Job/Application relationships
+* indexes for user-scoped list queries, applied-date ordering, company search,
+  position-title search, and status filtering
+
+Synchronous job parsing does not require a persistent parsing-request row in
+Sprint 1. If parsing metadata is persisted for observability, it must remain
+separate from confirmed Job and Application creation.
+
+### Migration Alignment
+
+The initial source-repository migration predates the final Sprint 1 contract.
+Before business implementation builds on it, the migration must be aligned as
+follows:
+
+* make `source_platform` and `source_url` optional for manual entry
+* add salary and visa-sponsorship fields and use the accepted
+  `employmentType`/`workplaceType` terminology at the API boundary
+* add Application status-history persistence
+* remove the unique `(user_id, job_id)` rule that prevents legitimate repeat
+  applications
+* add relationship constraints and the indexes required by the list API
+
+The physical table layout may combine authentication identity attributes with
+the Sprint 1 User row and may store the Company name on the Job row. These are
+persistence simplifications; they do not change the external API contract.
+
+---
+
+# Remaining Open Decisions
 
 The following implementation details remain open:
 
-* UUID or numeric primary keys
 * Exact PostgreSQL representation of skills
-* Whether `appliedAt` is a date or timestamp
 * Whether company matching occurs during creation
 * Whether duplicate detection happens before or after AI parsing
 * How long parsing request records are retained
 * Whether provider usage cost is stored initially
-* Whether job descriptions are stored as plain text or cleaned HTML
 * Whether archived applications appear in dashboard totals
 * Whether application deletion is soft delete or hard delete
 * Whether status transitions require formal validation rules
@@ -884,9 +946,8 @@ These decisions can be made during database schema and API design.
 
 # Current Status
 
-**Status:** Accepted for initial MVP design
+**Status:** Accepted for Sprint 1 implementation
 
-**Date:** 3 August 2026
+**Date:** 11 August 2026
 
 This model should evolve based on real personal usage before introducing broader SaaS capabilities.
-
