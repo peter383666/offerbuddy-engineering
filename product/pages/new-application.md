@@ -148,7 +148,6 @@ Displays an empty editable application form.
 - Company
 - Position
 - Applied Date
-- Status
 
 ---
 
@@ -186,7 +185,9 @@ Required fields:
 - Company
 - Position
 - Applied Date
-- Status
+
+New applications are created with `APPLIED` status. Status changes are made
+after creation from the application workflow.
 
 The Save button remains disabled until required fields are completed.
 

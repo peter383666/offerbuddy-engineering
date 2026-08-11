@@ -44,6 +44,8 @@ Supported fields:
 - Company Name
 - Position Title
 
+Matching is case-insensitive and supports partial text.
+
 ---
 
 # Filters
@@ -52,6 +54,7 @@ Status
 
 - All
 - Applied
+- No Response
 - Interview
 - Offer
 - Rejected
