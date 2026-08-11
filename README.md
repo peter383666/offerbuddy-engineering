@@ -8,13 +8,13 @@ This repository contains the product, architecture, quality, operations, and del
 
 ## Current Status
 
-| Area | Status |
-|---|---|
-| Product and MVP Definition | ✅ Established |
-| MVP Architecture | ✅ Accepted |
-| Sprint 0 — Engineering Foundation | ✅ Completed |
-| Local Development and CI | ✅ Established |
-| Sprint 1 | 🟡 Planned |
+| Area | Status          |
+|---|-----------------|
+| Product and MVP Definition | ✅ Established  |
+| MVP Architecture | ✅ Accepted     |
+| Sprint 0 — Engineering Foundation | ✅ Completed    |
+| Local Development and CI | ✅ Established  |
+| Sprint 1 | 🟡 in progress  |
 | Production Deployment | ⏳ Not selected |
 
 The current milestone is Sprint 0 Closing. Repository standardisation and the engineering documentation update precede the first engineering-foundation release and Sprint 1 Planning.
