@@ -108,6 +108,9 @@ Multiple users may have separate Applications referencing the same Job.
 Changes to one user's Application must not affect another user's Application
 or the underlying Job.
 
+The Application API represents Job data as a nested `job` object. This keeps
+the API boundary aligned with the Job and Application domain boundary.
+
 ---
 
 # 4. Home Page API Usage
@@ -266,7 +269,7 @@ Public API resources use domain identifiers rather than exposing database implem
 Example:
 
 ```text
-/application/{applicationId}
+/applications/{applicationId}
 ```
 
 The API contract refers to the identifier as:
@@ -770,6 +773,12 @@ Expected production characteristics include:
 * limited session lifetime
 * invalidation on logout
 
+Sprint 1 uses same-origin frontend and API deployment. State-changing requests
+must retain Spring Security CSRF protection, and cross-origin requests must be
+restricted to explicitly configured trusted frontend origins. The frontend must
+send session credentials and the CSRF token using the configured cookie/header
+convention.
+
 Exact cookie configuration is an implementation and deployment concern.
 
 ---
@@ -895,7 +904,11 @@ Example:
   "companyName": "Atlassian",
   "location": "Sydney NSW",
   "description": "We are looking for a software engineer...",
-  "employmentType": "FULL_TIME"
+  "employmentType": "FULL_TIME",
+  "workplaceType": "HYBRID",
+  "salaryText": "$120,000-$140,000",
+  "visaSponsorship": null,
+  "sourcePlatform": "SEEK"
 }
 ```
 
@@ -1132,11 +1145,17 @@ POST /api/v1/applications
 
 ```json
 {
-  "companyName": "Atlassian",
-  "jobTitle": "Backend Engineer",
-  "location": "Sydney NSW",
-  "jobUrl": "https://www.seek.com.au/job/12345678",
-  "status": "APPLIED",
+  "job": {
+    "companyName": "Atlassian",
+    "jobTitle": "Backend Engineer",
+    "location": "Sydney NSW",
+    "employmentType": "FULL_TIME",
+    "workplaceType": "HYBRID",
+    "salaryText": "$120,000-$140,000",
+    "visaSponsorship": null,
+    "sourcePlatform": "SEEK",
+    "sourceUrl": "https://www.seek.com.au/job/12345678"
+  },
   "appliedAt": "2026-08-08",
   "notes": "Applied through SEEK."
 }
@@ -1144,15 +1163,19 @@ POST /api/v1/applications
 
 ### Request Fields
 
-| Field         | Type   | Required | Description                        |
-| ------------- | ------ | -------- | ---------------------------------- |
-| `companyName` | string | Yes      | Company name                       |
-| `jobTitle`    | string | Yes      | Position title                     |
-| `location`    | string | No       | Job location                       |
-| `jobUrl`      | string | No       | Original job advertisement URL     |
-| `status`      | string | Yes      | Current application status         |
-| `appliedAt`   | date   | Yes      | Date the application was submitted |
-| `notes`       | string | No       | User notes                         |
+| Field       | Type   | Required | Description                                      |
+| ----------- | ------ | -------- | ------------------------------------------------ |
+| `job`       | object | Yes      | Confirmed job information                        |
+| `appliedAt` | date   | Yes      | Date the application was submitted               |
+| `notes`     | string | No       | User notes                                       |
+
+The nested `job` object requires `companyName` and `jobTitle`. Location,
+employment type, workplace type, salary, visa sponsorship, source platform,
+source URL, description and extracted detail fields are optional so manual
+entry remains available when no job URL exists.
+
+Clients do not submit an initial status. The backend creates every Application
+with `APPLIED` status and records the corresponding initial status-history entry.
 
 ### Success Response
 
@@ -1165,10 +1188,17 @@ Example:
 ```json
 {
   "applicationId": "APP_01JABC123",
-  "companyName": "Atlassian",
-  "jobTitle": "Backend Engineer",
-  "location": "Sydney NSW",
-  "jobUrl": "https://www.seek.com.au/job/12345678",
+  "job": {
+    "companyName": "Atlassian",
+    "jobTitle": "Backend Engineer",
+    "location": "Sydney NSW",
+    "employmentType": "FULL_TIME",
+    "workplaceType": "HYBRID",
+    "salaryText": "$120,000-$140,000",
+    "visaSponsorship": null,
+    "sourcePlatform": "SEEK",
+    "sourceUrl": "https://www.seek.com.au/job/12345678"
+  },
   "status": "APPLIED",
   "appliedAt": "2026-08-08",
   "notes": "Applied through SEEK.",
@@ -1204,15 +1234,14 @@ Supported parameters include:
 | `page`        | integer | No       | Zero-based page number       |
 | `size`        | integer | No       | Number of records per page   |
 | `companyName` | string  | No       | Search by company name       |
+| `jobTitle`    | string  | No       | Search by position title     |
 | `status`      | string  | No       | Filter by application status |
-| `fromDate`    | date    | No       | Earliest application date    |
-| `toDate`      | date    | No       | Latest application date      |
 | `sort`        | string  | No       | Sort field and direction     |
 
 Example:
 
 ```http
-GET /api/v1/applications?page=0&size=20&companyName=Canva&status=APPLIED&sort=appliedAt,desc
+GET /api/v1/applications?page=0&size=20&jobTitle=engineer&status=APPLIED&sort=appliedAt,desc
 ```
 
 ### Success Response
@@ -1231,6 +1260,8 @@ Example:
       "companyName": "Canva",
       "jobTitle": "Backend Engineer",
       "location": "Sydney NSW",
+      "workplaceType": "HYBRID",
+      "visaSponsorship": null,
       "status": "APPLIED",
       "appliedAt": "2026-08-06"
     }
@@ -1271,25 +1302,7 @@ Sprint 1 does not provide unrestricted full-text search across all application f
 
 ---
 
-## 9.5 Date Filtering
-
-Application date filtering uses inclusive boundaries.
-
-Example:
-
-```http
-GET /api/v1/applications?fromDate=2026-08-01&toDate=2026-08-08
-```
-
-returns applications where `appliedAt` falls within the specified date range, including both boundary dates.
-
-If only `fromDate` is provided, results include applications on or after that date.
-
-If only `toDate` is provided, results include applications on or before that date.
-
----
-
-## 9.6 Sorting
+## 9.5 Sorting
 
 The Sprint 1 Application API supports sorting by approved fields only.
 
@@ -1318,7 +1331,7 @@ unless otherwise required by the approved UI.
 
 ---
 
-## 9.7 Get Application Detail
+## 9.6 Get Application Detail
 
 ### Endpoint
 
@@ -1341,10 +1354,17 @@ Example:
 ```json
 {
   "applicationId": "APP_01JABC123",
-  "companyName": "Atlassian",
-  "jobTitle": "Backend Engineer",
-  "location": "Sydney NSW",
-  "jobUrl": "https://www.seek.com.au/job/12345678",
+  "job": {
+    "companyName": "Atlassian",
+    "jobTitle": "Backend Engineer",
+    "location": "Sydney NSW",
+    "employmentType": "FULL_TIME",
+    "workplaceType": "HYBRID",
+    "salaryText": "$120,000-$140,000",
+    "visaSponsorship": null,
+    "sourcePlatform": "SEEK",
+    "sourceUrl": "https://www.seek.com.au/job/12345678"
+  },
   "status": "INTERVIEW",
   "appliedAt": "2026-08-03",
   "notes": "Technical interview scheduled.",
@@ -1363,7 +1383,7 @@ If the resource does not exist or is not accessible to the current user, the API
 
 ---
 
-## 9.8 Update Application
+## 9.7 Update Application
 
 ### Endpoint
 
@@ -1379,10 +1399,6 @@ Required.
 
 ```json
 {
-  "companyName": "Atlassian",
-  "jobTitle": "Senior Backend Engineer",
-  "location": "Sydney NSW",
-  "jobUrl": "https://www.seek.com.au/job/12345678",
   "status": "INTERVIEW",
   "appliedAt": "2026-08-03",
   "notes": "First interview completed."
@@ -1402,10 +1418,12 @@ Example:
 ```json
 {
   "applicationId": "APP_01JABC123",
-  "companyName": "Atlassian",
-  "jobTitle": "Senior Backend Engineer",
-  "location": "Sydney NSW",
-  "jobUrl": "https://www.seek.com.au/job/12345678",
+  "job": {
+    "companyName": "Atlassian",
+    "jobTitle": "Backend Engineer",
+    "location": "Sydney NSW",
+    "sourceUrl": "https://www.seek.com.au/job/12345678"
+  },
   "status": "INTERVIEW",
   "appliedAt": "2026-08-03",
   "notes": "First interview completed.",
@@ -1416,7 +1434,7 @@ Example:
 
 ---
 
-## 9.9 Update Application Status
+## 9.8 Update Application Status
 
 ### Endpoint
 
@@ -1456,7 +1474,7 @@ This endpoint is intended for UI interactions where only the application status 
 
 ---
 
-## 9.10 Application Status Values
+## 9.9 Application Status Values
 
 Sprint 1 supports the following application statuses:
 
@@ -1469,13 +1487,15 @@ Sprint 1 supports the following application statuses:
 
 Application status changes are user-driven in Sprint 1.
 
-OfferBuddy does not automatically transition an application from `APPLIED` to `NO_RESPONSE`.
+OfferBuddy does not automatically transition an application from `APPLIED` to
+`NO_RESPONSE`. The user selects `NO_RESPONSE` when it reflects the current
+application outcome.
 
 Unsupported status values return `400 Bad Request`.
 
 The database may persist the status as a string. Supported status validation
 is enforced by the application layer.
-## 9.11 Delete Application
+## 9.10 Delete Application
 
 ### Endpoint
 
@@ -1505,7 +1525,7 @@ The API contract does not expose whether deletion is physically implemented as a
 
 ---
 
-## 9.12 Recent Applications
+## 9.11 Recent Applications
 
 The Home page retrieves recent applications using the existing collection endpoint.
 
@@ -1527,7 +1547,7 @@ This allows the Home page and Application page to reuse the same Application res
 
 ---
 
-## 9.13 Ownership
+## 9.12 Ownership
 
 Application ownership is determined from the authenticated user.
 
@@ -1545,7 +1565,7 @@ All queries are scoped to the authenticated user's data.
 
 ---
 
-## 9.14 Validation
+## 9.13 Validation
 
 Application requests must validate externally visible rules including:
 
@@ -1560,7 +1580,7 @@ Exact validation limits will be documented in the OpenAPI schema before API free
 
 ---
 
-## 9.15 Sprint 1 Application API Summary
+## 9.14 Sprint 1 Application API Summary
 
 | Method   | Endpoint                                      | Purpose                              |
 | -------- | --------------------------------------------- | ------------------------------------ |
@@ -1588,8 +1608,10 @@ GET /api/v1/applications/{applicationId}
 ```json
 {
   "applicationId": "APP_01JABC123",
-  "companyName": "Atlassian",
-  "jobTitle": "Backend Engineer",
+  "job": {
+    "companyName": "Atlassian",
+    "jobTitle": "Backend Engineer"
+  },
   "status": "INTERVIEW",
   "appliedAt": "2026-08-03"
 }
@@ -1624,8 +1646,10 @@ Example:
 ```json
 {
   "applicationId": "APP_01JABC123",
-  "companyName": "Atlassian",
-  "jobTitle": "Backend Engineer",
+  "job": {
+    "companyName": "Atlassian",
+    "jobTitle": "Backend Engineer"
+  },
   "status": "APPLIED",
   "appliedAt": "2026-08-08",
   "createdAt": "2026-08-08T05:20:00Z",
@@ -1782,7 +1806,7 @@ Example:
       "message": "Company name is required."
     },
     {
-      "field": "jobUrl",
+      "field": "job.sourceUrl",
       "code": "INVALID_URL",
       "message": "Job URL must be a valid HTTP or HTTPS URL."
     }
@@ -1864,9 +1888,13 @@ A request that conflicts with the current state of a resource may return:
 409 Conflict
 ```
 
-Examples may include future duplicate-resource or state-conflict rules.
+Sprint 1 does not reject a possible duplicate Application solely because the
+same job appears to have been recorded before. Duplicate detection may return a
+warning in a future contract, but it is not a `409 Conflict` rule in the current
+Sprint 1 API.
 
-Sprint 1 should only introduce `409 Conflict` where a concrete business conflict exists.
+The status remains reserved for a concrete resource-state conflict introduced
+by a future contract change.
 
 ---
 

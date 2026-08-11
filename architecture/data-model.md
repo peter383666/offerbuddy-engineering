@@ -255,6 +255,7 @@ It stores information about the position itself rather than the user's applicati
 | `employmentType`    | Employment arrangement                |
 | `workplaceType`     | On-site, hybrid, remote, or unknown   |
 | `salaryText`        | Salary text as advertised             |
+| `visaSponsorship`   | Whether sponsorship is advertised     |
 | `description`       | Confirmed job description             |
 | `skills`            | Extracted or confirmed skills         |
 | `sourcePlatform`    | Platform where the job was advertised |
@@ -368,7 +369,7 @@ The MVP does not create applications for jobs that were only viewed or saved.
 
 ```text
 APPLIED
-SCREENING
+NO_RESPONSE
 INTERVIEW
 OFFER
 REJECTED
@@ -889,4 +890,3 @@ These decisions can be made during database schema and API design.
 **Date:** 3 August 2026
 
 This model should evolve based on real personal usage before introducing broader SaaS capabilities.
-
