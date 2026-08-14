@@ -106,7 +106,7 @@ Read these documents from the system boundary inward.
 | Document | Purpose |
 |---|---|
 | [Development Workflow](operations/development-workflow.md) | OfferBuddy development and change-integration workflow |
-| [Deployment Strategy](operations/deployment-strategy.md) | Local Docker, CI, database migration, and production deployment direction |
+| [Deployment Strategy](operations/deployment-strategy.md) | Local Docker, split CI/CD, EC2 production direction, and release model |
 
 ### 07 Delivery
 
@@ -117,6 +117,8 @@ Read these documents from the system boundary inward.
 | [Sprint 0 Planning](delivery/sprint-0.md) | Original Sprint 0 goal, plan, task results, and outcome |
 | [Sprint 0 Review](delivery/sprint-0-review.md) | Delivered increment, evidence, demonstration, and metrics |
 | [Sprint 0 Retrospective](delivery/sprint-0-retrospective.md) | Lessons learned and engineering improvement actions |
+| [Sprint 1 Planning](delivery/sprint-1.md) | Sprint 1 goal, scope, and delivery plan |
+| [Sprint 1 Technical Debt](delivery/sprint-1-technical-debt.md) | Developer-facing debt, contract drift, and accepted Sprint 1 design decisions |
 
 ## Release History
 
