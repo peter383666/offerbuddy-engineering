@@ -2,104 +2,67 @@
 
 ## Product
 
-OfferBuddy is an AI-assisted job application tracking and optimisation platform designed to help job seekers capture job opportunities, manage applications, and improve their job search process in one place.
+OfferBuddy is a job application tracking product with AI-assisted job capture. It is a deployed portfolio engineering project built around a real job-search workflow, not a mature SaaS platform.
 
 ## Problem
 
-Job seekers often manage applications using spreadsheets, browser bookmarks, notes, email, and multiple job platforms.
+Job seekers often split application information across spreadsheets, bookmarks, notes, and job platforms. This makes capture repetitive and makes the current state of an application harder to maintain.
 
-This creates several problems:
+OfferBuddy first addresses that concrete workflow: capture a job, confirm its details, create an application, and keep its status and notes in one place.
 
-- Job information must be copied manually
-- Application statuses become difficult to maintain
-- Important follow-up dates may be missed
-- Users cannot easily measure application outcomes
-- Interview preparation is disconnected from the original job advertisement
-- It is difficult to identify which job search strategies are working
+## Target User
 
-## Target Users
+The initial user is an individual technology professional applying for roles in Australia. Sprint 1 supports individual accounts only; it does not implement recruiter, team, billing, or organisation workflows.
 
-The initial target users are technology professionals applying for jobs in Australia.
+## Delivered in Sprint 1
 
-The first internal user is the product owner, who is actively applying for software engineering roles and currently manages applications manually.
+Sprint 1 provides:
 
-## Vision
+- Google sign-in and a persistent server-managed session
+- an authenticated home page and user-owned application data
+- job detail extraction from a submitted URL using an external AI provider
+- an editable extracted draft and a manual-entry path
+- application creation, list, search, status filtering, sorting, and pagination
+- application detail, edit, status update, and deletion
+- PostgreSQL persistence
+- a deployed HTTPS production application
 
-OfferBuddy will provide a single workflow for:
+AI output is untrusted draft data. A user reviews the extracted fields and explicitly saves an application; the AI provider does not write to the database.
 
-1. Capturing a job opportunity
-2. Tracking the application lifecycle
-3. Analysing application outcomes
-4. Preparing for interviews
-5. Improving future applications
+## Sprint 1 Limitations
 
-## Initial Value Proposition
-
-For the first release, OfferBuddy should make job tracking significantly faster and more reliable than using a spreadsheet.
-
-A user should be able to paste a job advertisement URL, allow OfferBuddy to extract key job information using AI, review and correct the extracted information, and save the opportunity as an application record.
-
-Manual entry must remain available when automatic retrieval or AI extraction is unavailable.
-
-## MVP AI Capability
-
-The MVP includes a limited AI-assisted information extraction capability.
-
-AI will be used to convert job advertisement content into structured data such as:
-
-- Job title
-- Company name
-- Location
-- Employment type
-- Salary information when available
-- Job description
-- Required skills or keywords
-- Source platform
-
-AI output is treated as a draft rather than trusted business data.
-
-The user must be able to review and edit the extracted information before saving it.
-
-## Long-Term Direction
-
-Future versions may include:
-
-- Resume-to-job matching
-- Resume optimisation
-- Application quality recommendations
-- Interview question generation
-- Mock interview workflows
-- Follow-up reminders
-- Browser extension integration
-- Email-based status detection
-- Job discovery and recommendation
-- Automated application assistance
-- Support for markets outside Australia
+- Job-page retrieval depends on what the source website permits and exposes to a server-side HTTP request.
+- Parsing is synchronous and can add noticeable latency.
+- Some job sites may block retrieval or return content that is incomplete for extraction.
+- Manual entry remains available, but it still requires the user to type the job details.
+- Sprint 1 stores only the current application status, not status history.
+- Sprint 1 has no analytics dashboard or browser extension.
 
 ## Product Principles
 
-### Solve a real workflow first
+### Solve the tracking workflow first
 
-The product must first replace the current spreadsheet-based workflow before introducing advanced automation.
+The deployed product must remain useful as a job application tracker without depending on future automation.
 
-### Manual fallback remains available
+### Keep the user in control
 
-Users should always be able to enter and correct information manually when automated retrieval or AI extraction is unavailable or inaccurate.
+AI-extracted information is reviewable and editable before persistence. Missing or inaccurate extraction must not silently become confirmed business data.
 
-### Incremental delivery
+### Preserve a manual path
 
-Each release should provide usable value without requiring the complete long-term product.
+Users can create an application manually when job-page retrieval or AI parsing is unsuitable.
 
-### Avoid premature complexity
+### Keep architecture proportional
 
-The first release should not use microservices, Kubernetes, or unnecessary distributed infrastructure.
+OfferBuddy uses a modular monolith and a single-host production deployment. Microservices, Kubernetes, and event-streaming infrastructure are not justified by the current scale.
 
-### Maintain user control
+## Future Direction
 
-AI-generated or automatically extracted data should be reviewable and editable by the user.
+Future work is separate from the delivered Sprint 1 product. Current high-level direction includes:
 
-### AI assists but does not decide
+- a browser extension to reduce application-capture friction
+- separating deterministic content acquisition from AI semantic analysis more clearly
+- analytics as a secondary capability
+- later evaluation of resume, cover-letter, and interview assistance
 
-AI-generated information must be treated as a draft.
-
-Users must be able to review, correct, or replace AI-generated values before those values become part of their application records.
+These items are candidates for later sprints and are not implemented Sprint 1 functionality.

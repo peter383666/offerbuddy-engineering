@@ -1,173 +1,94 @@
-# ADR-002: Use Google Authentication as the Initial Authentication Method
+# ADR-002: Use Google OIDC with a Server-Side OfferBuddy Session
 
 ## Status
 
-Accepted
+Accepted and implemented.
 
 ## Date
 
-3 August 2026
-
----
+3 August 2026; implemented architecture updated after Sprint 1.
 
 ## Context
 
-OfferBuddy requires user authentication to ensure that each user can access only their own application records.
+Sprint 1 needed a low-friction identity mechanism without building password registration, storage, verification, or reset flows. The browser application also needed a secure authenticated context for user-owned application APIs.
 
-Several authentication approaches were considered for the MVP.
-
-The product is initially intended for personal use and will later evolve into a multi-user SaaS application.
-
-The authentication solution should:
-
-* Minimise implementation complexity
-* Provide a secure sign-in experience
-* Avoid unnecessary account management features
-* Support future expansion to multiple authentication providers
-
----
+The authentication architecture had to decide both who authenticates the user and how OfferBuddy maintains the application session.
 
 ## Decision
 
-The MVP will support **Google Sign-In** as the only authentication method.
+Use Google OAuth 2.0/OpenID Connect as the only Sprint 1 identity provider and Spring Security as the relying-party implementation.
 
-OfferBuddy will use Google OAuth 2.0 and OpenID Connect to authenticate users.
+After Google authentication:
 
-After successful authentication:
+1. Spring Security processes the OIDC callback.
+2. OfferBuddy maps the verified Google subject to a local `users` row.
+3. The backend establishes a server-side servlet session.
+4. The browser receives a `JSESSIONID` cookie.
+5. Subsequent API requests derive the user from the authenticated server context.
 
-1. Google verifies the user's identity.
-2. OfferBuddy validates the returned identity information.
-3. OfferBuddy creates or retrieves the local user account.
-4. OfferBuddy establishes an authenticated application session.
+The React application does not store or attach Google access tokens to normal API requests.
 
-OfferBuddy does not manage user passwords.
+## Session and Request Security
 
----
+- Session creation policy is `IF_REQUIRED`.
+- The session cookie is HTTP-only and named `JSESSIONID`.
+- Production sets `Secure` and `SameSite=Lax`.
+- The configured session timeout is eight hours.
+- Spring Security CSRF protection remains enabled.
+- A readable CSRF cookie is paired with the `X-XSRF-TOKEN` request header for state-changing API calls.
+- Protected API requests without a session return JSON `401` responses instead of redirecting to Google.
+- Authentication starts at `/oauth2/authorization/google`; the callback is `/login/oauth2/code/google`.
+- Logout invalidates the OfferBuddy session. It does not sign the user out of Google.
 
-## Rationale
+Same-origin production hosting through Nginx keeps the React frontend, API, OAuth callback, session cookie, and CSRF behaviour under `https://offerbuddy.io`.
 
-Google Sign-In was selected because it:
+## Local Identity
 
-* Eliminates password storage.
-* Eliminates password reset functionality.
-* Eliminates email verification.
-* Provides a familiar sign-in experience.
-* Reduces MVP development effort.
-* Uses a mature, widely adopted authentication standard.
-* Supports future SaaS growth.
+The local user stores:
 
-Since the target users are software engineers, requiring a Google account is considered acceptable for the initial release.
+- public OfferBuddy UUID
+- email
+- display name and avatar when supplied
+- authentication provider
+- provider subject
 
----
-
-## Scope
-
-The MVP supports:
-
-* Google Sign-In
-* Google Sign-Out
-* Persistent authenticated sessions
-* Local OfferBuddy user accounts linked to Google identities
-
-The MVP does **not** support:
-
-* Email and password login
-* Password reset
-* Email verification
-* Microsoft login
-* Apple login
-* GitHub login
-* Multiple linked identities
-
----
-
-## User Identity Model
-
-Google authentication identifies the user.
-
-OfferBuddy authorises the user.
-
-Therefore:
-
-* Google manages user credentials.
-* OfferBuddy manages application permissions and ownership.
-
-Every authenticated user has a local OfferBuddy user record.
-
-The local record owns:
-
-* Applications
-* Companies
-* Jobs
-* Parsing requests
-
----
+A unique `(auth_provider, provider_user_id)` constraint prevents duplicate local identities for the same Google subject.
 
 ## Consequences
 
 ### Positive
 
-* Smaller authentication scope
-* Faster MVP delivery
-* Lower security risk related to password handling
-* Better user experience
-* Easier future expansion to additional providers
+- OfferBuddy does not handle passwords.
+- Browser code does not manage bearer tokens.
+- Server-side logout and authorisation use established Spring Security behaviour.
+- Same-origin cookies simplify the deployed web application.
+- User ownership is derived from the authenticated principal.
 
 ### Negative
 
-* Google becomes an external dependency.
-* Users without Google accounts cannot use the MVP.
-* Google service outages may affect new logins.
-
----
+- Google availability and OAuth configuration affect sign-in.
+- Server-side sessions are local to the backend instance.
+- Horizontal backend scaling would require session affinity or shared session storage.
+- Cookie authentication requires correct CSRF, cookie, proxy, and HTTPS configuration.
 
 ## Alternatives Considered
 
-### Email and Password
+### Email and password
 
-Rejected because it would require:
+Rejected for Sprint 1 because it adds password storage, reset, verification, and abuse-protection scope.
 
-* Password storage
-* Password hashing
-* Password reset
-* Email verification
-* Additional security responsibilities
+### Browser-managed OAuth tokens
 
-These features do not contribute directly to the MVP's primary value.
+Rejected because it would move token storage and refresh responsibility into the frontend without a Sprint 1 need for third-party API clients.
 
-### Multiple Authentication Providers
+### Stateless OfferBuddy JWTs
 
-Rejected because supporting several providers at launch would increase complexity without clear user benefit.
+Rejected because the single same-origin web application did not need stateless authentication, and server-side invalidation was simpler.
 
-Additional providers can be introduced later if needed.
+### Multiple identity providers
 
----
+Deferred until there is a demonstrated product requirement.
 
-## Future Evolution
+## Implementation Outcome
 
-Future versions may support:
-
-* Microsoft
-* Apple
-* GitHub
-* Email and password
-* Enterprise SSO
-
-The authentication model should allow multiple external identities to be linked to a single OfferBuddy user.
-
----
-
-## Related Documents
-
-* `architecture/system-context.md`
-* `architecture/container-design.md`
-* `architecture/data-model.md`
-* `technology/tech-stack.md`
-
----
-
-## Outcome
-
-OfferBuddy will use Google OAuth 2.0 and OpenID Connect as the sole authentication method for the MVP.
-
-Authentication is delegated to Google, while authorization and data ownership remain the responsibility of OfferBuddy.
+Google OIDC, Spring Security, `JSESSIONID`, server-side sessions, and CSRF protection are running in production. Redis is not used for Sprint 1 sessions. Revisit session storage only if multiple backend instances or another concrete session-sharing requirement is introduced.

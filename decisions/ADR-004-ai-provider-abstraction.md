@@ -60,3 +60,9 @@ StubJobInformationExtractor
 - Provider-specific configuration must remain in the integration layer.
 - Retry, timeout, and rate-limit handling should remain close to the provider implementation.
 - Business validation should remain in the parsing workflow.
+
+## Implementation Outcome
+
+The implemented boundary uses application-owned `AiCompletionClient` and `AiJobParser` interfaces. `GeminiAiCompletionClient` is the current provider adapter and `JsonAiJobParser` maps provider output into OfferBuddy's parsed-job model.
+
+Gemini-specific configuration and SDK types remain outside the application and persistence domains. Changing provider would still require adapter and operational work, but not a redesign of Application creation.

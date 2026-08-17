@@ -7,7 +7,7 @@
 | Sprint         | Sprint 1    |
 | Start Date     | 2026-08-06  |
 | Target Release | v0.2.0      |
-| Status         | In Progress |
+| Status         | Implementation complete; release closure in progress |
 
 ---
 
@@ -23,7 +23,8 @@ This sprint focuses on building a complete end-to-end workflow that can be used 
 
 # Sprint Goal
 
-Build the first usable MVP of OfferBuddy that completely replaces Excel for daily job application tracking.
+Deliver a usable OfferBuddy MVP that replaces the spreadsheet-based job
+application tracking workflow.
 
 ---
 
@@ -35,45 +36,33 @@ At the end of this sprint, OfferBuddy should become the primary daily tool for t
 
 ---
 
-# Sprint Scope
+# Scope
 
 ## Progress
 
-| Workstream | Status | Evidence / next step |
+| Workstream | Final status | Evidence |
 |---|---|---|
 | Sprint planning | Completed | Sprint goal, scope, success criteria, and risks recorded here |
-| Database design | Completed | Domain and persistence decisions recorded in `architecture/data-model.md` |
-| UI design | Substantially completed | Design system and Home, Applications, and New Application specifications recorded |
-| REST API design | Completed | API contract and OpenAPI specification aligned for Sprint 1 |
-| Database migration alignment | Ready to implement | Align the initial Flyway schema with the final data and API contracts |
-| Backend implementation | Not started | Begin after migration alignment |
-| Frontend implementation | Not started | Implement against the reviewed OpenAPI contract |
-| Automated testing | Not started | Add backend and frontend foundations with implementation |
+| Technical design | Completed | Architecture and ADRs reconciled with implementation |
+| Database design | Completed | PostgreSQL schema documented from Flyway V1/V2 |
+| UI design | Completed for Sprint 1 | Login, Home, Applications, New Application, detail, and edit flows implemented |
+| REST API design | Completed | Checked-in contract aligned to Spring controllers and DTOs |
+| Backend implementation | Completed | Authentication, parsing, application, persistence, security, and health capabilities delivered |
+| Frontend implementation | Completed | Authenticated Sprint 1 routes and application workflows delivered |
+| Automated testing | Partially completed | Broad backend coverage; frontend lint/build but no unit/component suite |
+| Production deployment | Completed | EC2, Nginx, HTTPS, Compose, CI/CD, health, backup/recovery, and rollback verified |
 
-The API contract is the frontend/backend integration boundary. Flyway
-migrations and backend persistence models must preserve the rules in the data
-model without leaking table structure into API responses.
-
-## Product
-
-* User authentication
-* Dashboard
-* AI Job Parsing
-* Job Application management
-* Company management (basic)
-* Search and filtering
-* Application status management
-
-## Engineering
-
-* UI design
-* Database design
-* REST API design
-* Backend implementation
-* Frontend implementation
-* Unit testing
-* Local Docker deployment
-* Engineering documentation updates
+- Google authentication
+- Create an Application manually or from reviewed job-parsing results
+- View Applications
+- Search and filter Applications
+- View Application detail
+- Update Application data and status
+- Delete an Application
+- Home page
+- Frontend/backend integration
+- Automated testing
+- Production deployment
 
 ---
 
@@ -81,16 +70,36 @@ model without leaking table structure into API responses.
 
 The following features are intentionally excluded from Sprint 1.
 
-* Resume Analysis
-* Interview Management
-* Chrome Extension
-* Automated Job Tracking
-* AI Interview Assistant
-* Email Automation
-* Analytics Dashboard
-* Public SaaS features
+- Application analytics
+- Application statistics
+- Total application count
+- Advanced reporting
+- AI cover letter generation
+- Resume analysis
+- Interview management and AI interview assistance
+- Automated job application
+- Automated job tracking
+- Browser extension
+- Email automation
+- Public SaaS features
 
 These will be delivered in future phases.
+
+---
+
+# Implementation Order
+
+1. Finalize technical design
+2. Authentication
+3. Application creation
+4. Application list and search
+5. Application detail
+6. Home page
+7. Frontend/backend integration
+8. Sprint-level testing
+9. Production deployment
+
+This order aligns with GitHub Issues #14 through #22.
 
 ---
 
@@ -112,9 +121,10 @@ Sprint 1 is considered successful when all of the following conditions are met.
 
 * Backend and frontend are integrated.
 * Docker deployment works locally.
+* The Sprint 1 application is deployed to the selected production environment.
 * Core unit tests pass.
-* Engineering documentation is updated.
-* GitHub Release v0.2.0 is published.
+* Engineering documentation is updated before release closure.
+* GitHub Release v0.2.0 is published after documentation approval and final tagging.
 
 ## Business
 
@@ -159,11 +169,7 @@ A Sprint 1 task is complete only when all of the following are satisfied.
 
 The Sprint Backlog will be managed through GitHub Issues.
 
-Each feature will be implemented using the GitHub Flow workflow.
-
-The first implementation item must align the Sprint 1 Flyway migration with the
-accepted data model and OpenAPI contract before Application persistence code is
-built on top of it.
+Feature work was integrated through the `release` branch, verified, and promoted to the stable `main` baseline. Production deployment selects an explicit immutable SHA/version.
 
 ---
 
@@ -180,3 +186,24 @@ built on top of it.
 # Expected Outcome
 
 At the end of Sprint 1, OfferBuddy should be capable of replacing Excel for daily job application tracking and provide a stable foundation for future AI-powered features.
+
+---
+
+# Final Outcome
+
+Sprint 1 delivered the production application described by the product and engineering goals. The implemented system supports the core daily tracking workflow and is live at [offerbuddy.io](https://offerbuddy.io).
+
+The repository cannot independently prove that the user has permanently stopped using the previous spreadsheet, so that business-behaviour criterion remains a product validation question rather than an engineering claim.
+
+Implementation and production hardening are complete. The final tag/GitHub Release remains intentionally pending until the documentation, Sprint Review, Retrospective, and closure decision are approved.
+
+---
+
+# Related Documents
+
+* [Sprint 1 Technical Debt](sprint-1-technical-debt.md) — developer-facing debt, contract drift, and accepted design decisions from the Sprint 1 code review
+* [Sprint 1 Review](sprint-1-review.md) — what Sprint 1 delivered and the acceptance result
+* [Sprint 1 Retrospective](sprint-1-retrospective.md) — how delivery went and what was learned
+* [Product Backlog](product-backlog.md) — work not committed to the current sprint
+* [API Design](../architecture/api-design.md)
+* [Data Model](../architecture/data-model.md)

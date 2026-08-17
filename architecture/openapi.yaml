@@ -4,7 +4,8 @@ info:
   title: OfferBuddy API
   version: 1.0.0
   description: |
-    REST API contract for the OfferBuddy Sprint 1 MVP.
+    Implementation-aligned REST API contract for the deployed OfferBuddy Sprint 1 application.
+    Spring controllers and DTOs are authoritative when this checked-in contract is updated.
 
 servers:
   - url: http://localhost:8080
@@ -107,6 +108,12 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: The user already has an application matching the job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     get:
       tags:
         - Applications
@@ -334,10 +341,10 @@ components:
         description:
           type: string
           nullable: true
-        whatYoullDo:
+        responsibilities:
           type: string
           nullable: true
-        whatWereLookingFor:
+        requirements:
           type: string
           nullable: true
 
@@ -382,10 +389,10 @@ components:
         description:
           type: string
           nullable: true
-        whatYoullDo:
+        responsibilities:
           type: string
           nullable: true
-        whatWereLookingFor:
+        requirements:
           type: string
           nullable: true
 
@@ -442,10 +449,10 @@ components:
         description:
           type: string
           nullable: true
-        whatYoullDo:
+        responsibilities:
           type: string
           nullable: true
-        whatWereLookingFor:
+        requirements:
           type: string
           nullable: true
 

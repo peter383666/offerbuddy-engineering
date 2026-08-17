@@ -29,7 +29,7 @@ OfferBuddy will use Docker Compose to define and run local infrastructure depend
 
 Application processes may run directly from the developer environment for fast feedback, while infrastructure services run as containers. Only services with a confirmed development or testing purpose should remain in the Compose environment.
 
-Docker Compose is a local development mechanism. This decision does not require the production environment to use Docker Compose.
+This ADR originally selected Docker Compose for local infrastructure only. Sprint 1 later also selected Docker Compose for its single-host production runtime; that separate production decision is recorded in [ADR-008](ADR-008-single-host-production.md).
 
 ## Rationale
 
@@ -84,4 +84,6 @@ Rejected as the default because it would introduce network dependency, shared-en
 
 ## Outcome
 
-Docker Compose is the standard mechanism for reproducible local infrastructure in OfferBuddy. Infrastructure services must still be justified individually; inclusion in Compose does not make a service part of the application architecture by default.
+Docker Compose is the standard mechanism for reproducible local infrastructure in OfferBuddy. PostgreSQL and reserved Redis run locally while application processes normally run on the host.
+
+Redis being present in Compose does not make it an active application dependency. Sprint 1 does not use Redis for sessions, caching, queues, or business data.

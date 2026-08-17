@@ -1,6 +1,6 @@
 # OfferBuddy API Design
 
-Version: 1.0 (Sprint 1 Draft)
+Version: 1.0 (Sprint 1 implemented contract)
 
 ---
 
@@ -8,7 +8,7 @@ Version: 1.0 (Sprint 1 Draft)
 
 This document defines the REST API contract for the OfferBuddy Sprint 1 MVP.
 
-The objective is to establish a stable API contract between the frontend and backend before implementation begins.
+The objective is to document the Sprint 1 contract implemented by the Spring controllers and DTOs. Those implementation types and the generated OpenAPI contract are authoritative; this document explains their behaviour without redesigning the API.
 
 This document defines:
 
@@ -1181,7 +1181,8 @@ source URL, description and extracted detail fields are optional so manual
 entry remains available when no job URL exists.
 
 Clients do not submit an initial status. The backend creates every Application
-with `APPLIED` status and records the corresponding initial status-history entry.
+with `APPLIED` status. Sprint 1 stores the current status only and does not create
+an application status-history record.
 
 ### Success Response
 
@@ -1894,13 +1895,12 @@ A request that conflicts with the current state of a resource may return:
 409 Conflict
 ```
 
-Sprint 1 does not reject a possible duplicate Application solely because the
-same job appears to have been recorded before. Duplicate detection may return a
-warning in a future contract, but it is not a `409 Conflict` rule in the current
-Sprint 1 API.
+Sprint 1 rejects an Application when the authenticated user already has an
+Application matching the implemented duplicate rules. The service checks matching
+company name and job title and matching user/job identity; the database also
+enforces unique `(user_id, job_id)` Applications.
 
-The status remains reserved for a concrete resource-state conflict introduced
-by a future contract change.
+The API returns `409 Conflict` with error code `DUPLICATE_APPLICATION`.
 
 ---
 

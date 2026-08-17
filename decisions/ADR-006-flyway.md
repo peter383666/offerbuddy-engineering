@@ -87,3 +87,5 @@ Rejected because it does not support persistent development data or controlled e
 ## Outcome
 
 Flyway is the authoritative mechanism for OfferBuddy database schema evolution. Schema changes are delivered as version-controlled migrations and applied consistently across environments.
+
+Sprint 1 production uses `V1__create_initial_schema.sql` and `V2__align_jobs_and_applications_for_create.sql`. Deployed migration files are treated as immutable; later schema changes require a new migration.
