@@ -2,55 +2,135 @@
 
 ## Purpose
 
-This document defines the testing direction for OfferBuddy. Detailed automated tests are implemented alongside the relevant product capability rather than being treated as complete when only their scenarios have been identified.
+This document describes the testing and automated validation that exists at the end of Sprint 1. Test quantity alone is not treated as evidence of quality; coverage is evaluated against risks and behaviours.
 
-## Test Levels
+## Backend Test Layers
 
-OfferBuddy will use an appropriate combination of:
+Backend CI runs:
 
-- Unit tests for isolated business rules and transformations
-- Integration tests for Spring Boot, PostgreSQL, Flyway, and external integration boundaries
-- Component tests for React user interactions
-- End-to-end tests for critical user workflows when those workflows are implemented
+```text
+./mvnw -B --no-transfer-progress clean verify
+```
 
-Tests should be deterministic, independently repeatable, and suitable for continuous integration.
+### Service Tests
 
-## Backend Testing Foundation
+Service tests use JUnit 5, Mockito, and focused in-memory stores to exercise business behaviour without HTTP or a real database.
 
-The backend testing foundation should include:
+Covered behaviour includes:
 
-- JUnit 5
-- Spring Boot Test
-- A context-load test
-- Testcontainers when database-backed integration tests are introduced
+- application creation, validation, initial `APPLIED` status, and duplicate rejection
+- application listing, pagination input, filtering, sorting, detail, update, status update, and deletion
+- job find-or-create behaviour used by application creation
+- user creation and lookup
+- parsing orchestration and failure mapping
 
-The generated Spring Boot test class is only an initial scaffold. The foundation is complete when the test configuration and conventions support meaningful business and integration tests.
+### Controller and API Tests
 
-## Frontend Testing Foundation
+MockMvc tests exercise the HTTP boundary for:
 
-The frontend testing foundation should include:
+- current user
+- job parsing
+- application create/list/detail/update/status/delete
+- request validation
+- pagination and query parameters
+- HTTP response status and JSON shape
+- consistent business-error responses
 
-- Vitest
-- React Testing Library
-- `jsdom`
-- Shared test setup
-- At least one representative component test
+These tests use authenticated principals where appropriate and verify that controllers remain separate from persistence entities.
 
-ESLint and production builds are quality checks, but they do not replace frontend tests.
+### Security Tests
 
-## AI Extraction Testing
+Security-specific tests cover:
 
-The AI extraction feature must be tested against both successful and degraded provider responses.
+- Google OAuth/OIDC success handling
+- local user mapping during login
+- unauthenticated API `401` behaviour
+- protected endpoints
+- CSRF requirements on state-changing requests
+- logout and session invalidation
+- authorised current-user access
 
-Planned scenarios:
+Ownership is also tested through user-scoped application behaviour.
 
-- Valid structured extraction response
-- Incomplete extraction response
-- Invalid structured output
-- Provider timeout
-- Provider unavailable or failed request
-- Manual entry fallback when parsing cannot complete
+### Repository and Transaction Integration Tests
 
-AI output must be treated as untrusted test input. Tests should confirm schema validation, missing-field handling, safe failure behaviour, and the requirement for user confirmation before persistence.
+Testcontainers starts PostgreSQL 17 for persistence tests. These verify behaviour that an in-memory substitute would not represent reliably:
 
-These scenarios will be implemented when the AI extraction feature enters an active development sprint.
+- Flyway schema application
+- user repository persistence and identity uniqueness
+- application persistence and list queries
+- filters, ordering, and pagination against PostgreSQL
+- duplicate constraints
+- job/application creation in one transaction
+- rollback without leaving an orphan job
+
+### OpenAPI Tests
+
+The generated springdoc contract is checked for the implemented routes and the session-cookie and CSRF security schemes. Swagger UI availability is tested in the non-production configuration while protected application APIs remain authenticated.
+
+Production disables springdoc API docs and Swagger UI.
+
+### AI and Content-Acquisition Tests
+
+Automated offline tests cover:
+
+- job-page HTTP status and content-type handling
+- HTML text extraction and size/validation behaviour
+- parsing orchestration
+- valid, missing, malformed, and provider-error JSON
+- Gemini client configuration, timeout, and error mapping
+- controller responses for parsing failures
+
+A live Gemini integration test exists but is conditional. It runs only when `GOOGLE_API_KEY` is supplied and is skipped in normal offline CI. CI passing therefore does not prove current external-provider availability or model behaviour.
+
+### Production Configuration Tests
+
+The production configuration verifier is tested to ensure required database and Google settings are present and local placeholder secrets are rejected.
+
+## Frontend Validation
+
+Frontend CI currently runs:
+
+```text
+npm ci
+npm run lint
+npm run build
+```
+
+The build includes TypeScript compilation and Vite's production build. On `main` and `release` pushes, CI uploads the resulting immutable `dist` artifact.
+
+Sprint 1 does not have frontend unit, component, or end-to-end automated tests. ESLint, type checking, and a successful build are useful controls but do not prove runtime UI behaviour.
+
+Critical user journeys were verified manually in production:
+
+- Google login/logout
+- application capture and creation
+- list/search/filter/pagination
+- detail and update
+- frontend/backend deployment and smoke checks
+
+Frontend automated testing remains technical debt.
+
+## CI Versus Integration Verification
+
+A passing CI run confirms that the source at that commit passed the configured automated checks and produced the expected artifact. It does not by itself prove:
+
+- Google production OAuth configuration
+- EC2/Nginx routing and HTTPS
+- job-site accessibility
+- Gemini availability
+- deployment success
+- production data persistence and recovery
+- complete browser behaviour
+
+Release-candidate verification and production smoke testing remain separate delivery steps.
+
+## Known Gaps
+
+- no frontend unit/component suite
+- no browser end-to-end automation
+- live Gemini test skipped without an API key
+- incomplete generated OpenAPI error-response annotations
+- no automated performance/load test
+- no automated EC2 recovery or database restore schedule
+- no request/correlation IDs in error responses

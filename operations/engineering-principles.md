@@ -1,20 +1,20 @@
 # Engineering Principles
 
-## Documentation First
+## Documentation and Implementation Stay Aligned
 
-Product planning and engineering documentation should be completed before implementation begins for each sprint.
+Document intended behaviour before implementation where it improves decisions, then update the documentation to describe what was actually delivered.
 
 ## Small Iterations
 
 Deliver working software in small, reviewable increments.
 
-## GitHub Flow
+## Reviewable Delivery Flow
 
-One issue, one feature branch, one pull request.
+Use one focused issue or task, one feature branch, and one reviewable pull request. Integrate through `release`, promote verified work to `main`, and deploy an explicit immutable version.
 
 ## Continuous Integration
 
-All pull requests must pass CI before merging.
+Relevant pull requests must pass CI before merging. CI is an automated gate; integration and production verification remain separate responsibilities.
 
 ## Living Documentation
 

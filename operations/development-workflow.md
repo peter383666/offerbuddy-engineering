@@ -2,65 +2,93 @@
 
 ## Purpose
 
-This document describes how OfferBuddy development work moves from an issue to a production-verified release.
+This document describes how a change moves from development to a verified OfferBuddy release. Deployment detail is maintained in [Deployment Strategy](deployment-strategy.md).
 
-## Delivery flow
+## Workflow
 
 ```text
-Issue
-  ↓
-feature/*  (or chore/*, review/*)
-  ↓
-Pull Request → release
-  ↓
-Path-filtered CI (backend-ci and/or frontend-ci)
-  ↓
-Merge to release
-  ↓
-Deploy selected commit (frontend and/or backend independently)
-  ↓
-Production smoke test
-  ↓
-Merge release → main
-  ↓
-Tag release (for example v0.2.0)
-  ↓
-Sprint review / retrospective / documentation update
+issue or defined task
+  -> feature/*
+  -> local verification
+  -> pull request to release
+  -> CI
+  -> integration verification
+  -> promotion to main
+  -> immutable release tag
+  -> explicit production SHA deployment
+  -> production verification
 ```
 
-## Branch meanings
+## Feature Branch
 
-| Branch pattern | Role |
-| --- | --- |
-| `feature/*` | Product or engineering feature work |
-| `chore/*` | Tooling, CI, dependency hygiene |
-| `review/*` | Time-boxed review / hardening branches |
-| `release` | Production candidate under verification |
-| `main` | Production-verified stable history |
+A `feature/*` branch contains one focused change or coherent change set.
 
-## Pull requests
+Before opening a pull request:
 
-- Prefer one issue → one branch → one pull request.
-- Target `release` for work intended for the next production deployment.
-- Target `main` only for hotfixes or for merging an already-verified `release`.
-- CI must pass for the paths touched by the change.
+- meet the acceptance criteria
+- run relevant backend tests
+- run frontend lint/build when applicable
+- update affected documentation
+- identify migrations, configuration changes, and technical debt
+- confirm no secrets or generated local files are included
 
-## CI expectations
+Feature-branch pushes do not automatically run every path-filtered CI workflow. CI runs when a relevant pull request targets `release` or `main`, or through manual dispatch.
 
-- Backend changes run `backend-ci` (`mvn clean verify`).
-- Frontend changes run `frontend-ci` (`npm ci`, lint, build).
-- Unrelated paths must not trigger the other pipeline.
-- CI never deploys.
+## Release Branch
 
-Details: [Deployment Strategy](deployment-strategy.md) and the source repository `.github/workflows/README.md`.
+`release` is the integration and verification branch for the next release candidate.
 
-## Local development
+It is used to:
 
-1. Start infrastructure with Docker Compose (Postgres; Redis if needed locally).
-2. Run backend and frontend on the host for day-to-day development.
-3. Keep secrets out of Git; use environment variables or local untracked files.
-4. Do not edit applied Flyway migrations; add a new migration when the schema must change.
+- combine approved changes
+- run boundary CI
+- create immutable candidate artifacts
+- verify frontend/backend integration
+- deploy a candidate SHA when production-like verification is required
+- resolve release-blocking issues before promotion
 
-## Definition of Done
+Presence on `release` does not mean the code is production-ready.
 
-Work is not done until it meets the project [Definition of Done](../quality/definition-of-done.md), including CI and documentation updates when behaviour or operations change.
+## Main
+
+`main` is the verified stable baseline. Changes reach it after release integration is accepted.
+
+A merge to `main` causes relevant CI to produce main-associated immutable artifacts. Production still selects an explicit artifact SHA; it does not blindly follow the branch tip.
+
+## Tag
+
+A tag is an immutable release marker created from the accepted stable commit. It records the released source identity but does not itself replace deployment verification.
+
+Sprint 1 tagging occurs only after documentation and sprint closure.
+
+## Production
+
+Deployment uses manually dispatched frontend/backend workflows and an explicit verified SHA whenever practical.
+
+After deployment:
+
+- check backend health
+- check the HTTPS homepage
+- run the relevant authentication/application smoke path
+- inspect Nginx and container logs
+- confirm persistence where the change affects data
+- record the deployed version
+- retain the previous known-good SHA
+
+## Pull Requests and Review
+
+A pull request should include:
+
+- purpose and scope
+- implementation summary
+- evidence of relevant tests/builds
+- database or configuration impact
+- documentation impact
+- known limitations and follow-up debt
+- rollback considerations for production-affecting changes
+
+Documentation-only changes should be committed separately from production-code cleanup when practical.
+
+## CI Is a Gate, Not the Release Decision
+
+CI verifies the configured build, tests, lint, and artifact generation for one commit. Integration verification and production verification remain explicit responsibilities because OAuth, Nginx, EC2, external job sites, Gemini, and persistent data cross boundaries not proven by ordinary CI.

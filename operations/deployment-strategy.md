@@ -2,206 +2,195 @@
 
 ## Purpose
 
-This document defines how OfferBuddy is run and verified across local development, continuous integration, continuous delivery, and production.
+This document describes how the deployed Sprint 1 system moves from source control to production. Operational commands and incident checks are in the [Production Runbook](production-runbook.md); database procedures are in [PostgreSQL Backup and Restore](postgresql-backup-and-restore.md).
 
-Sprint 1 production targets a single low-cost EC2 host. Frontend and backend keep **independent CI/CD lifecycles** inside one monorepo.
-
-## Environment Overview
-
-| Environment | Approach | Status |
-| --- | --- | --- |
-| Local Development | Apps on the host; Postgres (+ Redis) via Docker Compose | Available |
-| Continuous Integration | Path-filtered GitHub Actions (`backend-ci`, `frontend-ci`) | Available |
-| Continuous Delivery | Independent frontend/backend deploy workflows | Planned |
-| Production | Single AWS EC2 + host Nginx + Docker Compose | Planned |
-
-## Branch and release model
-
-| Branch | Meaning |
-| --- | --- |
-| `feature/*`, `chore/*`, `review/*` | Development work |
-| `release` | Production candidate — deploy and smoke-test from here |
-| `main` | Production-verified stable line |
-
-Flow:
+## Delivery Flow
 
 ```text
-feature/*  →  PR (+ CI)  →  release  →  deploy exact commit  →  smoke test  →  merge to main  →  tag
+feature/*
+  -> pull request to release
+  -> CI and integration verification
+  -> merge release to main
+  -> final immutable tag
+  -> deploy explicit verified SHA/version
 ```
 
-Rules:
+The Sprint 1 tag is created after documentation and sprint closure.
 
-- **Branches** manage code flow.
-- **Commit SHA / tag** define the artifact that was actually deployed.
-- Frontend and backend may deploy different commits independently.
-- Prefer `workflow_dispatch` for production deploys so the operator selects branch / tag / SHA deliberately.
+## Branch Responsibilities
 
-Do not treat “latest `release` tip” as the only deploy identity after further pushes have landed.
+| Branch/Marker | Responsibility |
+| --- | --- |
+| `feature/*` | Isolated development and reviewable change |
+| `release` | Integration branch and production candidate under verification |
+| `main` | Verified stable baseline |
+| tag | Immutable release marker |
+| deployed SHA | Exact frontend/backend artifact selected for production |
 
-## Local Development with Docker
-
-Docker Compose remains the standard mechanism for local infrastructure:
-
-- PostgreSQL 17
-- Redis 8 (present locally; not required by the Sprint 1 application runtime yet)
-- Named volumes and a private Docker network
-- Credentials via environment files that are not committed
-
-React and Spring Boot normally run on the host for fast feedback. See `decisions/ADR-005-docker-compose.md`.
+Code on `release` is not automatically production-ready. A passing CI run is not the same as release integration or production verification.
 
 ## Continuous Integration
 
-CI **verifies** code. It does **not** deploy.
+Frontend and backend use independent, path-filtered workflows.
 
-Workflows live in the source repository:
+### Backend CI
 
-| Workflow | Paths | What it runs |
-| --- | --- | --- |
-| `backend-ci.yml` | `backend/**` | Java 21, `./mvnw clean verify` (Testcontainers Postgres) |
-| `frontend-ci.yml` | `frontend/**` | Node 22, `npm ci`, lint, production build |
+Triggers on relevant pull requests and pushes to `main` or `release`, plus manual dispatch.
 
-Triggers:
+```text
+Java 21 setup
+  -> Maven clean verify
+  -> Docker image build
+  -> push full-SHA and short-SHA tags on main/release push
+```
 
-- Push to `main`, `release`, `feature/**`, `review/**`, `chore/**` (path-filtered)
-- Pull requests targeting `main` or `release` (path-filtered)
-- `workflow_dispatch` for manual re-runs
+Pull-request and manual CI runs validate the Docker build without publishing it. Published images use GHCR and include the commit revision.
 
-Principles:
+### Frontend CI
 
-- Changing only frontend must not run Maven.
-- Changing only backend must not run npm.
-- Frontend unit tests are not yet a CI gate (see Sprint 1 technical debt).
-- Required status checks / branch protection should account for path-filtered workflows (a job that does not run must not block unrelated PRs incorrectly).
+Triggers on relevant pull requests and pushes to `main` or `release`, plus manual dispatch.
 
-## Production architecture (Sprint 1 MVP)
+```text
+Node 22
+  -> npm ci
+  -> ESLint
+  -> TypeScript/Vite production build
+  -> upload frontend-dist-<full-sha> on main/release push
+```
 
-Selected intentionally for cost control and portfolio clarity. **Not** using RDS, ElastiCache, ECS/EKS, ALB, or CloudFront in the first release.
+The frontend has no automated unit/component test stage in Sprint 1.
+
+## Continuous Delivery
+
+Deployment is manually dispatched and separate from CI.
+
+### Backend Deployment
+
+The backend workflow:
+
+1. resolves an explicit full SHA, or the latest successful backend CI SHA on an explicitly selected `release`/`main` branch
+2. verifies that the SHA-tagged GHCR image exists
+3. copies the production Compose file and deployment script to EC2
+4. connects over SSH
+5. pulls the existing image
+6. replaces only the backend container
+7. waits for `/actuator/health` to report `UP`
+
+The EC2 host does not compile or build the backend.
+
+### Frontend Deployment
+
+The frontend workflow:
+
+1. resolves an explicit full SHA, or the latest successful frontend CI SHA on an explicitly selected branch
+2. downloads the matching immutable CI artifact
+3. uploads it to an EC2 staging directory
+4. verifies that `index.html` exists
+5. replaces the Nginx document-root contents
+6. validates and reloads Nginx
+7. verifies that `https://offerbuddy.io` is reachable
+
+The EC2 host does not run `npm build`.
+
+### Why Explicit SHA Is Preferred
+
+A mutable name such as `latest` does not uniquely identify code and can select a different artifact after another successful build. Production should normally deploy the full SHA that passed the intended verification.
+
+The workflow's “latest” option is branch-scoped operator convenience, not the release identity.
+
+## Production Architecture
 
 ```text
 Internet
-   │
-   ▼
-offerbuddy.io  (HTTPS / Let's Encrypt)
-   │
-   ▼
-AWS Elastic IP
-   │
-   ▼
-EC2
-├── Host Nginx
-│     ├── /        → React static files (dist/)
-│     └── /api/**  → Spring Boot container :8080
-└── Docker Compose (private network only)
-      ├── backend
-      ├── postgres   (volume-backed)
-      └── redis      (reserved; unused by app until justified)
+  -> HTTPS / Nginx on AWS EC2
+       |-> React static files
+       |-> /api and OAuth proxy to 127.0.0.1:8080
+            -> Spring Boot backend container
+                 -> PostgreSQL container + named volume
+            -> Redis container (reserved; no Sprint 1 application use)
 ```
 
-Public ports only: **22**, **80**, **443**. Postgres and Redis must not be reachable from the internet.
+Public host ports are limited to SSH and HTTP/HTTPS. PostgreSQL and Redis are not published. The backend is bound only to host loopback.
 
-Same-origin benefits:
+Nginx preserves the `/api` prefix, forwards proxy headers, redirects HTTP to HTTPS, and redirects `www` to the canonical apex host.
 
-- No browser CORS for the SPA API calls
-- Simpler Google OAuth redirect (`https://offerbuddy.io/login/oauth2/code/google`)
-- Session cookie + CSRF behaviour stays on one site
+## Production Configuration and Secrets
 
-### Frontend runtime
+Production uses `SPRING_PROFILES_ACTIVE=prod` and an EC2-local `/opt/offerbuddy/.env`. The file is not committed.
 
-Production frontend is **static files**, not a long-running Node process:
+### Non-sensitive configuration
+
+Examples:
+
+- `POSTGRES_DB`
+- `POSTGRES_USER`
+- `FRONTEND_BASE_URL`
+- `SPRING_PROFILES_ACTIVE`
+- backend image repository and SHA tag
+- Nginx hostname
+- frontend backend origin
+- Google client ID, while still requiring correct environment-specific configuration
+
+### Secrets
+
+Examples:
+
+- PostgreSQL/DB password
+- Google client secret
+- Gemini API key
+- EC2 SSH private key
+- GHCR read token or other access token
+
+GitHub deployment credentials are stored as GitHub Environment secrets. The backend production verifier rejects missing required database/Google settings and known local placeholder values.
+
+AWS SSM Parameter Store, AWS Secrets Manager, and IAM-role-based secret retrieval are future hardening options. They are not implemented.
+
+## Database Migration
+
+Flyway runs the versioned migrations when the backend starts. Hibernate does not update the schema.
+
+A deployment must consider migration compatibility before replacing the application. Redeploying an earlier application image does not undo a database migration. If a migration is not backward compatible, application rollback may require a separately planned database recovery or forward fix.
+
+## Health and Verification
+
+Current layers are:
+
+- PostgreSQL Compose health check using `pg_isready`
+- backend dependency on healthy PostgreSQL
+- backend Docker health check against loopback Actuator
+- deploy-script polling for JSON health status `UP`
+- frontend deployment check against the production homepage
+- manual authentication and application smoke testing
+- log inspection after deployment
+
+Health confirms availability of the checked endpoint; it does not prove every external integration or user journey.
+
+## Rollback
 
 ```text
-npm ci → npm run build → dist/ → Nginx
+identify known-good SHA
+  -> redeploy its immutable backend image and/or frontend artifact
+  -> verify backend health
+  -> verify HTTPS homepage
+  -> run authentication/application smoke test
+  -> inspect logs
 ```
 
-EC2 does not need Node for serving production traffic.
+Frontend and backend can be rolled back independently when their contracts remain compatible.
 
-### Backend runtime
-
-```text
-mvn package → Docker image → GHCR (planned) → EC2 docker pull → backend container
-```
-
-EC2 should not compile the backend with Maven in production.
-
-### Configuration
-
-| Concern | Local / default | Production (`SPRING_PROFILES_ACTIVE=prod`) |
-| --- | --- | --- |
-| Database | Local / Compose Postgres | Compose Postgres on EC2 private network |
-| Swagger | Enabled when permitted | Disabled |
-| Session cookie | Dev-friendly | `Secure` + HTTPS |
-| Secrets | Local placeholders or env | Required env vars only — never commit |
-
-Sensitive values (examples): `DB_PASSWORD`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_API_KEY`, `FRONTEND_BASE_URL`, `SPRING_PROFILES_ACTIVE`.
-
-## Continuous Delivery (planned)
-
-Separate deploy workflows:
-
-| Workflow | Responsibility |
-| --- | --- |
-| `backend-deploy.yml` | Build/push backend image for a selected ref; update backend container on EC2 |
-| `frontend-deploy.yml` | Build `dist` for a selected ref; replace Nginx static files on EC2 |
-
-Principles:
-
-1. **Build once, deploy the artifact** — CI/CD builds the image or `dist`; EC2 only pulls/copies runtime artifacts.
-2. Frontend deploy must not restart Postgres/Redis/backend by default.
-3. Backend deploy must not rebuild React by default.
-4. Deploy from `release` (or an explicit SHA/tag), smoke-test, then merge to `main` and tag.
-5. Independent rollback of frontend or backend versions.
-
-Suggested delivery sequence remaining:
-
-1. ~~Backend CI~~ / ~~Frontend CI~~
-2. Production Docker layout (`backend` image + Compose)
-3. Backend CD
-4. Frontend CD
-5. Host Nginx + TLS
-6. EC2 + Elastic IP + DNS
-7. Google OAuth production redirect URIs
-8. Production smoke test
-9. Backup (`pg_dump`) and basic monitoring
-
-## Database Migration During Deployment
-
-Flyway remains authoritative. Hibernate DDL auto-update is not used for production schema management.
-
-Before automated CD ships, define:
-
-- When migrations run (typically backend container start)
-- How migration failure blocks rollout
-- Backup/restore expectations (`pg_dump` first; S3 later)
-- Compatibility rules for rollback
-
-See `decisions/ADR-006-flyway.md`.
-
-## Release and Rollback Principles
-
-- Releases must be traceable to a Git commit and version tag.
-- `main` represents production-verified code, not merely “merged but unproven”.
-- Secrets must never be committed.
-- Failed health checks stop the rollout.
-- Application rollback must consider Flyway compatibility.
-- Do not edit applied migration files in place.
-
-## Open Decisions
-
-- Exact EC2 instance size / region
-- Whether Redis remains in production Compose while unused by the app
-- GHCR image naming and retention
-- SSH / deploy key vs OIDC-based deploy auth
-- Automated vs manual `workflow_dispatch`-only production deploys
-- Backup schedule and off-host storage (S3)
-- Branch-protection required-check configuration for path-filtered CI
+Application rollback changes deployed code. Database rollback concerns schema/data and is handled separately, normally through recovery or a new forward migration rather than editing deployed Flyway files.
 
 ## Current Status
 
 | Area | Status |
 | --- | --- |
-| Local Compose | Available |
-| Split frontend/backend CI | Available |
-| Production Docker / Nginx / EC2 | Planned |
-| Frontend / backend CD | Planned |
-
-**Updated:** 14 August 2026
+| Backend CI and SHA image publication | Implemented |
+| Frontend CI and SHA artifact publication | Implemented |
+| Manual backend deployment | Implemented |
+| Manual frontend deployment | Implemented |
+| AWS EC2 / Nginx / HTTPS | Implemented |
+| PostgreSQL backup and restore verification | Implemented and exercised |
+| Docker restart and EC2 reboot recovery | Exercised |
+| Automatic tag/GitHub Release workflow | Not implemented |
+| Managed secret storage | Not implemented |
+| Staging environment | Not implemented |
