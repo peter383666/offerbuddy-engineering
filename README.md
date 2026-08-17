@@ -87,7 +87,7 @@ See [System Context](architecture/system-context.md), [Container Design](archite
 | Decisions | [ADR Index](decisions/README.md) |
 | Quality | [Testing Strategy](quality/testing-strategy.md), [Non-Functional Requirements](quality/non-functional-requirements.md), [Definition of Done](quality/definition-of-done.md) |
 | Operations | [Development Workflow](operations/development-workflow.md), [Deployment Strategy](operations/deployment-strategy.md), [Production Runbook](operations/production-runbook.md), [PostgreSQL Backup and Restore](operations/postgresql-backup-and-restore.md) |
-| Delivery | [Roadmap](delivery/roadmap.md), [Sprint 1 Plan](delivery/sprint-1.md), [Sprint 1 Technical Debt](delivery/sprint-1-technical-debt.md) |
+| Delivery | [Roadmap](delivery/roadmap.md), [Sprint 1 Plan](delivery/sprint-1.md), [Sprint 1 Review](delivery/sprint-1-review.md), [Sprint 1 Retrospective](delivery/sprint-1-retrospective.md), [Sprint 1 Technical Debt](delivery/sprint-1-technical-debt.md) |
 
 ## Roadmap
 
