@@ -2,205 +2,119 @@
 
 ## Purpose
 
-This document defines the runtime containers, external integrations, and internal module boundaries for the OfferBuddy MVP.
+This document describes the deployed Sprint 1 runtime and the main application responsibilities. It uses “container” in the architecture sense and identifies Docker placement where relevant.
 
-OfferBuddy uses a modular monolith: one React frontend, one Spring Boot backend, and one PostgreSQL database. AI extraction is an external integration, not an independently deployed internal container.
-
-## Container Diagram
+## Production Container Diagram
 
 ```mermaid
-flowchart LR
-    User[Job Seeker]
+flowchart TB
+    Browser["Browser"]
+    Google["Google Identity Platform"]
+    JobSites["Job websites"]
+    Gemini["Google Gemini"]
+    Actions["GitHub Actions"]
 
-    subgraph OfferBuddy[OfferBuddy System]
-        Frontend[React Web Application<br/>React + TypeScript + Vite]
-        Backend[Backend Application<br/>Java 21 + Spring Boot]
-        Database[(PostgreSQL Database)]
+    subgraph EC2["AWS EC2"]
+        Nginx["Host Nginx<br/>TLS, React static files, reverse proxy"]
+        Backend["Spring Boot API<br/>Docker container"]
+        Postgres[("PostgreSQL 17<br/>Docker container + volume")]
+        Redis[("Redis 8<br/>reserved, inactive")]
     end
 
-    Google[Google Identity Platform]
-    JobSites[Job Advertisement Websites]
-    AI[AI Extraction Provider]
-
-    User -->|Uses through web browser| Frontend
-    Frontend -->|HTTPS / JSON REST API| Backend
-    Backend -->|Reads and writes application data| Database
-    Frontend -->|Initiates Google sign-in| Google
-    Google -->|Authentication response| Frontend
-    Backend -->|Validates identity information| Google
-    Backend -->|Retrieves job advertisement content| JobSites
-    Backend -->|Sends cleaned job content| AI
-    AI -->|Returns structured extraction result| Backend
+    Browser -->|HTTPS| Nginx
+    Nginx -->|/api, /oauth2, /login/oauth2, /actuator| Backend
+    Backend --> Postgres
+    Backend -->|OIDC| Google
+    Backend -->|HTTP fetch| JobSites
+    Backend -->|Structured extraction| Gemini
+    Actions -->|Frontend artifact / backend SHA image| EC2
 ```
 
-## Container Responsibilities
+## Runtime Responsibilities
 
 ### React Web Application
 
-The frontend presents authentication, job capture, application tracking, and dashboard interfaces. It submits URLs, displays parsing progress and editable drafts, supports manual entry, and calls the backend REST API.
+The React single-page application is compiled into static assets and served by Nginx. It manages routes and user interaction for login, home, new application, application list, detail, and edit.
 
-The frontend does not call PostgreSQL or the AI provider directly and is not the final authority for authentication, authorisation, ownership, or business validation.
+It calls the backend API with session credentials and the configured CSRF header. It does not connect directly to PostgreSQL, Google APIs, or Gemini.
 
-### Spring Boot Backend Application
+### Nginx
 
-The backend is responsible for:
+Host Nginx is the public production entry point. It:
 
-- Authentication, authorisation, ownership, REST APIs, and business validation
-- Managing companies, jobs, applications, statuses, notes, and dashboard statistics
-- Accessing PostgreSQL and managing transactions
-- Retrieving job advertisement content
-- Preparing and limiting content for AI extraction
-- Calling the configured AI provider
-- Validating structured AI responses
-- Managing parsing status and failure handling
-- Returning editable extraction drafts
-- Persisting only user-confirmed application data
+- redirects HTTP to HTTPS and `www` to the canonical apex host
+- serves the React build
+- provides SPA fallback routing
+- proxies API and OAuth paths to backend loopback port 8080
+- preserves the `/api` prefix
+- forwards protocol and host headers required by OAuth redirects
 
-### PostgreSQL Database
+### Spring Boot API
 
-PostgreSQL stores users, identities, companies, jobs, applications, status history, notes, audit timestamps, and parsing metadata. The frontend and AI provider have no direct database access.
+The backend is one modular-monolith application. It:
 
-## External Systems
+- runs Google OAuth/OIDC and the server-side session
+- enforces authentication, CSRF, and user ownership
+- fetches job-page content
+- invokes and validates AI parsing
+- implements application and job business rules
+- exposes the versioned REST API
+- manages transactions and PostgreSQL access
+- exposes health and info Actuator endpoints
+
+Current top-level packages include `auth`, `user`, `job`, `jobparsing`, `application`, `openapi`, `config`, and `shared.error`.
+
+There are no separate Company, Dashboard, Analytics, or status-history modules in Sprint 1.
+
+### PostgreSQL
+
+PostgreSQL is the system of record for users, jobs, and applications. A named Docker volume persists data across container recreation and EC2 service restarts.
+
+Flyway owns schema evolution. Hibernate DDL auto-creation/update is disabled.
+
+### Redis
+
+Redis is deployed in local and production Compose but is not connected to the Spring Boot application. Sprint 1 does not use it for application caching, session storage, queues, or business data.
+
+It is intentionally retained for possible later session/cache-related capabilities. Its production security must be revisited before it becomes an active dependency.
+
+## External Dependencies
 
 ### Google Identity Platform
 
-Google provides OAuth 2.0 and OpenID Connect authentication. OfferBuddy validates the identity response, links it to a local user, establishes the session, and enforces authorisation.
+Google authenticates accounts and returns OIDC identity claims. OfferBuddy remains responsible for local user identity, session creation, authorisation, and logout.
 
-### Job Advertisement Websites
+### Job Websites
 
-The backend may retrieve publicly accessible content where technically and legally permitted. Invalid URLs, redirects, blocked access, changing HTML, malicious content, and excessive responses must be handled safely.
+The backend retrieves available job-advertisement content. This boundary is deterministic network/content acquisition and may fail independently of AI processing.
 
-### AI Extraction Provider
+### Google Gemini
 
-The backend sends relevant job advertisement content and requests structured job information. The provider does not communicate directly with the React frontend, PostgreSQL, or the user's browser.
+Gemini performs semantic extraction behind application-owned interfaces. Provider responses are treated as untrusted structured input.
 
-The backend remains responsible for:
+### GitHub Actions
 
-- Provider authentication and request construction
-- Input size, timeout, rate-limit, and cost controls
-- Response schema validation, error handling, and normalisation
-- Provider abstraction
+CI verifies and builds the frontend and backend. Manual CD deploys existing immutable artifacts rather than rebuilding on the EC2 host.
 
-AI output is untrusted draft data and cannot create a confirmed application without user approval.
+## Communication and Network Boundaries
 
-## Main Communication Paths
+- Public traffic terminates at Nginx on ports 80/443.
+- The backend is published only on `127.0.0.1:8080`.
+- PostgreSQL and Redis are reachable only on the Compose network.
+- Backend-to-Google, job-site, Gemini, GHCR, and GitHub communication uses external HTTPS.
+- Production secrets are supplied from the EC2-local `.env` and GitHub Environment secrets, not committed configuration.
 
-- Browser to frontend: HTTPS
-- Frontend to backend: HTTPS REST API using JSON
-- Backend to database: transactional database connection
-- Backend to Google: identity validation
-- Backend to job websites: restricted HTTP retrieval
-- Backend to AI provider: authenticated API request with cleaned, size-limited content
+## Deployment Model
 
-## Proposed Backend Modules
+The frontend and backend have independent release lifecycles:
 
 ```text
-com.offerbuddy
-├── auth
-├── user
-├── company
-├── job
-├── application
-├── dashboard
-├── parsing
-├── integration
-└── shared
+Frontend CI -> immutable dist artifact -> manual frontend deploy -> Nginx root
+Backend CI  -> immutable SHA image    -> manual backend deploy  -> Docker Compose
 ```
 
-### Parsing Module
+The deployed version is selected by commit SHA. See [ADR-008](../decisions/ADR-008-single-host-production.md) and [Deployment Strategy](../operations/deployment-strategy.md).
 
-Responsible for:
+## Deferred Architecture
 
-- Managing job parsing requests
-- Tracking Pending, Processing, Completed, Partially Completed, Failed, and Manual Entry statuses
-- Coordinating page retrieval and AI extraction
-- Cleaning and limiting job content
-- Mapping and validating provider responses
-- Returning editable drafts
-- Supporting retry and manual fallback
-
-The parsing module must not directly create a confirmed application without user approval.
-
-### Integration Module
-
-```text
-integration
-├── google
-├── jobsource
-└── ai
-```
-
-The AI integration area owns provider-specific API communication. Business workflow and validation remain in the parsing module, and provider DTOs must not leak into business modules.
-
-Other modules own authentication, users, companies, confirmed jobs, application lifecycles, dashboards, and genuinely shared technical concerns.
-
-# AI-Assisted Job Extraction Design
-
-```text
-User submits URL
-        ↓
-Backend validates URL
-        ↓
-Backend retrieves page content
-        ↓
-Backend cleans and limits content
-        ↓
-Backend sends content to AI provider
-        ↓
-AI provider returns structured output
-        ↓
-Backend validates and normalises result
-        ↓
-Frontend displays editable draft
-        ↓
-User confirms or corrects values
-        ↓
-Backend saves application
-```
-
-Failure path:
-
-```text
-Page retrieval fails
-or
-AI request fails
-or
-AI output is invalid
-        ↓
-System records parsing failure
-        ↓
-Manual entry remains available
-```
-
-## Security and Reliability
-
-- Production communication uses HTTPS.
-- URLs are validated to reduce SSRF and private-network access risk.
-- External HTML and AI responses are untrusted.
-- Prompt injection content in job advertisements cannot override extraction rules.
-- External calls use timeouts, response-size limits, and controlled redirects.
-- Credentials remain outside source control.
-- Provider failure never blocks manual entry.
-- The backend enforces user ownership.
-
-## Deferred Containers
-
-Browser extension, email integration, and notification workers are future possibilities. Redis, brokers, search engines, microservices, gateways, and Kubernetes are deferred until justified.
-
-The MVP AI provider is an external integration rather than an internal AI service container.
-
-## Related Documents
-
-- `product/mvp-scope.md`
-- `technology/tech-stack.md`
-- `architecture/system-context.md`
-- `architecture/data-model.md`
-- `decisions/ADR-001-modular-monolith.md`
-- `decisions/ADR-003-ai-assisted-job-extraction.md`
-- `decisions/ADR-004-ai-provider-abstraction.md`
-
-## Current Status
-
-**Status:** Accepted for MVP foundation
-
-**Date:** 3 August 2026
+Browser extension and analytics are possible later clients/capabilities. Microservices, Kubernetes, Kafka, and speculative scaling infrastructure are not part of the Sprint 1 design.

@@ -95,3 +95,9 @@ Rule-based parsing may still be used to retrieve and clean page content before A
 Rejected for the initial MVP because it would add another deployable client and browser-specific development work.
 
 A browser extension may be introduced after the web workflow is proven.
+
+## Implementation Outcome
+
+Sprint 1 implements synchronous server-side page retrieval followed by Gemini semantic extraction. The backend validates and maps the structured response, returns an editable draft, and does not persist data until the user creates an Application.
+
+Production experience confirmed two separate failure and latency boundaries: deterministic page-content acquisition and AI semantic analysis. Job sites can block or limit server-side acquisition even when the AI provider is healthy. A future browser extension may improve acquisition, but it is not part of Sprint 1.
