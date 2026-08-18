@@ -48,22 +48,27 @@ Related documents:
 
 The final Sprint 1 tag/release follows documentation approval and sprint closure.
 
-## Sprint 2 Direction
+## Sprint 2 — Lower-Friction Job Capture
 
-Sprint 2 is not fully designed or committed in this document.
+**Phase 1 status:** Requirement Analysis completed and approved. Sprint 2 functionality is not yet recorded as delivered.
 
-Current direction:
+Confirmed requirement scope:
 
-1. Browser extension capture as the primary product candidate
-2. reduced manual application-entry friction
-3. clearer separation of deterministic content acquisition from AI semantic analysis
-4. analytics as a secondary product candidate
-5. selected Sprint 1 technical-debt work based on risk and capacity
+1. OfferBuddy Browser Extension as the primary Sprint 2 feature
+2. initial Job Capture support for SEEK and Indeed
+3. eligibility screening with explicit uncertainty rather than absolute automated decisions
+4. Browser Extension capture as the preferred path, with AI URL parsing retained as fallback
+5. separation of reliable Job Capture from semantic Job Intelligence
+6. non-blocking AI enrichment that cannot invalidate successful core Application creation
+7. basic Application Analytics as a secondary capability
+8. continued server-enforced authentication, Application ownership, and understandable duplicate/failure behaviour
 
-Browser extension and analytics are future work; neither exists in Sprint 1.
+LinkedIn, Auto Apply, Cover Letter generation, resume tailoring, candidate/Job match scoring, complex AI orchestration, distributed event infrastructure, microservices, Kubernetes, and a large Analytics/BI expansion are not Sprint 2 deliverables.
+
+Architecture, technical implementation, detailed UI/UX, extension authentication, event implementation, and AI execution decisions remain deferred to their later design phases. See the authoritative [Sprint 2 Requirements](../product/sprint-2-requirements.md).
 
 ## Later Possibilities
 
-Resume generation/optimisation, cover-letter generation, interview assistance, email status detection, and broader automation remain later product possibilities. They are not implied Sprint 2 commitments.
+Resume generation/optimisation, Cover Letter generation, candidate/Job match analysis, recruiter-message assistance, interview assistance, email status detection, additional job platforms, application-form assistance, and broader automation remain later product possibilities. They are not implied Sprint 2 commitments.
 
 See [Product Backlog](product-backlog.md).

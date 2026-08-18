@@ -81,7 +81,7 @@ See [System Context](architecture/system-context.md), [Container Design](archite
 
 | Area | Start Here |
 | --- | --- |
-| Product | [Product Vision](product/product-vision.md), [Sprint 1 Scope](product/mvp-scope.md), [User Stories](product/user-stories.md) |
+| Product | [Product Vision](product/product-vision.md), [Sprint 1 Scope](product/mvp-scope.md), [Sprint 1 User Stories](product/user-stories.md), [Sprint 2 Requirements](product/sprint-2-requirements.md) |
 | Technology | [Technology Stack](technology/tech-stack.md) |
 | Architecture | [System Context](architecture/system-context.md), [Container Design](architecture/container-design.md), [Data Model](architecture/data-model.md), [API Design](architecture/api-design.md) |
 | Decisions | [ADR Index](decisions/README.md) |
@@ -91,9 +91,9 @@ See [System Context](architecture/system-context.md), [Container Design](archite
 
 ## Roadmap
 
-Sprint 2 direction is future work, not delivered functionality. The current direction is to reduce application-capture friction, primarily through a browser extension, while keeping AI focused on semantic extraction rather than raw page acquisition. Analytics is a secondary candidate capability.
+Sprint 2 Phase 1 Requirement Analysis is complete and approved; Sprint 2 functionality is not yet represented as delivered. The Browser Extension is the primary feature, initially supporting SEEK and Indeed, while basic Application Analytics is secondary. Browser Extension capture becomes the preferred acquisition path, AI URL parsing remains a fallback, and non-critical AI Job Intelligence must not block core Application creation.
 
-Detailed prioritisation belongs in the [Delivery Roadmap](delivery/roadmap.md) and [Product Backlog](delivery/product-backlog.md).
+See the authoritative [Sprint 2 Requirements](product/sprint-2-requirements.md), [Delivery Roadmap](delivery/roadmap.md), and [Product Backlog](delivery/product-backlog.md).
 
 ## Release History
 
