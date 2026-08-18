@@ -75,3 +75,9 @@ Rejected because the application uses cohesive Spring Security/session behaviour
 The decision supported Sprint 1 delivery and the single-container production backend. No evidence from Sprint 1 requires decomposition into independently deployed services.
 
 Future extraction should be considered only when a concrete ownership, scaling, reliability, or release-independence requirement appears.
+
+## Sprint 2 Architecture Evolution
+
+Sprint 2 retains the Spring Boot modular monolith. Extension ingestion, Business Events, Job Intelligence, and Analytics are logical responsibility boundaries within the existing backend deployable rather than new microservices.
+
+Business Events decouple downstream reactions inside the modular monolith; they do not require a distributed broker or independent service deployment. See [ADR-010](ADR-010-lightweight-business-events.md) and the [Sprint 2 Architecture Design](../architecture/sprint-2-architecture-design.md).

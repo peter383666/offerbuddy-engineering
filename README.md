@@ -83,7 +83,7 @@ See [System Context](architecture/system-context.md), [Container Design](archite
 | --- | --- |
 | Product | [Product Vision](product/product-vision.md), [Sprint 1 Scope](product/mvp-scope.md), [Sprint 1 User Stories](product/user-stories.md), [Sprint 2 Requirements](product/sprint-2-requirements.md) |
 | Technology | [Technology Stack](technology/tech-stack.md) |
-| Architecture | [System Context](architecture/system-context.md), [Container Design](architecture/container-design.md), [Data Model](architecture/data-model.md), [API Design](architecture/api-design.md) |
+| Architecture | [Sprint 2 Architecture Design](architecture/sprint-2-architecture-design.md), [Sprint 1 System Context](architecture/system-context.md), [Sprint 1 Container Design](architecture/container-design.md), [Data Model](architecture/data-model.md), [API Design](architecture/api-design.md) |
 | Decisions | [ADR Index](decisions/README.md) |
 | Quality | [Testing Strategy](quality/testing-strategy.md), [Non-Functional Requirements](quality/non-functional-requirements.md), [Definition of Done](quality/definition-of-done.md) |
 | Operations | [Development Workflow](operations/development-workflow.md), [Deployment Strategy](operations/deployment-strategy.md), [Production Runbook](operations/production-runbook.md), [PostgreSQL Backup and Restore](operations/postgresql-backup-and-restore.md) |
@@ -91,9 +91,9 @@ See [System Context](architecture/system-context.md), [Container Design](archite
 
 ## Roadmap
 
-Sprint 2 Phase 1 Requirement Analysis is complete and approved; Sprint 2 functionality is not yet represented as delivered. The Browser Extension is the primary feature, initially supporting SEEK and Indeed, while basic Application Analytics is secondary. Browser Extension capture becomes the preferred acquisition path, AI URL parsing remains a fallback, and non-critical AI Job Intelligence must not block core Application creation.
+Sprint 2 Phase 1 Requirement Analysis and Phase 2 Architecture Design are complete and approved; Sprint 2 functionality is not yet represented as delivered. The Browser Extension is the primary feature, initially supporting SEEK and Indeed, while basic Application Analytics is secondary. The approved architecture retains the Spring Boot modular monolith and PostgreSQL, separates page-fact capture from backend Job Intelligence, and uses lightweight Business Events so downstream AI and Analytics do not block core Application operations.
 
-See the authoritative [Sprint 2 Requirements](product/sprint-2-requirements.md), [Delivery Roadmap](delivery/roadmap.md), and [Product Backlog](delivery/product-backlog.md).
+See the authoritative [Sprint 2 Requirements](product/sprint-2-requirements.md), [Sprint 2 Architecture Design](architecture/sprint-2-architecture-design.md), [Delivery Roadmap](delivery/roadmap.md), and [Product Backlog](delivery/product-backlog.md).
 
 ## Release History
 

@@ -50,7 +50,11 @@ The final Sprint 1 tag/release follows documentation approval and sprint closure
 
 ## Sprint 2 — Lower-Friction Job Capture
 
-**Phase 1 status:** Requirement Analysis completed and approved. Sprint 2 functionality is not yet recorded as delivered.
+**Phase 1 status:** Requirement Analysis completed and approved.
+
+**Phase 2 status:** Architecture Design completed and approved.
+
+**Delivery status:** Sprint 2 functionality is not yet recorded as implemented or delivered.
 
 Confirmed requirement scope:
 
@@ -65,7 +69,9 @@ Confirmed requirement scope:
 
 LinkedIn, Auto Apply, Cover Letter generation, resume tailoring, candidate/Job match scoring, complex AI orchestration, distributed event infrastructure, microservices, Kubernetes, and a large Analytics/BI expansion are not Sprint 2 deliverables.
 
-Architecture, technical implementation, detailed UI/UX, extension authentication, event implementation, and AI execution decisions remain deferred to their later design phases. See the authoritative [Sprint 2 Requirements](../product/sprint-2-requirements.md).
+The approved architecture retains the Spring Boot modular monolith and PostgreSQL, adds the Browser Extension/Site Adapter ingestion path, and uses lightweight Business Events for downstream Job Intelligence and Analytics without introducing a message broker. Exact APIs, schemas, Extension credentials, event mechanics, persistence details, and UI/UX remain deferred to later design phases.
+
+See the authoritative [Sprint 2 Requirements](../product/sprint-2-requirements.md) and [Sprint 2 Architecture Design](../architecture/sprint-2-architecture-design.md).
 
 ## Later Possibilities
 
