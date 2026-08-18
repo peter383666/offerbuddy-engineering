@@ -465,6 +465,8 @@ Phase 3 must define, without changing the approved responsibility boundaries:
 ## Related Decisions and Documents
 
 - [Sprint 2 Requirements](../product/sprint-2-requirements.md)
+- [Sprint 2 Design Index](../design/sprint-2/README.md)
+- [Sprint 2 Extension Design](../design/sprint-2/extension-design.md)
 - [Sprint 1 System Context](system-context.md)
 - [Sprint 1 Container Design](container-design.md)
 - [Sprint 1 Data Model](data-model.md)
