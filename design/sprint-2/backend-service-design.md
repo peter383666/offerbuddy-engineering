@@ -417,7 +417,7 @@ Entitlement remains only a capability seam in Section 3.3.
 | Section | Separate design responsibility |
 | --- | --- |
 | 3.4 Database | Tables, constraints, indexes, migrations, locking/upsert details |
-| 3.5 Redis | Any explicitly justified Redis use |
+| 3.5 Redis | [No mandatory Sprint 2 role](redis-design.md) |
 | 3.6 Events | Event payloads, outbox/storage, processing, retries, recovery |
 | 3.7 AI Job Intelligence | Provider execution and semantic result handling |
 | 3.8 Analytics | Lifecycle metrics, projections, and queries |

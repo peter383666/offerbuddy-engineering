@@ -267,7 +267,7 @@ Exact Manifest permissions and host declarations must align with these boundarie
 | 3.2 Backend API | Pairing/ingestion contracts, validation, responses |
 | 3.3 Backend / Service | Job resolution, duplicate behaviour, Application orchestration |
 | 3.4 Database | Credential, Job, and Application persistence |
-| 3.5 Redis | Any explicitly justified Redis use |
+| 3.5 Redis | [No mandatory Sprint 2 role](redis-design.md) |
 | 3.6 Events | Business Event reliability and processing |
 | 3.7 AI Job Intelligence | Semantic-analysis execution and data |
 | 3.8 Analytics | Metrics, lifecycle history, projections, queries |

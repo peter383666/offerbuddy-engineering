@@ -214,7 +214,7 @@ Sprint 2 uses incremental, forward-only Flyway migrations:
 - [Sprint 2 Design Index](README.md)
 - [Sprint 2 Architecture Design](../../architecture/sprint-2-architecture-design.md)
 - [Backend / Service Design](backend-service-design.md)
-- [Redis Decision — no mandatory Sprint 2 role](../../architecture/sprint-2-architecture-design.md#postgresql-and-redis-decisions)
+- [Redis Design](redis-design.md)
 - [Event Design](event-design.md)
 - [Job Intelligence Design](job-intelligence-design.md)
 - [Analytics Design](analytics-design.md)
