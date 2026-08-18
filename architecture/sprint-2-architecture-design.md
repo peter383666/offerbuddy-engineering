@@ -311,7 +311,7 @@ It does not own Job identity, Application lifecycle, authentication, ownership, 
 
 AI failure does not block core Application tracking. AI provider credentials remain backend-only and are never placed in the Browser Extension or React Web application.
 
-Provider, prompt, model, execution, retry, persistence schema, and concurrency are Phase 3 decisions.
+The completed [Job Intelligence Design](../design/sprint-2/job-intelligence-design.md) defines provider boundaries, structured validation, asynchronous execution, retry/idempotency, and persistence intent. Exact prompts, provider configuration, classes, and concurrency implementation remain private-repository concerns.
 
 ## Analytics Architecture
 

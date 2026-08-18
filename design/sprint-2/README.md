@@ -16,7 +16,7 @@ The public engineering repository is the source of truth for design intent, resp
 | 3.4 Database | [Database Design](database-design.md) |
 | 3.5 Redis | [Redis Design](redis-design.md) |
 | 3.6 Events | [Event Design](event-design.md) |
-| 3.7 AI Job Intelligence | Not yet documented in this index |
+| 3.7 AI Job Intelligence | [Job Intelligence Design](job-intelligence-design.md) |
 | 3.8 Analytics | Not yet documented in this index |
 
 ## Related Foundations
