@@ -11,7 +11,7 @@ The public engineering repository is the source of truth for design intent, resp
 | Phase 3 section | Design document |
 | --- | --- |
 | 3.1 Extension | [Extension Design](extension-design.md) |
-| 3.2 Backend API | Not yet documented in this index |
+| 3.2 Backend API | [Backend API Design](backend-api-design.md) |
 | 3.3 Backend / Service | Not yet documented in this index |
 | 3.4 Database | Not yet documented in this index |
 | 3.5 Redis | Not yet documented in this index |
