@@ -1,10 +1,10 @@
-# Sprint 2 Design
+# Sprint 2 Technical Design
 
 ## Purpose
 
 This index is the entry point for OfferBuddy Sprint 2 design documentation.
 
-The public engineering repository is the source of truth for design intent, responsibility boundaries, interactions, and engineering trade-offs. Exact code structure, manifests, selectors, API contracts, migrations, event payloads, prompts, runtime configuration, and developer instructions belong with the implementation.
+The public engineering repository is the source of truth for approved design intent, responsibility boundaries, interactions, contracts, and engineering trade-offs. Exact code structure, manifests, selectors, implemented DTO/OpenAPI artifacts, migrations, event classes/payload schemas, prompts, runtime configuration, and developer instructions belong with the implementation.
 
 ## Design Map
 
@@ -17,7 +17,7 @@ The public engineering repository is the source of truth for design intent, resp
 | 3.5 Redis | [Redis Design](redis-design.md) |
 | 3.6 Events | [Event Design](event-design.md) |
 | 3.7 AI Job Intelligence | [Job Intelligence Design](job-intelligence-design.md) |
-| 3.8 Analytics | Not yet documented in this index |
+| 3.8 Analytics | [Analytics Design](analytics-design.md) |
 
 ## Related Foundations
 

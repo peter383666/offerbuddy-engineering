@@ -149,18 +149,19 @@ Application absent -> create APPLIED Application
 Application exists -> return existing Application unchanged
 ```
 
-Repeated tracking preserves the existing status. An Application already in `INTERVIEW`, `OFFER`, `REJECTED`, `WITHDRAWN`, or `NO_RESPONSE` is never reset to `APPLIED`.
+Repeated tracking preserves the existing status. An Application already in `INTERVIEW`, `OFFER`, `REJECTED`, or `WITHDRAWN` is never reset to `APPLIED`.
 
-Sprint 2 uses the existing status vocabulary:
+The Sprint 2 target lifecycle vocabulary is:
 
 - `APPLIED`
-- `NO_RESPONSE`
 - `INTERVIEW`
 - `OFFER`
 - `REJECTED`
 - `WITHDRAWN`
 
 Extension-specific statuses such as `TRACKED`, `CAPTURED`, or `DETECTED` are not introduced.
+
+Sprint 1 also persists `NO_RESPONSE`. In the Sprint 2 target model this is an Analytics-derived classification rather than a lifecycle state. Migration must preserve real data without fabricating transitions; until migration, Track still returns an existing legacy Application unchanged. Detailed migration semantics belong to Section 3.4.
 
 ### Status History
 
@@ -416,11 +417,11 @@ Entitlement remains only a capability seam in Section 3.3.
 
 | Section | Separate design responsibility |
 | --- | --- |
-| 3.4 Database | Tables, constraints, indexes, migrations, locking/upsert details |
+| 3.4 Database | [Tables, constraints, migrations, and concurrency persistence](database-design.md) |
 | 3.5 Redis | [No mandatory Sprint 2 role](redis-design.md) |
 | 3.6 Events | [Event persistence, dispatch, retry, and recovery](event-design.md) |
 | 3.7 AI Job Intelligence | [Provider execution and semantic result handling](job-intelligence-design.md) |
-| 3.8 Analytics | Lifecycle metrics, projections, and queries |
+| 3.8 Analytics | [Lifecycle metrics, projections, and queries](analytics-design.md) |
 
 ## Related Documents
 
@@ -430,5 +431,9 @@ Entitlement remains only a capability seam in Section 3.3.
 - [Sprint 2 Requirements](../../product/sprint-2-requirements.md)
 - [Sprint 2 Architecture Design](../../architecture/sprint-2-architecture-design.md)
 - [Sprint 1 Data Model](../../architecture/data-model.md)
+- [Sprint 2 Database Design](database-design.md)
+- [Event Design](event-design.md)
+- [Job Intelligence Design](job-intelligence-design.md)
+- [Analytics Design](analytics-design.md)
 - [ADR-001 — Modular Monolith](../../decisions/ADR-001-modular-monolith.md)
 - [ADR-010 — Lightweight Business Events](../../decisions/ADR-010-lightweight-business-events.md)

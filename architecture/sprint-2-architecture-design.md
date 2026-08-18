@@ -343,7 +343,7 @@ Analytics is eventually consistent. Analytics failure never rolls back a success
 
 PostgreSQL is the primary storage/query foundation. Sprint 2 does not require a data warehouse, daily/monthly aggregate infrastructure, or Redis caching for Home/Analytics. Redis is not an Analytics source of truth.
 
-Exact projection structures, queries, APIs, and refresh mechanics belong to Phase 3.
+The completed [Analytics Design](../design/sprint-2/analytics-design.md) defines projection derivation, idempotent event handling, rebuild/reconciliation, reads, and failure isolation. Exact schema, queries, DTOs, endpoints, and processor implementation remain Database/API/private-repository concerns.
 
 ## Authentication Architecture
 
@@ -448,9 +448,9 @@ Sprint 2 architecture does not introduce:
 - LinkedIn or broad platform support;
 - Auto Apply, resume tailoring, Cover Letter generation, or match scoring.
 
-## Phase 3 Technical Design Boundary
+## Phase 3 Technical Design Alignment
 
-Phase 3 must define, without changing the approved responsibility boundaries:
+The completed [Sprint 2 Technical Design](../design/sprint-2/README.md) defines the following without changing the approved responsibility boundaries:
 
 - exact Extension structure, browser APIs, permissions, page-change handling, and Site Adapter implementation;
 - Extension credential mechanism and backend security integration;
@@ -460,13 +460,17 @@ Phase 3 must define, without changing the approved responsibility boundaries:
 - Job Intelligence execution and persistence details;
 - Application lifecycle/history and Analytics read-model details;
 - database migrations, indexes, and queries;
-- operational and release details for the Browser Extension.
+- technical constraints for the Browser Extension; concrete operational/release artifacts remain implementation and delivery work.
 
 ## Related Decisions and Documents
 
 - [Sprint 2 Requirements](../product/sprint-2-requirements.md)
 - [Sprint 2 Design Index](../design/sprint-2/README.md)
 - [Sprint 2 Extension Design](../design/sprint-2/extension-design.md)
+- [Sprint 2 Database Design](../design/sprint-2/database-design.md)
+- [Sprint 2 Event Design](../design/sprint-2/event-design.md)
+- [Sprint 2 Job Intelligence Design](../design/sprint-2/job-intelligence-design.md)
+- [Sprint 2 Analytics Design](../design/sprint-2/analytics-design.md)
 - [Sprint 1 System Context](system-context.md)
 - [Sprint 1 Container Design](container-design.md)
 - [Sprint 1 Data Model](data-model.md)
