@@ -474,7 +474,7 @@ Section 3.2 does not introduce:
 | 3.3 Backend / Service | Pairing, credential, Job resolution, and Track orchestration |
 | 3.4 Database | Pairing, credential, Job/Application, and lifecycle persistence |
 | 3.5 Redis | [No mandatory Sprint 2 role](redis-design.md) |
-| 3.6 Events | Event/outbox contracts, reliability, and processing |
+| 3.6 Events | [Event/outbox reliability and processing](event-design.md) |
 | 3.7 AI Job Intelligence | Asynchronous semantic analysis |
 | 3.8 Analytics | Projection and query design |
 

@@ -254,10 +254,10 @@ sequenceDiagram
     Client->>Security: Authenticated request
     Security->>Application: Authenticated user context
     Application->>Application: Apply business and ownership rules
-    Application->>DB: Persist core operation
-    DB-->>Application: Core commit succeeds
+    Application->>DB: Persist core operation + durable event
+    DB-->>Application: Atomic core/event commit succeeds
     Application-->>Client: Core success result
-    Application-->>Events: Publish completed business fact
+    Events->>DB: Dispatch committed business fact
     Events-->>Downstream: Downstream reaction
 ```
 
@@ -284,7 +284,7 @@ The architectural dependency direction is:
 
 > Upstream business modules publish facts; downstream modules react to facts.
 
-Business Events allow Job Intelligence and Analytics to evolve without adding synchronous dependencies to the Application core path. Phase 2 does not define event DTOs, Java classes, persistence schemas, dispatch mechanics, retry algorithms, or delivery guarantees.
+Business Events allow Job Intelligence and Analytics to evolve without adding synchronous dependencies to the Application core path. The completed Phase 3 design refines this boundary: domain mutation and durable event persistence share one short PostgreSQL transaction, while dispatch and handling occur after commit. See [Event Design](../design/sprint-2/event-design.md). Exact event classes and implementation artifacts remain private-repository concerns.
 
 Sprint 2 does not introduce Kafka, RabbitMQ, microservices, event sourcing, a CQRS framework, mandatory DLQ infrastructure, or exactly-once distributed messaging.
 
