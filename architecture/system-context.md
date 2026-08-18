@@ -127,7 +127,7 @@ Delivered:
 - PostgreSQL persistence
 - production deployment
 
-Future:
+Not delivered in Sprint 1:
 
 - browser extension
 - analytics
@@ -136,4 +136,10 @@ Future:
 - interview tooling
 - multi-user organisations
 
-Future systems are deliberately omitted from the current context diagram.
+These systems are deliberately omitted from the deployed Sprint 1 context diagram.
+
+## Sprint 2 Architecture Evolution
+
+Sprint 2 Phase 2 Architecture Design is approved but not yet implemented. It adds the OfferBuddy Browser Extension as a client, Site Adapters for SEEK and Indeed, backend ingestion, Business Events, downstream Job Intelligence, and read-oriented Analytics while retaining the modular monolith, PostgreSQL, Google OIDC Web authentication, and existing production deployment baseline.
+
+The authoritative target context and responsibility boundaries are maintained in the [Sprint 2 Architecture Design](sprint-2-architecture-design.md). This section does not change the historical Sprint 1 diagram above.

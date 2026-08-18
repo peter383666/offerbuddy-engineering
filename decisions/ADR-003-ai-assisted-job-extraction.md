@@ -101,3 +101,9 @@ A browser extension may be introduced after the web workflow is proven.
 Sprint 1 implements synchronous server-side page retrieval followed by Gemini semantic extraction. The backend validates and maps the structured response, returns an editable draft, and does not persist data until the user creates an Application.
 
 Production experience confirmed two separate failure and latency boundaries: deterministic page-content acquisition and AI semantic analysis. Job sites can block or limit server-side acquisition even when the AI provider is healthy. A future browser extension may improve acquisition, but it is not part of Sprint 1.
+
+## Sprint 2 Architecture Evolution
+
+Sprint 2 adopts the Browser Extension as the preferred capture path for SEEK and Indeed while retaining AI URL parsing as a fallback. The Extension captures reliable page facts; backend AI is responsible for downstream semantic Job Intelligence rather than basic page acquisition.
+
+This evolution preserves the Sprint 1 decision and history while changing the preferred Sprint 2 acquisition strategy. See [ADR-009](ADR-009-browser-extension-site-adapters.md).
