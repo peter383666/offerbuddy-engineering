@@ -84,7 +84,7 @@ See [System Context](architecture/system-context.md), [Container Design](archite
 | Product | [Product Vision](product/product-vision.md), [Sprint 1 Scope](product/mvp-scope.md), [Sprint 1 User Stories](product/user-stories.md), [Sprint 2 Requirements](product/sprint-2-requirements.md) |
 | Technology | [Technology Stack](technology/tech-stack.md) |
 | Architecture | [Sprint 2 Architecture Design](architecture/sprint-2-architecture-design.md), [Sprint 1 System Context](architecture/system-context.md), [Sprint 1 Container Design](architecture/container-design.md), [Data Model](architecture/data-model.md), [API Design](architecture/api-design.md) |
-| Design | [Sprint 2 Design Index](design/sprint-2/README.md), [Extension Design](design/sprint-2/extension-design.md) |
+| Design | [Sprint 2 Technical Design Index](design/sprint-2/README.md) — Sections 3.1–3.8 |
 | Decisions | [ADR Index](decisions/README.md) |
 | Quality | [Testing Strategy](quality/testing-strategy.md), [Non-Functional Requirements](quality/non-functional-requirements.md), [Definition of Done](quality/definition-of-done.md) |
 | Operations | [Development Workflow](operations/development-workflow.md), [Deployment Strategy](operations/deployment-strategy.md), [Production Runbook](operations/production-runbook.md), [PostgreSQL Backup and Restore](operations/postgresql-backup-and-restore.md) |

@@ -24,7 +24,7 @@ The dependency principle is:
 
 Conceptual facts include Application creation, Application status change, and completed Job analysis. Exact event names and representations are not defined by this ADR.
 
-The core business operation commits independently. A downstream handler failure does not roll back an already-successful Application operation. Analytics is eventually consistent, and Job Intelligence is non-critical to Application tracking.
+The core business mutation and its durable event intent commit together in one short PostgreSQL transaction. Dispatch and downstream handling occur after commit. A downstream handler failure does not roll back an already-successful Application operation. Analytics is eventually consistent, and Job Intelligence is non-critical to Application tracking.
 
 Sprint 2 does not introduce Kafka, RabbitMQ, microservices, event sourcing, a CQRS framework, distributed streaming, mandatory DLQ infrastructure, or exactly-once distributed messaging.
 
@@ -35,7 +35,7 @@ Sprint 2 does not introduce Kafka, RabbitMQ, microservices, event sourcing, a CQ
 - Job Intelligence owns semantic Job analysis.
 - Analytics owns read-oriented derived views.
 - PostgreSQL remains the primary business-data and Analytics storage/query foundation.
-- Event representation, dispatch, persistence, ordering, durability, retry, recovery, and observability belong to Technical Design.
+- Event representation, dispatch, persistence, ordering, durability, retry, recovery, and observability are refined by the [Sprint 2 Event Design](../design/sprint-2/event-design.md). Concrete implementation artifacts remain outside this ADR.
 
 ## Consequences
 
@@ -50,7 +50,7 @@ Sprint 2 does not introduce Kafka, RabbitMQ, microservices, event sourcing, a CQ
 ### Negative
 
 - Eventual consistency becomes visible for downstream views.
-- Phase 3 must define and verify dispatch, durability, retry, and restart behaviour.
+- Phase 3 defines dispatch, durability, retry, and restart behaviour; later implementation must verify it under failure and concurrency.
 - In-process modular boundaries require discipline because process isolation does not enforce them.
 - Operators need enough observability to distinguish core success from downstream lag or failure.
 

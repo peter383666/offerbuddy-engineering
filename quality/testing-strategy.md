@@ -134,3 +134,51 @@ Release-candidate verification and production smoke testing remain separate deli
 - no automated performance/load test
 - no automated EC2 recovery or database restore schedule
 - no request/correlation IDs in error responses
+
+## Sprint 2 Technical Design Test Boundaries
+
+The following are approved future test responsibilities from Sprint 2 Phase 3. They are not claims about tests or implementation that currently exist.
+
+### Browser Extension
+
+- independent SEEK and Indeed adapter extraction fixtures
+- SPA navigation, side-panel replacement, and meaningful DOM-change handling
+- coalescing repeated mutations without duplicate tracking
+- stale-context clearing and safe failure for unsupported or changed pages
+- credential isolation from page execution and authentication-expiry behaviour
+
+### Backend Ingestion and Core
+
+- server-derived ownership and unauthenticated/unauthorised outcomes
+- canonical Job reuse by source platform and external Job identifier
+- selective refresh without null incoming fields erasing known facts
+- create-if-absent tracking and preservation of an existing Application status
+- concurrent Job/Application ingestion with database uniqueness as final protection
+- atomic Job, Application, initial status history, and Business Event persistence
+
+### Events
+
+- rollback leaves neither the domain mutation nor its event partially committed
+- dispatcher claim/restart recovery and bounded retry
+- duplicate delivery and handler idempotency
+- visible terminal failure after retry exhaustion
+- downstream failure does not change a successful Core result
+
+### Job Intelligence
+
+- persisted Job snapshot input and structured-output validation
+- missing, malformed, provider-error, timeout, and bounded-retry outcomes
+- attempt/version history and duplicate-event behaviour
+- provider work remains outside the Core transaction
+- Application tracking remains successful while AI is unavailable
+
+### Analytics
+
+- idempotent projection convergence under duplicate/out-of-order delivery
+- incremental projection and full rebuild produce equivalent reliable facts
+- milestone booleans do not fabricate unknown legacy timestamps
+- `NO_RESPONSE` remains derived and does not create a lifecycle transition
+- authenticated user ownership is resolved server-side
+- Analytics failure or lag does not affect Core Application mutations
+
+Flyway integration tests must apply the real forward migrations to PostgreSQL and verify preservation/backfill rules. No fake Sprint 2 test files are created by the documentation phase.
