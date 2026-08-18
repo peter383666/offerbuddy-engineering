@@ -65,3 +65,11 @@ Not implemented in Sprint 1. It may reduce operational responsibility later, but
 ## Implementation Outcome
 
 PostgreSQL stores the live Sprint 1 data through Flyway migrations V1 and V2. Backup creation and restoration into a temporary verification database have been exercised. See [Data Model](../architecture/data-model.md).
+
+## Sprint 2 Architecture Evolution
+
+PostgreSQL remains the primary storage and query foundation for Sprint 2. Core Job/Application/lifecycle data remains authoritative, while any Analytics read model or projection is derived and rebuildable from source data.
+
+Simple current-state Analytics may query authoritative data directly. Lifecycle/conversion Analytics requires historical source meaning, which the current Sprint 1 schema does not yet contain; its exact representation belongs to Phase 3 Data/Technical Design.
+
+Redis is not required for Sprint 2 Home/Analytics caching and must not become an Analytics source of truth. A data warehouse or large pre-aggregation infrastructure is also outside the approved architecture. See [Sprint 2 Architecture Design](../architecture/sprint-2-architecture-design.md).

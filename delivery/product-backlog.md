@@ -2,52 +2,36 @@
 
 ## Purpose
 
-This document records product work that is not committed to a sprint. Engineering debt is maintained separately in the [Sprint 1 Technical Debt Register](sprint-1-technical-debt.md).
+This document records product work that is not committed to a sprint and routes approved scope to its authoritative sprint requirements. Engineering debt is maintained separately in the [Sprint 1 Technical Debt Register](sprint-1-technical-debt.md).
 
 An item becomes sprint scope only after refinement, prioritisation, sizing, and an explicit sprint decision.
 
-## Highest-Level Sprint 2 Candidates
+## Approved Sprint 2 Requirements
 
-### Browser Extension Capture
+Sprint 2 Phase 1 Requirement Analysis is complete and approved. The Browser Extension, SEEK and Indeed Job Capture, eligibility screening, Job Intelligence, non-blocking AI enrichment, fallback AI URL parsing, and basic Application Analytics are no longer unrefined backlog candidates.
 
-Potential outcome: capture job-page content from the user's browser and send structured source content to OfferBuddy, reducing dependence on server-side page retrieval.
+Their authoritative scope, priorities, exclusions, failure expectations, non-functional requirements, and deferred decisions are maintained in the [Sprint 2 Requirements](../product/sprint-2-requirements.md). Sprint 2 functionality is not yet represented as delivered.
 
-This is the leading Sprint 2 product direction, not committed or implemented functionality.
-
-Questions requiring refinement:
-
-- supported browsers and job sites
-- authenticated communication with the OfferBuddy API
-- page-content selection and privacy boundaries
-- fallback when a page changes or blocks access
-- division of responsibility between extension acquisition and backend AI analysis
-
-### Reduce Manual Entry Friction
-
-Potential improvements should be evaluated against the real capture workflow. The objective is faster reliable capture, not automation for its own sake.
-
-### Analytics
-
-Potential secondary capability:
-
-- application totals and status distribution
-- time-period activity
-- outcome/funnel reporting
-
-Analytics depends on clearly defined product questions and trustworthy data. It is not part of Sprint 1 and is secondary to capture friction in the current direction.
+Architecture, technical implementation, detailed UI/UX, extension authentication, event implementation, AI execution, and additional recruitment platforms remain deferred to later phases rather than open Requirement Analysis work.
 
 ## Later Product Possibilities
 
 - resume generation or optimisation
-- cover-letter generation
+- Cover Letter generation
+- candidate/job match analysis
+- recruiter-message assistance
+- application-form assistance
 - interview preparation
 - email status detection
 - notifications
 - job discovery
+- additional recruitment platforms beyond SEEK and Indeed
 - additional identity providers
 - subscription/team capabilities
 
 These items have no committed sprint.
+
+LinkedIn support, Auto Apply, automatic application-form submission, Cover Letter generation, resume tailoring, candidate/Job match scoring, and large Analytics/BI expansion are explicitly outside Sprint 2.
 
 ## Completed or Reconciled During Sprint 1
 

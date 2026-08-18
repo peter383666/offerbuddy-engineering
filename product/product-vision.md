@@ -56,13 +56,19 @@ Users can create an application manually when job-page retrieval or AI parsing i
 
 OfferBuddy uses a modular monolith and a single-host production deployment. Microservices, Kubernetes, and event-streaming infrastructure are not justified by the current scale.
 
-## Future Direction
+## Sprint 2 Product Direction
 
-Future work is separate from the delivered Sprint 1 product. Current high-level direction includes:
+Real Sprint 1 use showed that recording an Application still adds too much friction to the normal job-search workflow. Sprint 2 aims to make OfferBuddy practical enough to use during every normal job application.
 
-- a browser extension to reduce application-capture friction
-- separating deterministic content acquisition from AI semantic analysis more clearly
-- analytics as a secondary capability
-- later evaluation of resume, cover-letter, and interview assistance
+The Sprint 2 requirement-level principle is **fast capture, asynchronous enrichment**:
 
-These items are candidates for later sprints and are not implemented Sprint 1 functionality.
+- the OfferBuddy Browser Extension becomes the preferred Job Capture path, initially for SEEK and Indeed;
+- AI URL parsing remains available as a secondary fallback;
+- Job Capture obtains reliable page facts while Job Intelligence interprets job-description meaning;
+- non-critical AI enrichment must not block or invalidate core Application creation;
+- eligibility screening helps users review possible citizenship, residency, clearance, working-rights, and visa restrictions without making absolute automated decisions;
+- basic Application Analytics is a secondary capability.
+
+Sprint 2 Phase 1 Requirement Analysis is approved, but these capabilities are not described as delivered Sprint 1 functionality. Detailed scope and exclusions are defined in the [Sprint 2 Requirements](sprint-2-requirements.md).
+
+Cover Letter generation, resume tailoring, candidate/Job match scoring, Auto Apply, LinkedIn support, and broader job-page assistance remain future ideas rather than Sprint 2 scope.

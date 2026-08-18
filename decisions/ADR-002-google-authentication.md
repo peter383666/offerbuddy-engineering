@@ -92,3 +92,11 @@ Deferred until there is a demonstrated product requirement.
 ## Implementation Outcome
 
 Google OIDC, Spring Security, `JSESSIONID`, server-side sessions, and CSRF protection are running in production. Redis is not used for Sprint 1 sessions. Revisit session storage only if multiple backend instances or another concrete session-sharing requirement is introduced.
+
+## Sprint 2 Architecture Evolution
+
+The existing Google OIDC and server-side Web session remain valid for the React Web application.
+
+The Browser Extension introduces a separate Extension credential boundary. Both Web and Extension authentication must resolve to the same trusted OfferBuddy authenticated-user context before business modules apply ownership rules. The Extension mechanism does not replace or redefine the Web session.
+
+The exact Extension credential, storage, and backend-security mechanism is deferred to Phase 3 Technical Design. Sprint 2 Architecture Design does not select JWT refresh infrastructure, an OAuth Authorization Server, Keycloak, Auth0, or a credential schema. See [Sprint 2 Architecture Design](../architecture/sprint-2-architecture-design.md).

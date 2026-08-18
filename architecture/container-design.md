@@ -117,4 +117,10 @@ The deployed version is selected by commit SHA. See [ADR-008](../decisions/ADR-0
 
 ## Deferred Architecture
 
-Browser extension and analytics are possible later clients/capabilities. Microservices, Kubernetes, Kafka, and speculative scaling infrastructure are not part of the Sprint 1 design.
+Browser Extension and Analytics were not part of the deployed Sprint 1 design shown above. Microservices, Kubernetes, Kafka, and speculative scaling infrastructure were also excluded.
+
+## Sprint 2 Architecture Evolution
+
+Sprint 2 Phase 2 Architecture Design is approved but not yet implemented. The Browser Extension becomes a separately delivered OfferBuddy client. Extension ingestion, Business Events, Job Intelligence, and Analytics remain logical boundaries within the Spring Boot modular monolith; they do not become separate backend containers or microservices.
+
+PostgreSQL remains the primary persistence/query foundation. Redis remains inactive for Sprint 2 Home/Analytics. See the [Sprint 2 Architecture Design](sprint-2-architecture-design.md) for the target container/module view and approved interaction flows.
