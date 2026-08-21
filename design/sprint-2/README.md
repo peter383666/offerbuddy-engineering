@@ -19,6 +19,12 @@ The public engineering repository is the source of truth for approved design int
 | 3.7 AI Job Intelligence | [Job Intelligence Design](job-intelligence-design.md) |
 | 3.8 Analytics | [Analytics Design](analytics-design.md) |
 
+## Sprint 2 Contracts
+
+| Contract | Document |
+| --- | --- |
+| Extension eligibility Review Required / Detail | [Eligibility Review Contract](eligibility-review-contract.md) |
+
 ## Related Foundations
 
 - [Sprint 2 Requirements](../../product/sprint-2-requirements.md)

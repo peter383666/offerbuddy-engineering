@@ -150,7 +150,7 @@ Sprint 2 is done when:
 - Concurrent or repeated ingestion must converge through domain logic plus database uniqueness, preserve an existing Application status, and return an understandable duplicate outcome.
 - At-least-once delivery, process interruption, and AI provider latency/failure require idempotency, bounded retry, visible terminal state, and proof that Core remains successful.
 - Web and Extension behaviour must stay aligned with the final Figma/specification, especially the Extension-first hierarchy and non-blocking Intelligence states.
-- **Unresolved design handoff:** the approved requirements identify citizenship, permanent residency, security clearance, working rights, and sponsorship as relevant eligibility-screening information, while the final UI/UX specification limits Extension Review Detail specifically to citizenship/permanent-residency findings. Implementation must not invent how the other confirmed screening outcomes are surfaced; resolve and document this product/UI contract before closing the affected eligibility issue. This does not block unrelated Core capture work.
+- **Eligibility review handoff (resolved for S2):** requirements still list citizenship, permanent residency, clearance, working rights, and sponsorship as screening-relevant text, but Extension Review Required / Review Detail only surface citizenship/PR. Non–citizenship/PR categories are silently omitted from Review UI (not inferred as PR, no eligibility dashboard). Recorded in [Eligibility Review Contract](../../design/sprint-2/eligibility-review-contract.md) (Issue #44).
 - **Conflicting UI/UX documents:** files under `design/sprint-2/ui-ux/v1/` are still labeled final but conflict with the newer Final v2.0 specification. Notable differences include an Apply-intent/pending-confirmation workflow versus v2.0's explicit `Save to OfferBuddy` creation action, different Analytics time-range options/defaults, and persisted versus derived `NO_RESPONSE` semantics. This plan follows v2.0 as the newer explicitly named final handoff and the Phase 3 designs for data semantics; the repository should mark v1 superseded or reconcile it before creating the affected Extension and Analytics implementation Issues.
 
 # Sprint Backlog and Delivery Handoff
@@ -168,7 +168,7 @@ Sprint 2 Milestone
   -> accepted immutable release/tag
 ```
 
-Issues should decompose the workstreams into reviewable vertical outcomes and carry forward the dependencies, tests, and unresolved eligibility handoff above. This document does not create or commit those Issues.
+Issues should decompose the workstreams into reviewable vertical outcomes and carry forward the dependencies and tests above. The eligibility Review contract for S2 is documented; remaining Issues must not reopen Phase 4 eligibility scope. This document does not create or commit those Issues.
 
 ---
 

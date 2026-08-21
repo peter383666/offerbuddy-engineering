@@ -38,7 +38,7 @@ The Extension must:
 - Extract reliable visible facts.
 - Normalise platform facts into a common Job-page representation.
 - Maintain current Job context during dynamic page changes.
-- Surface eligibility screening or warnings based on reliable page content where defined by S2 requirements.
+- Surface eligibility screening or warnings based on reliable page content where defined by S2 requirements and the [Eligibility Review Contract](eligibility-review-contract.md) (citizenship/PR Review only in S2).
 - Submit an explicit user-requested tracking action.
 - Present authentication, duplicate, success, capture-failure, and Backend-failure outcomes.
 

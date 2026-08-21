@@ -115,6 +115,8 @@ The product must support outcomes equivalent to:
 
 The technical classification method is deferred.
 
+**Sprint 2 Extension UI contract:** Review Required / Review Detail only surface citizenship / permanent residency findings. Clearance, working rights, and sponsorship remain requirement-relevant text but are not Review surfaces in S2 (silent omit / unable-to-determine path). See [Eligibility Review Contract](../design/sprint-2/eligibility-review-contract.md).
+
 ## Core Save and Duplicate Behaviour
 
 - Application ownership must be associated with the authenticated OfferBuddy user and enforced server-side.
