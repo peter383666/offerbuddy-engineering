@@ -310,9 +310,9 @@ Phase 1 confirms WHAT and WHY. It deliberately does not define architecture, com
 
 ## Related Documents
 
-- [Product Vision](product-vision.md)
-- [Sprint 1 Product Scope](mvp-scope.md)
-- [Sprint 1 User Stories](user-stories.md)
-- [Delivery Roadmap](../delivery/roadmap.md)
-- [Product Backlog](../delivery/product-backlog.md)
-- [Sprint 1 Non-Functional Requirements](../quality/non-functional-requirements.md)
+- [Product Vision](../../../product/product-vision.md)
+- [Sprint 1 Product Scope](../../s1/requirements/scope.md)
+- [Sprint 1 User Stories](../../s1/requirements/user-stories.md)
+- [Delivery Roadmap](../../roadmap.md)
+- [Product Backlog](../../product-backlog.md)
+- [Sprint 1 Non-Functional Requirements](../../../quality/non-functional-requirements.md)

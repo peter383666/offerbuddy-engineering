@@ -145,5 +145,5 @@ Public documentation may describe prompt purpose, structured-output contract, gr
 - [Database Design](database-design.md)
 - [Event Design](event-design.md)
 - [Extension Design](extension-design.md)
-- [ADR-003 — AI-Assisted Job Extraction](../../decisions/ADR-003-ai-assisted-job-extraction.md)
-- [ADR-004 — AI Provider Abstraction](../../decisions/ADR-004-ai-provider-abstraction.md)
+- [ADR-003 — AI-Assisted Job Extraction](../../../decisions/ADR-003-ai-assisted-job-extraction.md)
+- [ADR-004 — AI Provider Abstraction](../../../decisions/ADR-004-ai-provider-abstraction.md)

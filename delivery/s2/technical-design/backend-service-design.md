@@ -7,7 +7,7 @@
 | Phase | Phase 3 — Technical Design |
 | Section | 3.3 — Domain / Service |
 | Status | Completed and approved |
-| Architecture baseline | [Sprint 2 Architecture Design](../../architecture/sprint-2-architecture-design.md) |
+| Architecture baseline | [Sprint 2 Architecture Design](../architecture/architecture-design.md) |
 
 ## Purpose
 
@@ -428,12 +428,12 @@ Entitlement remains only a capability seam in Section 3.3.
 - [Sprint 2 Design Index](README.md)
 - [Backend API Design](backend-api-design.md)
 - [Extension Design](extension-design.md)
-- [Sprint 2 Requirements](../../product/sprint-2-requirements.md)
-- [Sprint 2 Architecture Design](../../architecture/sprint-2-architecture-design.md)
+- [Sprint 2 Requirements](../requirements/requirements.md)
+- [Sprint 2 Architecture Design](../architecture/architecture-design.md)
 - [Sprint 1 Data Model](../../architecture/data-model.md)
 - [Sprint 2 Database Design](database-design.md)
 - [Event Design](event-design.md)
 - [Job Intelligence Design](job-intelligence-design.md)
 - [Analytics Design](analytics-design.md)
-- [ADR-001 — Modular Monolith](../../decisions/ADR-001-modular-monolith.md)
-- [ADR-010 — Lightweight Business Events](../../decisions/ADR-010-lightweight-business-events.md)
+- [ADR-001 — Modular Monolith](../../../decisions/ADR-001-modular-monolith.md)
+- [ADR-010 — Lightweight Business Events](../../../decisions/ADR-010-lightweight-business-events.md)

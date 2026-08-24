@@ -38,7 +38,7 @@ Make OfferBuddy practical in the user's daily job-application workflow by delive
 
 ## Out of Scope
 
-The exclusions in the [Sprint 2 Requirements](../../product/sprint-2-requirements.md#explicitly-out-of-scope) remain authoritative. In particular, Sprint 2 does not include LinkedIn or broad platform support, Auto Apply or automatic form submission, resume tailoring, Cover Letter generation, match scoring, large-scale Analytics/BI, microservices, Kafka/RabbitMQ, Redis queues/caches, Kubernetes, exactly-once guarantees, or unnecessary distributed infrastructure.
+The exclusions in the [Sprint 2 Requirements](requirements/requirements.md#explicitly-out-of-scope) remain authoritative. In particular, Sprint 2 does not include LinkedIn or broad platform support, Auto Apply or automatic form submission, resume tailoring, Cover Letter generation, match scoring, large-scale Analytics/BI, microservices, Kafka/RabbitMQ, Redis queues/caches, Kubernetes, exactly-once guarantees, or unnecessary distributed infrastructure.
 
 # Delivery Workstreams
 
@@ -47,56 +47,56 @@ The exclusions in the [Sprint 2 Requirements](../../product/sprint-2-requirement
 - **Objective:** Provide the primary low-friction capture workflow on supported SEEK and Indeed job contexts.
 - **Outcomes:** Chrome MV3 extension; isolated SEEK and Indeed adapters; deterministic fact extraction; SPA, side-panel, and stale-context handling; explicit save action; compact approved UI states; credential isolation from page execution; safe failure when extraction is unreliable.
 - **Dependencies:** Agreed Extension API contracts and final UI assets/specification. Adapter work can begin against fixtures while backend ingestion is built.
-- **Sources:** [Extension Design](../../design/sprint-2/extension-design.md), [Backend API Design](../../design/sprint-2/backend-api-design.md), [Final UI/UX Specification](<../../design/sprint-2/ui-ux/OfferBuddy S2 — UI UX Page Specification v2.0 — Final.md>), [ADR-009](../../decisions/ADR-009-browser-extension-site-adapters.md).
+- **Sources:** [Extension Design](technical-design/extension-design.md), [Backend API Design](technical-design/backend-api-design.md), [Final UI/UX Specification](<ui-ux/OfferBuddy S2 — UI UX Page Specification v2.0 — Final.md>), [ADR-009](../../decisions/ADR-009-browser-extension-site-adapters.md).
 
 ## Extension Authentication and Backend Ingestion
 
 - **Objective:** Safely connect the Extension to an OfferBuddy user and turn validated captures into an idempotent tracking outcome.
 - **Outcomes:** Pairing create/approve/exchange, current-user and revoke operations; finite-lived revocable Extension credentials; `POST /api/v1/extension/applications`; stable validation/error responses; server-derived ownership; duplicate response through `alreadyTracked`; no synchronous AI or Analytics dependency.
 - **Dependencies:** Existing Web session authentication, Job/Application service boundaries, and database uniqueness/concurrency protection.
-- **Sources:** [Backend API Design](../../design/sprint-2/backend-api-design.md), [Backend / Service Design](../../design/sprint-2/backend-service-design.md), [Sprint 2 Architecture](../../architecture/sprint-2-architecture-design.md).
+- **Sources:** [Backend API Design](technical-design/backend-api-design.md), [Backend / Service Design](technical-design/backend-service-design.md), [Sprint 2 Architecture](architecture/architecture-design.md).
 
 ## Job and Application Core
 
 - **Objective:** Preserve canonical shared Jobs and user-owned Applications across Extension, manual, and URL-prefill ingestion paths.
 - **Outcomes:** Job lookup by source platform plus external identifier; selective source-fact refresh without null erasure; Application create-or-reuse without resetting an existing status; initial `null -> APPLIED` and later lifecycle history; clear service/repository boundaries; atomic core writes and event persistence.
 - **Dependencies:** Forward migrations and authenticated ingestion identity. This work is the foundation for downstream processing and UI reads.
-- **Sources:** [Backend / Service Design](../../design/sprint-2/backend-service-design.md), [Database Design](../../design/sprint-2/database-design.md), [Sprint 1 Data Model](../../architecture/data-model.md).
+- **Sources:** [Backend / Service Design](technical-design/backend-service-design.md), [Database Design](technical-design/database-design.md), [Sprint 1 Data Model](../../architecture/data-model.md).
 
 ## Database and Migrations
 
 - **Objective:** Extend the deployed Sprint 1 PostgreSQL schema without rewriting existing migrations or fabricating historical facts.
 - **Outcomes:** Forward-only Flyway migrations for creation source, status history, Job Intelligence, durable events, and Analytics projection; reliable backfills; retained legacy compatibility fields; database uniqueness as final concurrency protection; production-shaped migration verification.
 - **Dependencies:** Implemented persistence contracts for Core, events, Intelligence, and Analytics. Migration slices should land with the vertical capability that uses them where practical.
-- **Sources:** [Database Design](../../design/sprint-2/database-design.md), [Redis Design](../../design/sprint-2/redis-design.md), [ADR-006](../../decisions/ADR-006-flyway.md), [ADR-007](../../decisions/ADR-007-postgresql.md).
+- **Sources:** [Database Design](technical-design/database-design.md), [Redis Design](technical-design/redis-design.md), [ADR-006](../../decisions/ADR-006-flyway.md), [ADR-007](../../decisions/ADR-007-postgresql.md).
 
 ## Events and Asynchronous Processing
 
 - **Objective:** Decouple non-critical work from Core using lightweight, durable processing inside the modular monolith.
 - **Outcomes:** Transactional persistence of Business Events; bounded claim/process/outcome phases; at-least-once-tolerant handlers; bounded retry; abandoned-claim recovery; visible failure and lag; no external calls or long-held locks in Core transactions.
 - **Dependencies:** Core event production and `business_events` persistence. Job Intelligence and Analytics processors can then proceed independently.
-- **Sources:** [Event Design](../../design/sprint-2/event-design.md), [ADR-010](../../decisions/ADR-010-lightweight-business-events.md), [Sprint 2 Architecture](../../architecture/sprint-2-architecture-design.md).
+- **Sources:** [Event Design](technical-design/event-design.md), [ADR-010](../../decisions/ADR-010-lightweight-business-events.md), [Sprint 2 Architecture](architecture/architecture-design.md).
 
 ## Job Intelligence
 
 - **Objective:** Enrich persisted Jobs asynchronously without affecting Application creation.
 - **Outcomes:** Job-snapshot processing through the existing provider-abstraction principle; validated concise summary, responsibilities, requirements, and skills; versioned analysis attempts and coherent results; bounded transient retry; controlled missing-description, malformed-output, provider-failure, and terminal-failure states.
 - **Dependencies:** Durable event processing, Job snapshots, analysis persistence, and backend-only provider configuration. It is independent of Analytics and the Core response after event production exists.
-- **Sources:** [Job Intelligence Design](../../design/sprint-2/job-intelligence-design.md), [Event Design](../../design/sprint-2/event-design.md), [ADR-003](../../decisions/ADR-003-ai-assisted-job-extraction.md), [ADR-004](../../decisions/ADR-004-ai-provider-abstraction.md).
+- **Sources:** [Job Intelligence Design](technical-design/job-intelligence-design.md), [Event Design](technical-design/event-design.md), [ADR-003](../../decisions/ADR-003-ai-assisted-job-extraction.md), [ADR-004](../../decisions/ADR-004-ai-provider-abstraction.md).
 
 ## Application Analytics
 
 - **Objective:** Provide the approved small, eventually consistent view of each user's Application activity and outcomes.
 - **Outcomes:** Idempotent one-row-per-Application projection; rebuild from authoritative Core/history data; server-scoped Analytics reads; approved time ranges, totals, outcomes, and conversion measures; derived `NO_RESPONSE` without creating a lifecycle transition or fabricating dates.
 - **Dependencies:** Application history, source facts, Business Events, Analytics persistence, and authenticated query APIs. Projection work can proceed in parallel with Job Intelligence.
-- **Sources:** [Analytics Design](../../design/sprint-2/analytics-design.md), [Database Design](../../design/sprint-2/database-design.md), [Final UI/UX Specification](<../../design/sprint-2/ui-ux/OfferBuddy S2 — UI UX Page Specification v2.0 — Final.md>).
+- **Sources:** [Analytics Design](technical-design/analytics-design.md), [Database Design](technical-design/database-design.md), [Final UI/UX Specification](<ui-ux/OfferBuddy S2 — UI UX Page Specification v2.0 — Final.md>).
 
 ## Web Frontend and Product Integration
 
 - **Objective:** Integrate S2 capabilities into one coherent Web experience while keeping the Extension primary and New Application secondary.
 - **Outcomes:** Shared navigation/branding; revised Home and Applications surfaces; Application Detail with lifecycle history and pending/unavailable/failed Intelligence states; secondary manual/URL-prefill New Application; compact Analytics page; responsive and accessible loading, empty, error, and populated states matching final Figma/specification.
 - **Dependencies:** Implemented API contracts and representative UI states. Static shell/state work can proceed in parallel; final integration follows stable APIs.
-- **Sources:** [Final UI/UX Specification v2.0](<../../design/sprint-2/ui-ux/OfferBuddy S2 — UI UX Page Specification v2.0 — Final.md>), [Backend API Design](../../design/sprint-2/backend-api-design.md). The conflicting `ui-ux/v1` material is a watch item below, not an implementation authority for this plan.
+- **Sources:** [Final UI/UX Specification v2.0](<ui-ux/OfferBuddy S2 — UI UX Page Specification v2.0 — Final.md>), [Backend API Design](technical-design/backend-api-design.md). The conflicting `ui-ux/v1` material is a watch item below, not an implementation authority for this plan.
 
 ## Quality, Integration, and Release
 
@@ -151,7 +151,7 @@ Sprint 2 is done when:
 - At-least-once delivery, process interruption, and AI provider latency/failure require idempotency, bounded retry, visible terminal state, and proof that Core remains successful.
 - Web and Extension behaviour must stay aligned with the final Figma/specification, especially the Extension-first hierarchy and non-blocking Intelligence states.
 - **Unresolved design handoff:** the approved requirements identify citizenship, permanent residency, security clearance, working rights, and sponsorship as relevant eligibility-screening information, while the final UI/UX specification limits Extension Review Detail specifically to citizenship/permanent-residency findings. Implementation must not invent how the other confirmed screening outcomes are surfaced; resolve and document this product/UI contract before closing the affected eligibility issue. This does not block unrelated Core capture work.
-- **Conflicting UI/UX documents:** files under `design/sprint-2/ui-ux/v1/` are still labeled final but conflict with the newer Final v2.0 specification. Notable differences include an Apply-intent/pending-confirmation workflow versus v2.0's explicit `Save to OfferBuddy` creation action, different Analytics time-range options/defaults, and persisted versus derived `NO_RESPONSE` semantics. This plan follows v2.0 as the newer explicitly named final handoff and the Phase 3 designs for data semantics; the repository should mark v1 superseded or reconcile it before creating the affected Extension and Analytics implementation Issues.
+- **Conflicting UI/UX documents:** files under `delivery/s2/ui-ux/v1/` are still labeled final but conflict with the newer Final v2.0 specification. Notable differences include an Apply-intent/pending-confirmation workflow versus v2.0's explicit `Save to OfferBuddy` creation action, different Analytics time-range options/defaults, and persisted versus derived `NO_RESPONSE` semantics. This plan follows v2.0 as the newer explicitly named final handoff and the Phase 3 designs for data semantics; the repository should mark v1 superseded or reconcile it before creating the affected Extension and Analytics implementation Issues.
 
 # Sprint Backlog and Delivery Handoff
 
@@ -180,10 +180,10 @@ At the end of Sprint 2, a user can reliably record a SEEK or Indeed Application 
 
 # Related Documents
 
-- [Sprint 2 Requirements](../../product/sprint-2-requirements.md)
-- [Sprint 2 Architecture Design](../../architecture/sprint-2-architecture-design.md)
-- [Sprint 2 Technical Design Index](../../design/sprint-2/README.md)
-- [Final UI/UX Specification v2.0](<../../design/sprint-2/ui-ux/OfferBuddy S2 — UI UX Page Specification v2.0 — Final.md>)
+- [Sprint 2 Requirements](requirements/requirements.md)
+- [Sprint 2 Architecture Design](architecture/architecture-design.md)
+- [Sprint 2 Technical Design Index](technical-design/README.md)
+- [Final UI/UX Specification v2.0](<ui-ux/OfferBuddy S2 — UI UX Page Specification v2.0 — Final.md>)
 - [Delivery Roadmap](../roadmap.md)
 - [Product Backlog](../product-backlog.md)
 - [Testing Strategy](../../quality/testing-strategy.md)

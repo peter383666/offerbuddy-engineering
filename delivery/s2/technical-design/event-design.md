@@ -8,7 +8,7 @@
 | Section | 3.6 — Events |
 | Status | Completed and approved |
 | Implementation status | Target design; no event infrastructure exists yet |
-| Architecture decision | [ADR-010 — Lightweight Business Events](../../decisions/ADR-010-lightweight-business-events.md) |
+| Architecture decision | [ADR-010 — Lightweight Business Events](../../../decisions/ADR-010-lightweight-business-events.md) |
 
 ## Purpose
 
@@ -179,4 +179,4 @@ Recovery operations must be bounded and auditable. Exact metrics, log fields, ad
 - [Redis Design](redis-design.md)
 - [Job Intelligence Design](job-intelligence-design.md)
 - [Analytics Design](analytics-design.md)
-- [Sprint 2 Architecture Design](../../architecture/sprint-2-architecture-design.md)
+- [Sprint 2 Architecture Design](../architecture/architecture-design.md)

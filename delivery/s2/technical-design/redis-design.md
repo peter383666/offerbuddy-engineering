@@ -108,4 +108,4 @@ Existing Redis infrastructure is not removed by this decision. Its responsibilit
 - [Technology Stack](../../technology/tech-stack.md)
 - [Deployment Strategy](../../operations/deployment-strategy.md)
 - [Production Runbook](../../operations/production-runbook.md)
-- [ADR-010 — Lightweight Business Events](../../decisions/ADR-010-lightweight-business-events.md)
+- [ADR-010 — Lightweight Business Events](../../../decisions/ADR-010-lightweight-business-events.md)

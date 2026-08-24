@@ -21,6 +21,6 @@ The public engineering repository is the source of truth for approved design int
 
 ## Related Foundations
 
-- [Sprint 2 Requirements](../../product/sprint-2-requirements.md)
-- [Sprint 2 Architecture Design](../../architecture/sprint-2-architecture-design.md)
-- [Architecture Decision Records](../../decisions/README.md)
+- [Sprint 2 Requirements](../requirements/requirements.md)
+- [Sprint 2 Architecture Design](../architecture/architecture-design.md)
+- [Architecture Decision Records](../../../decisions/README.md)

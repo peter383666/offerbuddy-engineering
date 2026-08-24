@@ -212,11 +212,11 @@ Sprint 2 uses incremental, forward-only Flyway migrations:
 ## Related Documents
 
 - [Sprint 2 Design Index](README.md)
-- [Sprint 2 Architecture Design](../../architecture/sprint-2-architecture-design.md)
+- [Sprint 2 Architecture Design](../architecture/architecture-design.md)
 - [Backend / Service Design](backend-service-design.md)
 - [Redis Design](redis-design.md)
 - [Event Design](event-design.md)
 - [Job Intelligence Design](job-intelligence-design.md)
 - [Analytics Design](analytics-design.md)
-- [ADR-006 — Flyway](../../decisions/ADR-006-flyway.md)
-- [ADR-007 — PostgreSQL](../../decisions/ADR-007-postgresql.md)
+- [ADR-006 — Flyway](../../../decisions/ADR-006-flyway.md)
+- [ADR-007 — PostgreSQL](../../../decisions/ADR-007-postgresql.md)

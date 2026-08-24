@@ -6,7 +6,7 @@
 | --- | --- |
 | Phase | Phase 2 — Architecture Design |
 | Status | Completed and approved |
-| Requirements baseline | [Sprint 2 Requirements](../product/sprint-2-requirements.md) |
+| Requirements baseline | [Sprint 2 Requirements](../requirements/requirements.md) |
 | Implementation status | Target architecture; not yet delivered |
 
 This document is the authoritative architectural view for OfferBuddy Sprint 2. It defines system structure, responsibility boundaries, major interactions, and approved architectural choices. Exact APIs, event schemas, database changes, extension implementation, retry behaviour, and UI details belong to Phase 3 Technical Design.
@@ -284,7 +284,7 @@ The architectural dependency direction is:
 
 > Upstream business modules publish facts; downstream modules react to facts.
 
-Business Events allow Job Intelligence and Analytics to evolve without adding synchronous dependencies to the Application core path. The completed Phase 3 design refines this boundary: domain mutation and durable event persistence share one short PostgreSQL transaction, while dispatch and handling occur after commit. See [Event Design](../design/sprint-2/event-design.md). Exact event classes and implementation artifacts remain private-repository concerns.
+Business Events allow Job Intelligence and Analytics to evolve without adding synchronous dependencies to the Application core path. The completed Phase 3 design refines this boundary: domain mutation and durable event persistence share one short PostgreSQL transaction, while dispatch and handling occur after commit. See [Event Design](../technical-design/event-design.md). Exact event classes and implementation artifacts remain private-repository concerns.
 
 Sprint 2 does not introduce Kafka, RabbitMQ, microservices, event sourcing, a CQRS framework, mandatory DLQ infrastructure, or exactly-once distributed messaging.
 
@@ -311,7 +311,7 @@ It does not own Job identity, Application lifecycle, authentication, ownership, 
 
 AI failure does not block core Application tracking. AI provider credentials remain backend-only and are never placed in the Browser Extension or React Web application.
 
-The completed [Job Intelligence Design](../design/sprint-2/job-intelligence-design.md) defines provider boundaries, structured validation, asynchronous execution, retry/idempotency, and persistence intent. Exact prompts, provider configuration, classes, and concurrency implementation remain private-repository concerns.
+The completed [Job Intelligence Design](../technical-design/job-intelligence-design.md) defines provider boundaries, structured validation, asynchronous execution, retry/idempotency, and persistence intent. Exact prompts, provider configuration, classes, and concurrency implementation remain private-repository concerns.
 
 ## Analytics Architecture
 
@@ -343,7 +343,7 @@ Analytics is eventually consistent. Analytics failure never rolls back a success
 
 PostgreSQL is the primary storage/query foundation. Sprint 2 does not require a data warehouse, daily/monthly aggregate infrastructure, or Redis caching for Home/Analytics. Redis is not an Analytics source of truth.
 
-The completed [Analytics Design](../design/sprint-2/analytics-design.md) defines projection derivation, idempotent event handling, rebuild/reconciliation, reads, and failure isolation. Exact schema, queries, DTOs, endpoints, and processor implementation remain Database/API/private-repository concerns.
+The completed [Analytics Design](../technical-design/analytics-design.md) defines projection derivation, idempotent event handling, rebuild/reconciliation, reads, and failure isolation. Exact schema, queries, DTOs, endpoints, and processor implementation remain Database/API/private-repository concerns.
 
 ## Authentication Architecture
 
@@ -450,7 +450,7 @@ Sprint 2 architecture does not introduce:
 
 ## Phase 3 Technical Design Alignment
 
-The completed [Sprint 2 Technical Design](../design/sprint-2/README.md) defines the following without changing the approved responsibility boundaries:
+The completed [Sprint 2 Technical Design](../technical-design/README.md) defines the following without changing the approved responsibility boundaries:
 
 - exact Extension structure, browser APIs, permissions, page-change handling, and Site Adapter implementation;
 - Extension credential mechanism and backend security integration;
@@ -464,20 +464,20 @@ The completed [Sprint 2 Technical Design](../design/sprint-2/README.md) defines 
 
 ## Related Decisions and Documents
 
-- [Sprint 2 Requirements](../product/sprint-2-requirements.md)
-- [Sprint 2 Design Index](../design/sprint-2/README.md)
-- [Sprint 2 Extension Design](../design/sprint-2/extension-design.md)
-- [Sprint 2 Database Design](../design/sprint-2/database-design.md)
-- [Sprint 2 Event Design](../design/sprint-2/event-design.md)
-- [Sprint 2 Job Intelligence Design](../design/sprint-2/job-intelligence-design.md)
-- [Sprint 2 Analytics Design](../design/sprint-2/analytics-design.md)
-- [Sprint 1 System Context](system-context.md)
-- [Sprint 1 Container Design](container-design.md)
-- [Sprint 1 Data Model](data-model.md)
-- [ADR-001 — Modular Monolith](../decisions/ADR-001-modular-monolith.md)
-- [ADR-002 — Google Authentication](../decisions/ADR-002-google-authentication.md)
-- [ADR-003 — AI-Assisted Job Extraction](../decisions/ADR-003-ai-assisted-job-extraction.md)
-- [ADR-007 — PostgreSQL](../decisions/ADR-007-postgresql.md)
-- [ADR-008 — Single-Host Production](../decisions/ADR-008-single-host-production.md)
-- [ADR-009 — Browser Extension Site Adapters](../decisions/ADR-009-browser-extension-site-adapters.md)
-- [ADR-010 — Lightweight Business Events](../decisions/ADR-010-lightweight-business-events.md)
+- [Sprint 2 Requirements](../requirements/requirements.md)
+- [Sprint 2 Design Index](../technical-design/README.md)
+- [Sprint 2 Extension Design](../technical-design/extension-design.md)
+- [Sprint 2 Database Design](../technical-design/database-design.md)
+- [Sprint 2 Event Design](../technical-design/event-design.md)
+- [Sprint 2 Job Intelligence Design](../technical-design/job-intelligence-design.md)
+- [Sprint 2 Analytics Design](../technical-design/analytics-design.md)
+- [Sprint 1 System Context](../../s1/architecture/system-context.md)
+- [Sprint 1 Container Design](../../s1/architecture/container-design.md)
+- [Sprint 1 Data Model](../../s1/architecture/data-model.md)
+- [ADR-001 — Modular Monolith](../../../decisions/ADR-001-modular-monolith.md)
+- [ADR-002 — Google Authentication](../../../decisions/ADR-002-google-authentication.md)
+- [ADR-003 — AI-Assisted Job Extraction](../../../decisions/ADR-003-ai-assisted-job-extraction.md)
+- [ADR-007 — PostgreSQL](../../../decisions/ADR-007-postgresql.md)
+- [ADR-008 — Single-Host Production](../../../decisions/ADR-008-single-host-production.md)
+- [ADR-009 — Browser Extension Site Adapters](../../../decisions/ADR-009-browser-extension-site-adapters.md)
+- [ADR-010 — Lightweight Business Events](../../../decisions/ADR-010-lightweight-business-events.md)

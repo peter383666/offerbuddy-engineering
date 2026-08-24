@@ -7,7 +7,7 @@
 | Phase | Phase 3 — Technical Design |
 | Section | 3.1 — Extension |
 | Status | Completed and approved |
-| Architecture baseline | [Sprint 2 Architecture Design](../../architecture/sprint-2-architecture-design.md) |
+| Architecture baseline | [Sprint 2 Architecture Design](../architecture/architecture-design.md) |
 
 ## Purpose
 
@@ -275,7 +275,7 @@ Exact Manifest permissions and host declarations must align with these boundarie
 ## Related Documents
 
 - [Sprint 2 Design Index](README.md)
-- [Sprint 2 Requirements](../../product/sprint-2-requirements.md)
-- [Sprint 2 Architecture Design](../../architecture/sprint-2-architecture-design.md)
-- [ADR-002 — Google Authentication](../../decisions/ADR-002-google-authentication.md)
-- [ADR-009 — Browser Extension Site Adapters](../../decisions/ADR-009-browser-extension-site-adapters.md)
+- [Sprint 2 Requirements](../requirements/requirements.md)
+- [Sprint 2 Architecture Design](../architecture/architecture-design.md)
+- [ADR-002 — Google Authentication](../../../decisions/ADR-002-google-authentication.md)
+- [ADR-009 — Browser Extension Site Adapters](../../../decisions/ADR-009-browser-extension-site-adapters.md)
