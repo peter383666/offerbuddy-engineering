@@ -1,10 +1,16 @@
 # Extension Application Tracking — Functional & Interaction Specification
 
-**Sprint:** S2
-**Status:** Implementation-facing specification
-**Scope:** Browser Extension application tracking workflow
-**Supported platforms:** SEEK, Indeed
+**Sprint:** S2  
+**Status:** Implementation-facing specification (accepted for Sprint 2 closeout)  
+**Scope:** Browser Extension application tracking workflow  
+**Supported platforms:** SEEK, Indeed  
 **Out of scope:** LinkedIn, cover-letter generation, resume tailoring, job-match scoring, ATS autofill, auto-apply
+
+### Closeout Authority
+
+This document describes the confirmation-based / companion tracking model that shipped alongside the explicit popup **Save to OfferBuddy** path.
+
+Both paths use the same Backend Track API. For the authoritative planned-vs-implemented summary, see [Implementation Reconciliation](../../../delivery/s2/implementation-reconciliation.md) and the Closeout Notes in [Extension Design](extension-design.md).
 
 ---
 

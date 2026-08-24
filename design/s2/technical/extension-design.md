@@ -22,11 +22,26 @@ The Extension must:
 1. reduce Application-recording friction during normal Job browsing;
 2. capture reliable facts deterministically from SEEK and Indeed;
 3. remain aware of the current Job across dynamic navigation;
-4. track only after an explicit user action;
+4. track Applications through explicit Save and, where Site Adapters can reliably confirm submission, confirmation-based ingest (see Closeout Note);
 5. keep business truth, ownership, duplicate rules, and persistence in the Backend;
 6. keep semantic Job Intelligence outside the Extension;
 7. provide understandable ready, authentication, progress, duplicate, success, and failure outcomes;
 8. fail safely when page context is incomplete or a supported platform changes.
+
+## Closeout Note — Tracking Authority
+
+Original Phase 3 wording emphasised explicit user Save only. The shipped Sprint 2 Extension also implements submission-confirmation auto-ingest and uncertain-confirmation UX described in [Extension Application Tracking](extension-application-tracking.md).
+
+Closeout authority:
+
+- **Backend Track API** remains the single business write path.
+- **UI v2 popup Save** remains the explicit primary action.
+- **Confirmation-based ingest** is an accepted additional client path for Sprint 2.
+- Deltas are recorded in [Implementation Reconciliation](../../../delivery/s2/implementation-reconciliation.md).
+
+## Closeout Note — Eligibility Surfacing
+
+Requirements list several eligibility concepts. Sprint 2 UI and extractors surface **citizenship / permanent residency** findings only. Clearance, working-rights, and sponsorship findings are deferred.
 
 ## Responsibility Principle
 

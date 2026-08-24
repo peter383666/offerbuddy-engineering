@@ -5,7 +5,7 @@
 | Item | Value |
 | --- | --- |
 | Sprint | Sprint 2 |
-| Status | Planning complete; implementation not started |
+| Status | Implementation complete; documentation closeout in progress |
 | Primary capability | Browser Extension for SEEK and Indeed |
 
 ---

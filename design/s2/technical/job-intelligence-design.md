@@ -7,7 +7,7 @@
 | Phase | Phase 3 — Technical Design |
 | Section | 3.7 — AI Job Intelligence |
 | Status | Completed and approved |
-| Implementation status | Target design; Sprint 1 synchronous URL parsing remains the current implementation |
+| Implementation status | Implemented asynchronously via Business Events; URL parsing remains secondary Web fallback |
 
 ## Purpose
 

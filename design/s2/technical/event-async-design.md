@@ -7,7 +7,7 @@
 | Phase | Phase 3 — Technical Design |
 | Section | 3.6 — Events |
 | Status | Completed and approved |
-| Implementation status | Target design; no event infrastructure exists yet |
+| Implementation status | Implemented; see delivery/s2/implementation-status.md |
 | Architecture decision | [ADR-010 — Lightweight Business Events](../../../decisions/ADR-010-lightweight-business-events.md) |
 
 ## Purpose

@@ -7,7 +7,7 @@
 | Phase | Phase 3 — Technical Design |
 | Section | 3.4 — Database |
 | Status | Completed and approved |
-| Implementation status | Target design; no Sprint 2 migration exists yet |
+| Implementation status | Implemented via Flyway V3–V9; living model in architecture/data-model.md |
 | Sprint 1 baseline | [Sprint 1 Data Model](../../architecture/data-model.md) |
 
 ## Purpose

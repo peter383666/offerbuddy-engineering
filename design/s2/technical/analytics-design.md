@@ -7,7 +7,7 @@
 | Phase | Phase 3 — Technical Design |
 | Section | 3.8 — Analytics |
 | Status | Completed and approved |
-| Implementation status | Target design; no Analytics module or projection exists yet |
+| Implementation status | Implemented; see delivery/s2/implementation-status.md |
 
 ## Purpose
 

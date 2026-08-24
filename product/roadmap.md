@@ -54,7 +54,9 @@ The final Sprint 1 tag/release follows documentation approval and sprint closure
 
 **Phase 2 status:** Architecture Design completed and approved.
 
-**Delivery status:** Sprint 2 functionality is not yet recorded as implemented or delivered.
+**Delivery status:** Implemented in the application repository; engineering documentation closeout in progress on `docs/sprint-2`.
+
+See [Implementation Status](../delivery/s2/implementation-status.md) and [Implementation Reconciliation](../delivery/s2/implementation-reconciliation.md).
 
 Confirmed requirement scope:
 
