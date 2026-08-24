@@ -179,4 +179,4 @@ Recovery operations must be bounded and auditable. Exact metrics, log fields, ad
 - [Redis Design](redis-design.md)
 - [Job Intelligence Design](job-intelligence-design.md)
 - [Analytics Design](analytics-design.md)
-- [Sprint 2 Architecture Design](../architecture/architecture-design.md)
+- [Sprint 2 Architecture Design](../../../architecture/s2/architecture-overview.md)

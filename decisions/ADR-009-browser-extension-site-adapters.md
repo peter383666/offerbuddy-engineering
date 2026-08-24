@@ -79,4 +79,4 @@ Rejected because it would broaden scope and reduce the ability to validate relia
 
 [ADR-003](ADR-003-ai-assisted-job-extraction.md) remains the accurate Sprint 1 decision and implementation history. This ADR evolves the preferred acquisition strategy for Sprint 2; it does not remove the Sprint 1 fallback.
 
-See [Sprint 2 Architecture Design](../delivery/s2/architecture/architecture-design.md).
+See [Sprint 2 Architecture Design](../architecture/s2/architecture-overview.md).

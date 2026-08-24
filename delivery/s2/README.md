@@ -1,34 +1,21 @@
-# Sprint 2 — Lower-Friction Job Capture
+# Sprint 2 Delivery
 
-Sprint 2 Design Record and delivery archive.
+Delivery evidence answers: **what was actually delivered, how it differed from plan, and how it was released**.
 
-These documents answer:
+This folder is not a second copy of architecture/design.
 
-> What were Sprint 2 requirements, architecture, technical design, and delivery outcomes?
-
-After sprint closure they are frozen. Living current-system documentation remains under top-level `architecture/`, `product/`, `quality/`, and `operations/`.
-
-## Sprint Design Archive
-
-| Area | Entry |
+| Document | Purpose |
 | --- | --- |
-| Requirements | [requirements/requirements.md](requirements/requirements.md) |
-| Architecture | [architecture/architecture-design.md](architecture/architecture-design.md) |
-| Technical Design | [technical-design/README.md](technical-design/README.md) |
-| UI/UX | [ui-ux/](ui-ux/) |
-| Sprint Plan | [sprint-plan.md](sprint-plan.md) |
-| Sprint Review | _pending wrap-up_ |
-| Retrospective | _pending wrap-up_ |
+| [Sprint Plan](sprint-plan.md) | Approved implementation plan |
+| Implementation Status | Final capability status — _pending Agent closeout_ |
+| Implementation Reconciliation | Planned vs implemented deltas — _pending Agent closeout_ |
+| Sprint Review | _pending_ |
+| Retrospective | _pending_ |
+| Known Limitations | _pending_ |
+| Deferred Items | _pending_ |
+| Release Notes | _pending_ |
 
-## Assets
+Upstream design:
 
-Chrome Web Store / extension popup screenshots:
-
-`assets/screenshots/s2/chrome-web-store/extension-popups/`
-
-## Delivery Path
-
-```text
-Requirements → Architecture → Technical Design → UI/UX → Sprint Plan
-  → Implementation → Documentation Sync → Review → Merge main → Tag engineering-s2
-```
+- [Architecture S2](../../architecture/s2/README.md)
+- [Design S2](../../design/s2/README.md)

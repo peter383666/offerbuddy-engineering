@@ -7,7 +7,7 @@
 | Phase | Phase 3 — Technical Design |
 | Section | 3.1 — Extension |
 | Status | Completed and approved |
-| Architecture baseline | [Sprint 2 Architecture Design](../architecture/architecture-design.md) |
+| Architecture baseline | [Sprint 2 Architecture Design](../../../architecture/s2/architecture-overview.md) |
 
 ## Purpose
 
@@ -268,14 +268,14 @@ Exact Manifest permissions and host declarations must align with these boundarie
 | 3.3 Backend / Service | Job resolution, duplicate behaviour, Application orchestration |
 | 3.4 Database | [Credential boundary and Job/Application persistence](database-design.md) |
 | 3.5 Redis | [No mandatory Sprint 2 role](redis-design.md) |
-| 3.6 Events | [Business Event reliability and processing](event-design.md) |
+| 3.6 Events | [Business Event reliability and processing](event-async-design.md) |
 | 3.7 AI Job Intelligence | [Semantic-analysis execution and data](job-intelligence-design.md) |
 | 3.8 Analytics | [Metrics, lifecycle history, projections, and queries](analytics-design.md) |
 
 ## Related Documents
 
 - [Sprint 2 Design Index](README.md)
-- [Sprint 2 Requirements](../requirements/requirements.md)
-- [Sprint 2 Architecture Design](../architecture/architecture-design.md)
+- [Sprint 2 Requirements](../requirements/s2-scope.md)
+- [Sprint 2 Architecture Design](../../../architecture/s2/architecture-overview.md)
 - [ADR-002 — Google Authentication](../../../decisions/ADR-002-google-authentication.md)
 - [ADR-009 — Browser Extension Site Adapters](../../../decisions/ADR-009-browser-extension-site-adapters.md)

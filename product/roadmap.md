@@ -71,7 +71,7 @@ LinkedIn, Auto Apply, Cover Letter generation, resume tailoring, candidate/Job m
 
 The approved architecture retains the Spring Boot modular monolith and PostgreSQL, adds the Browser Extension/Site Adapter ingestion path, and uses lightweight Business Events for downstream Job Intelligence and Analytics without introducing a message broker. Exact APIs, schemas, Extension credentials, event mechanics, persistence details, and UI/UX remain deferred to later design phases.
 
-See the authoritative [Sprint 2 Requirements](../delivery/s2/requirements/requirements.md), [Sprint 2 Architecture Design](../delivery/s2/architecture/architecture-design.md), and [Sprint 2 Archive](../delivery/s2/README.md).
+See the authoritative [Sprint 2 Requirements](../design/s2/requirements/s2-scope.md), [Sprint 2 Architecture Design](../architecture/s2/architecture-overview.md), and [Sprint 2 Archive](../delivery/s2/README.md).
 
 ## Later Possibilities
 

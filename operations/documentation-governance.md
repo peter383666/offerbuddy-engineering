@@ -2,73 +2,67 @@
 
 ## Purpose
 
-This document defines how OfferBuddy engineering documentation is branched, structured, reviewed, and released.
+Defines how OfferBuddy engineering documentation is branched, structured, reviewed, and released.
+
+## Highest-Level Closeout Rule
+
+> S2 documentation closeout is a reconciliation and release-record exercise, not a new architecture/design phase. Preserve valid S2 decisions, align documentation with implemented behaviour, explicitly document meaningful deltas, mark superseded material, and avoid introducing S3 scope.
 
 ## Core Rule
 
 > Sprint controls delivery history; Git controls document history; `main` represents current engineering truth.
 
-## Three Documentation Dimensions
+## Four Reader Layers
 
-| Location | Answers | Lifecycle |
+| Layer | Answers | Location |
 | --- | --- | --- |
-| `delivery/sN/` | How was Sprint N designed and delivered? | Frozen after Sprint closure |
-| Top-level `architecture/`, `product/`, `quality/`, `operations/` | What is the system now? | Living; updated during documentation sync |
-| `decisions/ADR-*` | Why was an important technical choice made? | Accepted ADRs are not rewritten in place |
+| Architecture | Why is the system shaped this way? | `architecture/`, `architecture/s2/` |
+| Technical Design | How was S2 specified to work? | `design/s2/technical/`, `design/s2/ui-ux/` |
+| ADR | Why was an important choice made? | `decisions/`, `decisions/s2/` |
+| Delivery Evidence | What was delivered and released? | `delivery/s2/` |
 
-Sprint Design Records may emphasise delta, decision, and rationale. Living documents emphasise final current state and should not accumulate parallel `*-s1` / `*-s2` filename versions.
+Do not organise the final repo by Phase 1 / Phase 2 / Phase 3 process order. Phases are design process; directories are reader intent.
+
+## Source-of-Truth Hierarchy
+
+When documents conflict during closeout:
+
+```text
+1. Current implemented behaviour in the private application repo
+2. Final Sprint 2 GitHub Issues / merged PR behaviour
+3. Final UI/UX v2 specification
+4. Final Phase 3 Technical Design
+5. Phase 2 Architecture Design
+6. Phase 1 Requirements
+7. Older S1 / early S2 documentation
+```
+
+> Implementation can correct design documentation, but documentation must not invent implementation.
+
+Distinguish:
+
+- **implementation detail** — usually no architecture change
+- **design delta** — update technical design / UI specs
+- **architectural delta** — explicit architecture + ADR update
 
 ## Branch Model
 
 ```text
 main
  │
- ├── docs/sprint-N   ← entire Sprint documentation workspace
+ ├── docs/sprint-N
  │
  └── PR → main → tag engineering-sN
 ```
 
-Rules:
+- Branch = Sprint isolation
+- Commit = design / closeout checkpoint
+- PR = documentation review gate
+- Tag = released snapshot on `main` after merge
 
-- **Branch = Sprint-level isolation**
-- **Commit = Sprint design checkpoint**
-- **Directory = documentation domain/structure**
-- **PR = Sprint documentation review / release gate**
-- **Tag = released documentation snapshot on `main`**
+## Public Repo Boundary
 
-Do not create per-phase Sprint branches (`docs/sN-requirements`, `docs/sN-architecture`, …) unless multiple authors must review those phases independently.
-
-## Sprint Documentation Lifecycle
-
-```text
-1. Create docs/sprint-N from main
-2. Requirements / Architecture / Technical Design / UI/UX / Sprint Plan
-3. Implementation (application repository)
-4. Documentation sync with implemented reality
-5. Sprint Review and Retrospective
-6. Final documentation review
-7. PR docs/sprint-N → main
-8. Merge
-9. Tag engineering-sN on main
-10. Delete docs/sprint-N
-11. Start Sprint N+1
-```
-
-Tag only after merge so `engineering-sN` always points at the accepted `main` snapshot.
-
-## Directory Expectations
-
-```text
-delivery/sN/
-├── README.md
-├── requirements/
-├── architecture/
-├── technical-design/
-├── ui-ux/                  # when applicable
-├── sprint-plan.md
-├── sprint-review.md
-└── retrospective.md
-```
+The engineering repo must not become a mirror of private source code. Prefer requirements, architecture, design decisions, data/API concepts, failure behaviour, testing strategy, delivery process, and release evidence over class inventories and full implementation listings.
 
 ## Related
 

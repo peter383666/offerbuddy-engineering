@@ -7,7 +7,7 @@
 | Phase | Phase 3 — Technical Design |
 | Section | 3.3 — Domain / Service |
 | Status | Completed and approved |
-| Architecture baseline | [Sprint 2 Architecture Design](../architecture/architecture-design.md) |
+| Architecture baseline | [Sprint 2 Architecture Design](../../../architecture/s2/architecture-overview.md) |
 
 ## Purpose
 
@@ -419,20 +419,20 @@ Entitlement remains only a capability seam in Section 3.3.
 | --- | --- |
 | 3.4 Database | [Tables, constraints, migrations, and concurrency persistence](database-design.md) |
 | 3.5 Redis | [No mandatory Sprint 2 role](redis-design.md) |
-| 3.6 Events | [Event persistence, dispatch, retry, and recovery](event-design.md) |
+| 3.6 Events | [Event persistence, dispatch, retry, and recovery](event-async-design.md) |
 | 3.7 AI Job Intelligence | [Provider execution and semantic result handling](job-intelligence-design.md) |
 | 3.8 Analytics | [Lifecycle metrics, projections, and queries](analytics-design.md) |
 
 ## Related Documents
 
 - [Sprint 2 Design Index](README.md)
-- [Backend API Design](backend-api-design.md)
+- [Backend API Design](api-design.md)
 - [Extension Design](extension-design.md)
-- [Sprint 2 Requirements](../requirements/requirements.md)
-- [Sprint 2 Architecture Design](../architecture/architecture-design.md)
+- [Sprint 2 Requirements](../requirements/s2-scope.md)
+- [Sprint 2 Architecture Design](../../../architecture/s2/architecture-overview.md)
 - [Sprint 1 Data Model](../../architecture/data-model.md)
 - [Sprint 2 Database Design](database-design.md)
-- [Event Design](event-design.md)
+- [Event Design](event-async-design.md)
 - [Job Intelligence Design](job-intelligence-design.md)
 - [Analytics Design](analytics-design.md)
 - [ADR-001 — Modular Monolith](../../../decisions/ADR-001-modular-monolith.md)

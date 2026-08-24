@@ -7,7 +7,7 @@
 | Phase | Phase 3 — Technical Design |
 | Section | 3.2 — Backend API |
 | Status | Completed and approved |
-| Architecture baseline | [Sprint 2 Architecture Design](../architecture/architecture-design.md) |
+| Architecture baseline | [Sprint 2 Architecture Design](../../../architecture/s2/architecture-overview.md) |
 
 ## Purpose
 
@@ -474,7 +474,7 @@ Section 3.2 does not introduce:
 | 3.3 Backend / Service | Pairing, credential, Job resolution, and Track orchestration |
 | 3.4 Database | [Pairing boundary, Job/Application, and lifecycle persistence](database-design.md) |
 | 3.5 Redis | [No mandatory Sprint 2 role](redis-design.md) |
-| 3.6 Events | [Event/outbox reliability and processing](event-design.md) |
+| 3.6 Events | [Event/outbox reliability and processing](event-async-design.md) |
 | 3.7 AI Job Intelligence | [Asynchronous semantic analysis](job-intelligence-design.md) |
 | 3.8 Analytics | [Projection and query design](analytics-design.md) |
 
@@ -482,8 +482,8 @@ Section 3.2 does not introduce:
 
 - [Sprint 2 Design Index](README.md)
 - [Extension Design](extension-design.md)
-- [Sprint 2 Requirements](../requirements/requirements.md)
-- [Sprint 2 Architecture Design](../architecture/architecture-design.md)
+- [Sprint 2 Requirements](../requirements/s2-scope.md)
+- [Sprint 2 Architecture Design](../../../architecture/s2/architecture-overview.md)
 - [Sprint 1 API Design](../../architecture/api-design.md)
 - [ADR-002 — Google Authentication](../../../decisions/ADR-002-google-authentication.md)
 - [ADR-009 — Browser Extension Site Adapters](../../../decisions/ADR-009-browser-extension-site-adapters.md)

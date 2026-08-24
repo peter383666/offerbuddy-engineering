@@ -142,7 +142,7 @@ Exact normalisation, ordering, confidence metadata, analysis version fields, and
 - processing state and bounded-retry metadata;
 - occurrence and processing timestamps.
 
-It does not replace authoritative Core tables and is not an event-sourced model or query projection. Detailed state transitions, claim strategy, payload contracts, and indexes belong to [Event Design](event-design.md) and implementation.
+It does not replace authoritative Core tables and is not an event-sourced model or query projection. Detailed state transitions, claim strategy, payload contracts, and indexes belong to [Event Design](event-async-design.md) and implementation.
 
 ## Analytics Projection
 
@@ -212,10 +212,10 @@ Sprint 2 uses incremental, forward-only Flyway migrations:
 ## Related Documents
 
 - [Sprint 2 Design Index](README.md)
-- [Sprint 2 Architecture Design](../architecture/architecture-design.md)
+- [Sprint 2 Architecture Design](../../../architecture/s2/architecture-overview.md)
 - [Backend / Service Design](backend-service-design.md)
 - [Redis Design](redis-design.md)
-- [Event Design](event-design.md)
+- [Event Design](event-async-design.md)
 - [Job Intelligence Design](job-intelligence-design.md)
 - [Analytics Design](analytics-design.md)
 - [ADR-006 — Flyway](../../../decisions/ADR-006-flyway.md)
