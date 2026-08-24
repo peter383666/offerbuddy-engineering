@@ -5,11 +5,12 @@
 | Item | Value |
 | --- | --- |
 | Phase | Phase 2 — Architecture Design |
-| Status | Completed and approved |
-| Requirements baseline | [Sprint 2 Requirements](../requirements/requirements.md) |
-| Implementation status | Target architecture; not yet delivered |
+| Status | Approved; implemented in application repository |
+| Requirements baseline | [Sprint 2 Requirements](../../design/s2/requirements/s2-scope.md) |
+| Implementation evidence | [Implementation Status](../../delivery/s2/implementation-status.md) |
+| Closeout | Living architecture synced; see [Reconciliation](../../delivery/s2/implementation-reconciliation.md) |
 
-This document is the authoritative architectural view for OfferBuddy Sprint 2. It defines system structure, responsibility boundaries, major interactions, and approved architectural choices. Exact APIs, event schemas, database changes, extension implementation, retry behaviour, and UI details belong to Phase 3 Technical Design.
+This document is the Sprint 2 architectural view for OfferBuddy. It defines system structure, responsibility boundaries, major interactions, and approved architectural choices. Exact APIs, schemas, and UI contracts belong in [`design/s2/`](../../design/s2/).
 
 ## Architecture Goals
 
@@ -58,7 +59,7 @@ Sprint 1 currently runs:
 - a single-host EC2/Docker Compose deployment;
 - reserved Redis with no application usage.
 
-Sprint 2 adds a Browser Extension client and new logical backend responsibilities for Business Events, Job Intelligence, and Analytics. These are target architecture boundaries within the existing system, not claims about already-delivered implementation.
+Sprint 2 adds a Browser Extension client and logical backend responsibilities for Business Events, Job Intelligence, and Analytics within the existing modular monolith. These boundaries are implemented; delivery evidence is recorded under `delivery/s2/`.
 
 ## System Context
 
@@ -448,36 +449,29 @@ Sprint 2 architecture does not introduce:
 - LinkedIn or broad platform support;
 - Auto Apply, resume tailoring, Cover Letter generation, or match scoring.
 
-## Phase 3 Technical Design Alignment
+## Technical Design Alignment
 
-The completed [Sprint 2 Technical Design](../technical-design/README.md) defines the following without changing the approved responsibility boundaries:
+The Sprint 2 technical design set under [`design/s2/technical/`](../../design/s2/technical/) refines these boundaries without changing the architecture principles above.
 
-- exact Extension structure, browser APIs, permissions, page-change handling, and Site Adapter implementation;
-- Extension credential mechanism and backend security integration;
-- ingestion API contracts, validation, and error model;
-- Job identity and duplicate behaviour implementation alignment;
-- Business Event representation, dispatch, durability, retry, and recovery;
-- Job Intelligence execution and persistence details;
-- Application lifecycle/history and Analytics read-model details;
-- database migrations, indexes, and queries;
-- technical constraints for the Browser Extension; concrete operational/release artifacts remain implementation and delivery work.
+Meaningful implementation deltas (notably dual Extension tracking paths and citizenship/PR-only eligibility surfacing) are recorded in [Implementation Reconciliation](../../delivery/s2/implementation-reconciliation.md).
 
 ## Related Decisions and Documents
 
-- [Sprint 2 Requirements](../requirements/requirements.md)
-- [Sprint 2 Design Index](../technical-design/README.md)
-- [Sprint 2 Extension Design](../technical-design/extension-design.md)
-- [Sprint 2 Database Design](../technical-design/database-design.md)
-- [Sprint 2 Event Design](../technical-design/event-design.md)
-- [Sprint 2 Job Intelligence Design](../technical-design/job-intelligence-design.md)
-- [Sprint 2 Analytics Design](../technical-design/analytics-design.md)
-- [Sprint 1 System Context](../../s1/architecture/system-context.md)
-- [Sprint 1 Container Design](../../s1/architecture/container-design.md)
-- [Sprint 1 Data Model](../../s1/architecture/data-model.md)
-- [ADR-001 — Modular Monolith](../../../decisions/ADR-001-modular-monolith.md)
-- [ADR-002 — Google Authentication](../../../decisions/ADR-002-google-authentication.md)
-- [ADR-003 — AI-Assisted Job Extraction](../../../decisions/ADR-003-ai-assisted-job-extraction.md)
-- [ADR-007 — PostgreSQL](../../../decisions/ADR-007-postgresql.md)
-- [ADR-008 — Single-Host Production](../../../decisions/ADR-008-single-host-production.md)
-- [ADR-009 — Browser Extension Site Adapters](../../../decisions/ADR-009-browser-extension-site-adapters.md)
-- [ADR-010 — Lightweight Business Events](../../../decisions/ADR-010-lightweight-business-events.md)
+- [Sprint 2 Requirements](../../design/s2/requirements/s2-scope.md)
+- [Sprint 2 Design Index](../../design/s2/README.md)
+- [Sprint 2 Extension Design](../../design/s2/technical/extension-design.md)
+- [Sprint 2 Database Design](../../design/s2/technical/database-design.md)
+- [Sprint 2 Event Design](../../design/s2/technical/event-async-design.md)
+- [Sprint 2 Job Intelligence Design](../../design/s2/technical/job-intelligence-design.md)
+- [Sprint 2 Analytics Design](../../design/s2/technical/analytics-design.md)
+- [Living System Context](../system-context.md)
+- [Living Container Design](../container-design.md)
+- [Living Data Model](../data-model.md)
+- [Sprint 1 Architecture Archive](../../delivery/s1/architecture/system-context.md)
+- [ADR-001 — Modular Monolith](../../decisions/ADR-001-modular-monolith.md)
+- [ADR-002 — Google Authentication](../../decisions/ADR-002-google-authentication.md)
+- [ADR-003 — AI-Assisted Job Extraction](../../decisions/ADR-003-ai-assisted-job-extraction.md)
+- [ADR-007 — PostgreSQL](../../decisions/ADR-007-postgresql.md)
+- [ADR-008 — Single-Host Production](../../decisions/ADR-008-single-host-production.md)
+- [ADR-009 — Browser Extension Site Adapters](../../decisions/ADR-009-browser-extension-site-adapters.md)
+- [ADR-010 — Lightweight Business Events](../../decisions/ADR-010-lightweight-business-events.md)

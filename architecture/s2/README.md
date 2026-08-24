@@ -2,20 +2,16 @@
 
 Architecture answers: **why the system is shaped this way**.
 
-These documents describe stable Sprint 2 structural boundaries. They are not controller/DTO/SQL catalogs.
-
 | Document | Purpose |
 | --- | --- |
 | [Architecture Overview](architecture-overview.md) | End-to-end S2 architecture baseline |
-| Browser Extension Architecture | _pending closeout sync_ |
-| Backend Architecture | _pending closeout sync_ |
-| Data Architecture | _pending closeout sync_ |
-| Event / Async Architecture | _pending closeout sync_ |
-| Job Intelligence Architecture | _pending closeout sync_ |
-| Analytics Architecture | _pending closeout sync_ |
+| [Browser Extension Architecture](browser-extension-architecture.md) | Extension as client + Site Adapter boundary |
+| [Backend Architecture](backend-architecture.md) | Modular monolith responsibilities |
+| [Data Architecture](data-architecture.md) | Persistence ownership boundaries |
+| [Event / Async Architecture](event-async-architecture.md) | Brokerless Business Events |
+| [Job Intelligence Architecture](job-intelligence-architecture.md) | Downstream semantic enrichment |
+| [Analytics Architecture](analytics-architecture.md) | Eventually consistent read model |
 
-Related:
-
-- Current living architecture: [`architecture/`](../)
-- S2 technical design: [`design/s2/technical/`](../../design/s2/technical/)
-- S2 delivery evidence: [`delivery/s2/`](../../delivery/s2/)
+Living current-system docs: [`architecture/`](../).  
+Technical contracts: [`design/s2/technical/`](../../design/s2/technical/).  
+Delivery evidence: [`delivery/s2/`](../../delivery/s2/).
