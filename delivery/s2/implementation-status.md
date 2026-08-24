@@ -21,7 +21,7 @@ Authoritative product scope remains [S2 Scope](../../design/s2/requirements/s2-s
 | Application Analytics | Completed |
 | Web UI integration (Home, Applications, Detail, New Application, Analytics, Connect) | Completed |
 | Forward Flyway migrations (V3–V9) | Completed |
-| Documentation closeout | In progress on `docs/sprint-2` |
+| Documentation closeout | Complete on `docs/sprint-2` (pending merge/tag) |
 
 ## Browser Extension
 
