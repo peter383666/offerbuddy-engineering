@@ -201,9 +201,9 @@ Implementation and production hardening are complete. The final tag/GitHub Relea
 
 # Related Documents
 
-* [Sprint 1 Technical Debt](sprint-1-technical-debt.md) — developer-facing debt, contract drift, and accepted design decisions from the Sprint 1 code review
-* [Sprint 1 Review](sprint-1-review.md) — what Sprint 1 delivered and the acceptance result
-* [Sprint 1 Retrospective](sprint-1-retrospective.md) — how delivery went and what was learned
-* [Product Backlog](product-backlog.md) — work not committed to the current sprint
+* [Sprint 1 Technical Debt](technical-debt.md) — developer-facing debt, contract drift, and accepted design decisions from the Sprint 1 code review
+* [Sprint 1 Review](sprint-review.md) — what Sprint 1 delivered and the acceptance result
+* [Sprint 1 Retrospective](retrospective.md) — how delivery went and what was learned
+* [Product Backlog](../product-backlog.md) — work not committed to the current sprint
 * [API Design](../architecture/api-design.md)
 * [Data Model](../architecture/data-model.md)

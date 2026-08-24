@@ -128,7 +128,7 @@ The production verification covered HTTPS/Nginx routing, frontend/backend health
 
 ## Technical Debt
 
-The active debt is maintained in the [Sprint 1 Technical Debt Register](sprint-1-technical-debt.md). Highest-value follow-ups include frontend automated tests, request/correlation IDs, secrets and backup hardening, staging/integration environment decisions, observability, job identity rules, and managing `ApplicationService` growth.
+The active debt is maintained in the [Sprint 1 Technical Debt Register](technical-debt.md). Highest-value follow-ups include frontend automated tests, request/correlation IDs, secrets and backup hardening, staging/integration environment decisions, observability, job identity rules, and managing `ApplicationService` growth.
 
 Redis is intentionally retained but is not used by Sprint 1 application logic. Authentication/security hardening must be revisited before Redis becomes active.
 

@@ -10,7 +10,7 @@ Use this register to:
 - Avoid reopening accepted Sprint 1 design decisions by accident
 - Keep engineering documentation and runtime behaviour aligned
 
-This is **not** a product backlog of new features. Feature ideas remain in [Product Backlog](product-backlog.md). Items here should be refined into GitHub Issues before implementation.
+This is **not** a product backlog of new features. Feature ideas remain in [Product Backlog](../product-backlog.md). Items here should be refined into GitHub Issues before implementation.
 
 ## Source
 
@@ -454,7 +454,7 @@ Triage the advisory (direct vs transitive), apply a minimal fix or override, and
 | Area | Quality |
 
 **Current behaviour**  
-[Product Backlog](product-backlog.md) still lists AI extraction test tasks. Backend now has substantial job-parsing unit/integration coverage; the backlog checklist has not been reconciled.
+[Product Backlog](../product-backlog.md) still lists AI extraction test tasks. Backend now has substantial job-parsing unit/integration coverage; the backlog checklist has not been reconciled.
 
 **Recommended action**  
 Audit each checklist item against existing tests under `com.offerbuddy.jobparsing`, tick completed items, and leave only true gaps.
@@ -517,9 +517,9 @@ Recommended order for turning debt into issues (not committed scope):
 
 ## Related documents
 
-- [Sprint 1 Planning](sprint-1.md)
-- [Product Backlog](product-backlog.md)
+- [Sprint 1 Planning](sprint-plan.md)
+- [Product Backlog](../product-backlog.md)
 - [API Design](../architecture/api-design.md)
 - [Data Model](../architecture/data-model.md)
-- [Testing Strategy](../quality/testing-strategy.md)
-- [Definition of Done](../quality/definition-of-done.md)
+- [Testing Strategy](../../quality/testing-strategy.md)
+- [Definition of Done](../../quality/definition-of-done.md)

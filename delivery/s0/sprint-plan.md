@@ -107,5 +107,5 @@ All seven committed delivery items were completed. Unfinished tasks identified d
 
 See the following documents for details:
 
-- [Sprint 0 Review](sprint-0-review.md)
-- [Sprint 0 Retrospective](sprint-0-retrospective.md)
+- [Sprint 0 Review](sprint-review.md)
+- [Sprint 0 Retrospective](retrospective.md)
