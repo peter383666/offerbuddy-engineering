@@ -184,7 +184,7 @@ At the end of Sprint 2, a user can reliably record a SEEK or Indeed Application 
 - [Sprint 2 Architecture Design](architecture/architecture-design.md)
 - [Sprint 2 Technical Design Index](technical-design/README.md)
 - [Final UI/UX Specification v2.0](<ui-ux/OfferBuddy S2 — UI UX Page Specification v2.0 — Final.md>)
-- [Delivery Roadmap](../roadmap.md)
+- [Delivery Roadmap](../../product/roadmap.md)
 - [Product Backlog](../product-backlog.md)
 - [Testing Strategy](../../quality/testing-strategy.md)
 - [Definition of Done](../../quality/definition-of-done.md)

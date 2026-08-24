@@ -72,4 +72,4 @@ PostgreSQL remains the primary storage and query foundation for Sprint 2. Core J
 
 Simple current-state Analytics may query authoritative data directly. Lifecycle/conversion Analytics requires historical source meaning, which the current Sprint 1 schema does not yet contain; its exact representation belongs to Phase 3 Data/Technical Design.
 
-Redis is not required for Sprint 2 Home/Analytics caching and must not become an Analytics source of truth. A data warehouse or large pre-aggregation infrastructure is also outside the approved architecture. See [Sprint 2 Architecture Design](../architecture/sprint-2-architecture-design.md).
+Redis is not required for Sprint 2 Home/Analytics caching and must not become an Analytics source of truth. A data warehouse or large pre-aggregation infrastructure is also outside the approved architecture. See [Sprint 2 Architecture Design](../delivery/s2/architecture/architecture-design.md).

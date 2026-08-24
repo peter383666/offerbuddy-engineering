@@ -104,7 +104,7 @@ Existing Redis infrastructure is not removed by this decision. Its responsibilit
 - [Event Design](event-design.md)
 - [Job Intelligence Design](job-intelligence-design.md)
 - [Analytics Design](analytics-design.md)
-- [Sprint 2 Architecture Design](../../architecture/sprint-2-architecture-design.md#postgresql-and-redis-decisions)
+- [Sprint 2 Architecture Design](../architecture/architecture-design.md#postgresql-and-redis-decisions)
 - [Technology Stack](../../technology/tech-stack.md)
 - [Deployment Strategy](../../operations/deployment-strategy.md)
 - [Production Runbook](../../operations/production-runbook.md)

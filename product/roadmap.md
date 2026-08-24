@@ -18,9 +18,9 @@ Delivered:
 
 Related documents:
 
-- [Sprint 0 Plan](sprint-0.md)
-- [Sprint 0 Review](sprint-0-review.md)
-- [Sprint 0 Retrospective](sprint-0-retrospective.md)
+- [Sprint 0 Plan](../delivery/s0/sprint-plan.md)
+- [Sprint 0 Review](../delivery/s0/sprint-review.md)
+- [Sprint 0 Retrospective](../delivery/s0/retrospective.md)
 
 ## Sprint 1 — Production Job Application Tracker
 
@@ -41,10 +41,10 @@ Delivered:
 
 Related documents:
 
-- [Sprint 1 Plan](sprint-1.md)
-- [Sprint 1 Review](sprint-1-review.md)
-- [Sprint 1 Retrospective](sprint-1-retrospective.md)
-- [Sprint 1 Technical Debt](sprint-1-technical-debt.md)
+- [Sprint 1 Plan](../delivery/s1/sprint-plan.md)
+- [Sprint 1 Review](../delivery/s1/sprint-review.md)
+- [Sprint 1 Retrospective](../delivery/s1/retrospective.md)
+- [Sprint 1 Technical Debt](../delivery/s1/technical-debt.md)
 
 The final Sprint 1 tag/release follows documentation approval and sprint closure.
 
@@ -71,10 +71,10 @@ LinkedIn, Auto Apply, Cover Letter generation, resume tailoring, candidate/Job m
 
 The approved architecture retains the Spring Boot modular monolith and PostgreSQL, adds the Browser Extension/Site Adapter ingestion path, and uses lightweight Business Events for downstream Job Intelligence and Analytics without introducing a message broker. Exact APIs, schemas, Extension credentials, event mechanics, persistence details, and UI/UX remain deferred to later design phases.
 
-See the authoritative [Sprint 2 Requirements](../product/sprint-2-requirements.md) and [Sprint 2 Architecture Design](../architecture/sprint-2-architecture-design.md).
+See the authoritative [Sprint 2 Requirements](../delivery/s2/requirements/requirements.md), [Sprint 2 Architecture Design](../delivery/s2/architecture/architecture-design.md), and [Sprint 2 Archive](../delivery/s2/README.md).
 
 ## Later Possibilities
 
 Resume generation/optimisation, Cover Letter generation, candidate/Job match analysis, recruiter-message assistance, interview assistance, email status detection, additional job platforms, application-form assistance, and broader automation remain later product possibilities. They are not implied Sprint 2 commitments.
 
-See [Product Backlog](product-backlog.md).
+See [Product Backlog](../delivery/product-backlog.md).
