@@ -4,9 +4,9 @@ S2-specific operational notes. Living ops docs remain under [`operations/`](../)
 
 | Document | Purpose |
 | --- | --- |
-| Deployment | _pending closeout_ |
-| Database Migrations | _pending closeout_ |
-| Extension Publishing | _pending closeout_ |
-| Configuration / Secrets | _pending closeout_ |
-| Observability | _pending closeout_ |
-| Rollback / Recovery | _pending closeout_ |
+| [Deployment](deployment.md) | S2 operator additions to SHA deploy model |
+| [Database Migrations](database-migrations.md) | V3–V9 and rollback implications |
+| [Extension Publishing](extension-publishing.md) | Packaging and distribution expectations |
+| [Configuration / Secrets](configuration-secrets.md) | S2 config attention points |
+| [Observability](observability.md) | Available signals and gaps |
+| [Rollback / Recovery](rollback-recovery.md) | Artifact, schema, and downstream recovery |
