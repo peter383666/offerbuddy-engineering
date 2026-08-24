@@ -7,8 +7,8 @@ This folder is not a second copy of architecture/design.
 | Document | Purpose |
 | --- | --- |
 | [Sprint Plan](sprint-plan.md) | Approved implementation plan |
-| Implementation Status | Final capability status — _pending Agent closeout_ |
-| Implementation Reconciliation | Planned vs implemented deltas — _pending Agent closeout_ |
+| [Implementation Status](implementation-status.md) | Final capability status |
+| [Implementation Reconciliation](implementation-reconciliation.md) | Planned vs implemented deltas |
 | Sprint Review | _pending_ |
 | Retrospective | _pending_ |
 | Known Limitations | _pending_ |
