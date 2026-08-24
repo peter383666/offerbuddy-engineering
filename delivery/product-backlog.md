@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document records product work that is not committed to a sprint and routes approved scope to its authoritative sprint requirements. Engineering debt is maintained separately in the [Sprint 1 Technical Debt Register](sprint-1-technical-debt.md).
+This document records product work that is not committed to a sprint and routes approved scope to its authoritative sprint requirements. Engineering debt is maintained separately in the [Sprint 1 Technical Debt Register](s1/technical-debt.md).
 
 An item becomes sprint scope only after refinement, prioritisation, sizing, and an explicit sprint decision.
 
@@ -41,4 +41,4 @@ A live Gemini integration test remains conditional on `GOOGLE_API_KEY`; normal C
 
 ## Technical Follow-Up
 
-Refer to [Sprint 1 Technical Debt](sprint-1-technical-debt.md) for frontend automated tests, correlation IDs, secrets/backup hardening, observability, staging, job identity rules, and maintainability work. Those items are not product features and must compete transparently for sprint capacity.
+Refer to [Sprint 1 Technical Debt](s1/technical-debt.md) for frontend automated tests, correlation IDs, secrets/backup hardening, observability, staging, job identity rules, and maintainability work. Those items are not product features and must compete transparently for sprint capacity.

@@ -4,7 +4,7 @@ Living summary of what OfferBuddy currently includes.
 
 ## Status
 
-Sprint 2 implementation is complete in the application repository and is undergoing engineering-documentation wrap-up on `docs/sprint-2`. Until that branch merges to `main` and is tagged `engineering-s2`, treat this page as the working current-scope statement for documentation sync.
+Sprint 2 implementation is complete in the application repository. Engineering documentation closeout is complete on `docs/sprint-2` and pending merge to `main` with tag `engineering-s2`.
 
 ## Included
 

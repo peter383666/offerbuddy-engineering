@@ -35,7 +35,7 @@ Sprint 2 does not introduce Kafka, RabbitMQ, microservices, event sourcing, a CQ
 - Job Intelligence owns semantic Job analysis.
 - Analytics owns read-oriented derived views.
 - PostgreSQL remains the primary business-data and Analytics storage/query foundation.
-- Event representation, dispatch, persistence, ordering, durability, retry, recovery, and observability are refined by the [Sprint 2 Event Design](../design/s2/technical/event-design.md). Concrete implementation artifacts remain outside this ADR.
+- Event representation, dispatch, persistence, ordering, durability, retry, recovery, and observability are refined by the [Sprint 2 Event Design](../design/s2/technical/event-async-design.md). Concrete implementation artifacts remain outside this ADR.
 
 ## Consequences
 

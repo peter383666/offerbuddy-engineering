@@ -8,4 +8,4 @@ Living product documentation for OfferBuddy.
 | [Roadmap](roadmap.md) | Delivered sequence and current direction |
 | [Current Scope](current-scope.md) | What the product currently includes |
 
-Historical Sprint requirements live under [`delivery/s1/requirements`](../delivery/s1/requirements/) and [`delivery/s2/requirements`](../delivery/s2/requirements/).
+Historical Sprint requirements live under [`delivery/s1/requirements`](../delivery/s1/requirements/) and [`design/s2/requirements`](../design/s2/requirements/).

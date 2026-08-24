@@ -140,6 +140,8 @@ These systems are deliberately omitted from the deployed Sprint 1 context diagra
 
 ## Sprint 2 Architecture Evolution
 
+> Historical note (Sprint 1 archive): this frozen copy still describes Sprint 2 as future work. For the current system, see [Living System Context](../../../architecture/system-context.md) and [Sprint 2 Architecture Overview](../../../architecture/s2/architecture-overview.md).
+
 Sprint 2 Phase 2 Architecture Design is approved but not yet implemented. It adds the OfferBuddy Browser Extension as a client, Site Adapters for SEEK and Indeed, backend ingestion, Business Events, downstream Job Intelligence, and read-oriented Analytics while retaining the modular monolith, PostgreSQL, Google OIDC Web authentication, and existing production deployment baseline.
 
-The authoritative target context and responsibility boundaries are maintained in the [Sprint 2 Architecture Design](../../s2/architecture/architecture-design.md). This section does not change the historical Sprint 1 diagram above.
+The authoritative target context and responsibility boundaries are maintained in the [Sprint 2 Architecture Design](../../../architecture/s2/architecture-overview.md). This section does not change the historical Sprint 1 diagram above.

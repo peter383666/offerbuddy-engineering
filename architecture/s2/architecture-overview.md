@@ -285,7 +285,7 @@ The architectural dependency direction is:
 
 > Upstream business modules publish facts; downstream modules react to facts.
 
-Business Events allow Job Intelligence and Analytics to evolve without adding synchronous dependencies to the Application core path. The completed Phase 3 design refines this boundary: domain mutation and durable event persistence share one short PostgreSQL transaction, while dispatch and handling occur after commit. See [Event Design](../technical-design/event-design.md). Exact event classes and implementation artifacts remain private-repository concerns.
+Business Events allow Job Intelligence and Analytics to evolve without adding synchronous dependencies to the Application core path. The completed Phase 3 design refines this boundary: domain mutation and durable event persistence share one short PostgreSQL transaction, while dispatch and handling occur after commit. See [Event Design](../../design/s2/technical/event-async-design.md). Exact event classes and implementation artifacts remain private-repository concerns.
 
 Sprint 2 does not introduce Kafka, RabbitMQ, microservices, event sourcing, a CQRS framework, mandatory DLQ infrastructure, or exactly-once distributed messaging.
 
@@ -312,7 +312,7 @@ It does not own Job identity, Application lifecycle, authentication, ownership, 
 
 AI failure does not block core Application tracking. AI provider credentials remain backend-only and are never placed in the Browser Extension or React Web application.
 
-The completed [Job Intelligence Design](../technical-design/job-intelligence-design.md) defines provider boundaries, structured validation, asynchronous execution, retry/idempotency, and persistence intent. Exact prompts, provider configuration, classes, and concurrency implementation remain private-repository concerns.
+The completed [Job Intelligence Design](../../design/s2/technical/job-intelligence-design.md) defines provider boundaries, structured validation, asynchronous execution, retry/idempotency, and persistence intent. Exact prompts, provider configuration, classes, and concurrency implementation remain private-repository concerns.
 
 ## Analytics Architecture
 
@@ -344,7 +344,7 @@ Analytics is eventually consistent. Analytics failure never rolls back a success
 
 PostgreSQL is the primary storage/query foundation. Sprint 2 does not require a data warehouse, daily/monthly aggregate infrastructure, or Redis caching for Home/Analytics. Redis is not an Analytics source of truth.
 
-The completed [Analytics Design](../technical-design/analytics-design.md) defines projection derivation, idempotent event handling, rebuild/reconciliation, reads, and failure isolation. Exact schema, queries, DTOs, endpoints, and processor implementation remain Database/API/private-repository concerns.
+The completed [Analytics Design](../../design/s2/technical/analytics-design.md) defines projection derivation, idempotent event handling, rebuild/reconciliation, reads, and failure isolation. Exact schema, queries, DTOs, endpoints, and processor implementation remain Database/API/private-repository concerns.
 
 ## Authentication Architecture
 

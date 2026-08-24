@@ -121,6 +121,8 @@ Browser Extension and Analytics were not part of the deployed Sprint 1 design sh
 
 ## Sprint 2 Architecture Evolution
 
+> Historical note (Sprint 1 archive): this frozen copy still describes Sprint 2 as future work. For the current system, see [Living Container Design](../../../architecture/container-design.md) and [Sprint 2 Architecture Overview](../../../architecture/s2/architecture-overview.md).
+
 Sprint 2 Phase 2 Architecture Design is approved but not yet implemented. The Browser Extension becomes a separately delivered OfferBuddy client. Extension ingestion, Business Events, Job Intelligence, and Analytics remain logical boundaries within the Spring Boot modular monolith; they do not become separate backend containers or microservices.
 
-PostgreSQL remains the primary persistence/query foundation. Redis remains inactive for Sprint 2 Home/Analytics. See the [Sprint 2 Architecture Design](../../s2/architecture/architecture-design.md) for the target container/module view and approved interaction flows.
+PostgreSQL remains the primary persistence/query foundation. Redis remains inactive for Sprint 2 Home/Analytics. See the [Sprint 2 Architecture Design](../../../architecture/s2/architecture-overview.md) for the target container/module view and approved interaction flows.

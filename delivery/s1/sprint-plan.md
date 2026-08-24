@@ -205,5 +205,5 @@ Implementation and production hardening are complete. The final tag/GitHub Relea
 * [Sprint 1 Review](sprint-review.md) — what Sprint 1 delivered and the acceptance result
 * [Sprint 1 Retrospective](retrospective.md) — how delivery went and what was learned
 * [Product Backlog](../product-backlog.md) — work not committed to the current sprint
-* [API Design](../architecture/api-design.md)
-* [Data Model](../architecture/data-model.md)
+* [API Design](../../architecture/api-design.md)
+* [Data Model](../../architecture/data-model.md)

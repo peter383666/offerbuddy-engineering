@@ -8,7 +8,7 @@
 | Section | 3.4 — Database |
 | Status | Completed and approved |
 | Implementation status | Implemented via Flyway V3–V9; living model in architecture/data-model.md |
-| Sprint 1 baseline | [Sprint 1 Data Model](../../architecture/data-model.md) |
+| Sprint 1 baseline | [Sprint 1 Data Model](../../../architecture/data-model.md) |
 
 ## Purpose
 
@@ -34,7 +34,7 @@ Verified facts that Sprint 2 preserves:
 - current Application status only, including the legacy `NO_RESPONSE` value;
 - no foreign keys from the Application UUID references in Sprint 1.
 
-The [Sprint 1 Data Model](../../architecture/data-model.md) remains the authoritative description of what is deployed today.
+The [Sprint 1 Data Model](../../../architecture/data-model.md) remains the authoritative description of what is deployed today.
 
 ## Target Data Areas
 

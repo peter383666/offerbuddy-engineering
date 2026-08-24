@@ -47,14 +47,14 @@ The exclusions in the [Sprint 2 Requirements](../../design/s2/requirements/s2-sc
 - **Objective:** Provide the primary low-friction capture workflow on supported SEEK and Indeed job contexts.
 - **Outcomes:** Chrome MV3 extension; isolated SEEK and Indeed adapters; deterministic fact extraction; SPA, side-panel, and stale-context handling; explicit save action; compact approved UI states; credential isolation from page execution; safe failure when extraction is unreliable.
 - **Dependencies:** Agreed Extension API contracts and final UI assets/specification. Adapter work can begin against fixtures while backend ingestion is built.
-- **Sources:** [Extension Design](../../design/s2/technical/extension-design.md), [Backend API Design](../../design/s2/technical/backend-api-design.md), [Final UI/UX Specification](<../../design/s2/ui-ux/OfferBuddy S2 — UI UX Page Specification v2.0 — Final.md>), [ADR-009](../../decisions/ADR-009-browser-extension-site-adapters.md).
+- **Sources:** [Extension Design](../../design/s2/technical/extension-design.md), [Backend API Design](../../design/s2/technical/api-design.md), [Final UI/UX Specification](<../../design/s2/ui-ux/OfferBuddy S2 — UI UX Page Specification v2.0 — Final.md>), [ADR-009](../../decisions/ADR-009-browser-extension-site-adapters.md).
 
 ## Extension Authentication and Backend Ingestion
 
 - **Objective:** Safely connect the Extension to an OfferBuddy user and turn validated captures into an idempotent tracking outcome.
 - **Outcomes:** Pairing create/approve/exchange, current-user and revoke operations; finite-lived revocable Extension credentials; `POST /api/v1/extension/applications`; stable validation/error responses; server-derived ownership; duplicate response through `alreadyTracked`; no synchronous AI or Analytics dependency.
 - **Dependencies:** Existing Web session authentication, Job/Application service boundaries, and database uniqueness/concurrency protection.
-- **Sources:** [Backend API Design](../../design/s2/technical/backend-api-design.md), [Backend / Service Design](../../design/s2/technical/backend-service-design.md), [Sprint 2 Architecture](../../architecture/s2/architecture-overview.md).
+- **Sources:** [Backend API Design](../../design/s2/technical/api-design.md), [Backend / Service Design](../../design/s2/technical/backend-service-design.md), [Sprint 2 Architecture](../../architecture/s2/architecture-overview.md).
 
 ## Job and Application Core
 
@@ -75,14 +75,14 @@ The exclusions in the [Sprint 2 Requirements](../../design/s2/requirements/s2-sc
 - **Objective:** Decouple non-critical work from Core using lightweight, durable processing inside the modular monolith.
 - **Outcomes:** Transactional persistence of Business Events; bounded claim/process/outcome phases; at-least-once-tolerant handlers; bounded retry; abandoned-claim recovery; visible failure and lag; no external calls or long-held locks in Core transactions.
 - **Dependencies:** Core event production and `business_events` persistence. Job Intelligence and Analytics processors can then proceed independently.
-- **Sources:** [Event Design](../../design/s2/technical/event-design.md), [ADR-010](../../decisions/ADR-010-lightweight-business-events.md), [Sprint 2 Architecture](../../architecture/s2/architecture-overview.md).
+- **Sources:** [Event Design](../../design/s2/technical/event-async-design.md), [ADR-010](../../decisions/ADR-010-lightweight-business-events.md), [Sprint 2 Architecture](../../architecture/s2/architecture-overview.md).
 
 ## Job Intelligence
 
 - **Objective:** Enrich persisted Jobs asynchronously without affecting Application creation.
 - **Outcomes:** Job-snapshot processing through the existing provider-abstraction principle; validated concise summary, responsibilities, requirements, and skills; versioned analysis attempts and coherent results; bounded transient retry; controlled missing-description, malformed-output, provider-failure, and terminal-failure states.
 - **Dependencies:** Durable event processing, Job snapshots, analysis persistence, and backend-only provider configuration. It is independent of Analytics and the Core response after event production exists.
-- **Sources:** [Job Intelligence Design](../../design/s2/technical/job-intelligence-design.md), [Event Design](../../design/s2/technical/event-design.md), [ADR-003](../../decisions/ADR-003-ai-assisted-job-extraction.md), [ADR-004](../../decisions/ADR-004-ai-provider-abstraction.md).
+- **Sources:** [Job Intelligence Design](../../design/s2/technical/job-intelligence-design.md), [Event Design](../../design/s2/technical/event-async-design.md), [ADR-003](../../decisions/ADR-003-ai-assisted-job-extraction.md), [ADR-004](../../decisions/ADR-004-ai-provider-abstraction.md).
 
 ## Application Analytics
 
@@ -96,7 +96,7 @@ The exclusions in the [Sprint 2 Requirements](../../design/s2/requirements/s2-sc
 - **Objective:** Integrate S2 capabilities into one coherent Web experience while keeping the Extension primary and New Application secondary.
 - **Outcomes:** Shared navigation/branding; revised Home and Applications surfaces; Application Detail with lifecycle history and pending/unavailable/failed Intelligence states; secondary manual/URL-prefill New Application; compact Analytics page; responsive and accessible loading, empty, error, and populated states matching final Figma/specification.
 - **Dependencies:** Implemented API contracts and representative UI states. Static shell/state work can proceed in parallel; final integration follows stable APIs.
-- **Sources:** [Final UI/UX Specification v2.0](<../../design/s2/ui-ux/OfferBuddy S2 — UI UX Page Specification v2.0 — Final.md>), [Backend API Design](../../design/s2/technical/backend-api-design.md). The conflicting `../../design/s2/ui-ux/v1` material is a watch item below, not an implementation authority for this plan.
+- **Sources:** [Final UI/UX Specification v2.0](<../../design/s2/ui-ux/OfferBuddy S2 — UI UX Page Specification v2.0 — Final.md>), [Backend API Design](../../design/s2/technical/api-design.md). The conflicting `../../design/s2/ui-ux/v1` material is a watch item below, not an implementation authority for this plan.
 
 ## Quality, Integration, and Release
 

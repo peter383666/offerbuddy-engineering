@@ -6,18 +6,32 @@ Application source code lives in the separate [OfferBuddy source repository](htt
 
 ## Current Release
 
-Sprint 2 documentation closeout is in progress on `docs/sprint-2`.
+Sprint 2 documentation closeout is complete on branch `docs/sprint-2` and pending merge to `main` + tag `engineering-s2`.
 
 Production: [offerbuddy.io](https://offerbuddy.io)
 
+Start here for the current product: [Current Scope](product/current-scope.md)
+
 ## Reading Path
+
+Follow this path for a complete Sprint 2 engineering story:
+
+1. [Product Vision](product/product-vision.md)
+2. [Current Scope](product/current-scope.md) / [Roadmap](product/roadmap.md)
+3. [Sprint 2 Delivery Overview](delivery/s2/README.md)
+4. [Sprint 2 Architecture](architecture/s2/README.md)
+5. [Sprint 2 Technical Design](design/s2/technical/README.md)
+6. [ADR Index](decisions/README.md)
+7. [Testing Strategy](quality/testing-strategy.md) / [Sprint 2 Quality](quality/s2/README.md)
+8. [Sprint 2 Review](delivery/s2/sprint-review.md)
+9. [Release Notes](delivery/s2/release-notes.md)
 
 ```text
 Product Vision
    ↓
 Current Scope / Roadmap
    ↓
-Sprint 2 Overview (delivery/s2)
+Sprint 2 Delivery Overview
    ↓
 Architecture
    ↓
@@ -84,6 +98,11 @@ Release Notes
 - [Sprint 0](delivery/s0/README.md)
 - [Sprint 1](delivery/s1/README.md)
 - [Sprint 2](delivery/s2/README.md)
+  - [Implementation Status](delivery/s2/implementation-status.md)
+  - [Reconciliation](delivery/s2/implementation-reconciliation.md)
+  - [Review](delivery/s2/sprint-review.md)
+  - [Retrospective](delivery/s2/retrospective.md)
+  - [Release Notes](delivery/s2/release-notes.md)
 
 ### Technology
 

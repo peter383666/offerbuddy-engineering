@@ -484,6 +484,6 @@ Section 3.2 does not introduce:
 - [Extension Design](extension-design.md)
 - [Sprint 2 Requirements](../requirements/s2-scope.md)
 - [Sprint 2 Architecture Design](../../../architecture/s2/architecture-overview.md)
-- [Sprint 1 API Design](../../architecture/api-design.md)
+- [Sprint 1 API Design](../../../architecture/api-design.md)
 - [ADR-002 — Google Authentication](../../../decisions/ADR-002-google-authentication.md)
 - [ADR-009 — Browser Extension Site Adapters](../../../decisions/ADR-009-browser-extension-site-adapters.md)

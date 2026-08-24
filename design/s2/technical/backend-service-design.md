@@ -430,7 +430,7 @@ Entitlement remains only a capability seam in Section 3.3.
 - [Extension Design](extension-design.md)
 - [Sprint 2 Requirements](../requirements/s2-scope.md)
 - [Sprint 2 Architecture Design](../../../architecture/s2/architecture-overview.md)
-- [Sprint 1 Data Model](../../architecture/data-model.md)
+- [Sprint 1 Data Model](../../../architecture/data-model.md)
 - [Sprint 2 Database Design](database-design.md)
 - [Event Design](event-async-design.md)
 - [Job Intelligence Design](job-intelligence-design.md)

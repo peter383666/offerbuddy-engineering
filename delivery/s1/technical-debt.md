@@ -152,7 +152,7 @@ Application and job JSON use:
 - `requirements`
 
 **Engineering contract**  
-[`architecture/openapi.yaml`](../architecture/openapi.yaml) and examples in [`architecture/api-design.md`](../architecture/api-design.md) still describe:
+[`architecture/openapi.yaml`](../../architecture/openapi.yaml) and examples in [`architecture/api-design.md`](../../architecture/api-design.md) still describe:
 
 - `whatYoullDo`
 - `whatWereLookingFor`
@@ -190,7 +190,7 @@ Creating a second application for the same `(user_id, job_id)` fails with:
 - enforced by unique constraint `uk_job_applications_user_job` and service handling of concurrent UK violations
 
 **Engineering contract**  
-[`architecture/api-design.md`](../architecture/api-design.md) §11.7 states Sprint 1 does **not** reject possible duplicates with `409`, and reserves soft warnings for a future contract.
+[`architecture/api-design.md`](../../architecture/api-design.md) §11.7 states Sprint 1 does **not** reject possible duplicates with `409`, and reserves soft warnings for a future contract.
 
 **Why it matters**  
 Frontend and API consumers following the design doc will not handle the real failure mode.
@@ -519,7 +519,7 @@ Recommended order for turning debt into issues (not committed scope):
 
 - [Sprint 1 Planning](sprint-plan.md)
 - [Product Backlog](../product-backlog.md)
-- [API Design](../architecture/api-design.md)
-- [Data Model](../architecture/data-model.md)
+- [API Design](../../architecture/api-design.md)
+- [Data Model](../../architecture/data-model.md)
 - [Testing Strategy](../../quality/testing-strategy.md)
 - [Definition of Done](../../quality/definition-of-done.md)
