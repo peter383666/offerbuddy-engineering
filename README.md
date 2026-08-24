@@ -1,107 +1,131 @@
 # OfferBuddy Engineering
 
-OfferBuddy is a job application tracking web application. It helps a signed-in user capture a job opportunity, review AI-extracted job information, create an application, and track that application through its current status.
+Production-oriented engineering documentation for OfferBuddy.
 
-The project is a real production application and a portfolio engineering project. It demonstrates delivery and operation of a focused product; it is not presented as a mature SaaS platform.
+Application source code lives in the separate [OfferBuddy source repository](https://github.com/peter383666/offerbuddy).
 
-Application source code is maintained in the separate [OfferBuddy source repository](https://github.com/peter383666/offerbuddy).
+## Current Release
 
-## Current Status
+Sprint 2 engineering documentation is released on `main` as tag `engineering-s2`.
 
-Sprint 1 is complete and deployed at [offerbuddy.io](https://offerbuddy.io).
+Production: [offerbuddy.io](https://offerbuddy.io)
 
-The final Sprint 1 release tag is intentionally created after the documentation and sprint-closing work is complete.
+Start here for the current product: [Current Scope](product/current-scope.md)
 
-## Sprint 1 Capabilities
+## Reading Path
 
-- Google sign-in using OAuth 2.0/OpenID Connect
-- Server-managed authenticated sessions and user-level data isolation
-- Manual application creation
-- AI-assisted extraction of job details from a submitted URL
-- Review and correction of extracted data before saving
-- Application list with search, status filtering, sorting, and pagination
-- Application detail, edit, status update, and delete flows
-- Home page with application capture and recent applications
-- PostgreSQL persistence managed by Flyway migrations
-- HTTPS production deployment with independent frontend and backend CI/CD
+Follow this path for a complete Sprint 2 engineering story:
 
-Analytics, browser extension capture, resume generation, cover-letter generation, and interview tooling are not Sprint 1 capabilities.
-
-## Technology Stack
-
-| Area | Implemented Technology |
-| --- | --- |
-| Frontend | React, TypeScript, Vite |
-| Backend | Java 21, Spring Boot, Spring Web, Spring Security, Spring Data JPA |
-| Database | PostgreSQL 17, Flyway |
-| Authentication | Google OAuth 2.0/OpenID Connect, Spring Security server session |
-| AI integration | Google Gemini behind application-owned parsing interfaces |
-| Infrastructure | AWS EC2, Docker Compose, host Nginx, HTTPS/Certbot |
-| CI/CD | GitHub Actions, GHCR backend images, immutable frontend build artifacts |
-| Backend testing | JUnit 5, Spring Boot Test, Mockito, Testcontainers |
-| Frontend validation | ESLint, TypeScript compilation, production build |
-
-Redis is present in the local and production Compose definitions but is not used by Sprint 1 application logic, session storage, or caching. It is retained for possible later session/cache-related needs.
-
-## Architecture Overview
+1. [Product Vision](product/product-vision.md)
+2. [Current Scope](product/current-scope.md) / [Roadmap](product/roadmap.md)
+3. [Sprint 2 Delivery Overview](delivery/s2/README.md)
+4. [Sprint 2 Architecture](architecture/s2/README.md)
+5. [Sprint 2 Technical Design](design/s2/technical/README.md)
+6. [ADR Index](decisions/README.md)
+7. [Testing Strategy](quality/testing-strategy.md) / [Sprint 2 Quality](quality/s2/README.md)
+8. [Sprint 2 Review](delivery/s2/sprint-review.md)
+9. [Release Notes](delivery/s2/release-notes.md)
 
 ```text
-Browser
-  |
-  | HTTPS
-  v
-Host Nginx on AWS EC2
-  |-- serves the React build
-  |-- proxies /api and OAuth routes
-  v
-Spring Boot API container
-  |-- Google OIDC
-  |-- Gemini job parsing
-  v
-PostgreSQL container and persistent volume
+Product Vision
+   ↓
+Current Scope / Roadmap
+   ↓
+Sprint 2 Delivery Overview
+   ↓
+Architecture
+   ↓
+Technical Design
+   ↓
+Key ADRs
+   ↓
+Testing / Quality
+   ↓
+Sprint Review
+   ↓
+Release Notes
 ```
 
-Nginx, the backend, PostgreSQL, and the reserved Redis container run on one EC2 host. Docker Compose manages the application containers; Nginx runs on the host and terminates TLS.
+## Portal
 
-See [System Context](architecture/system-context.md), [Container Design](architecture/container-design.md), and [Data Model](architecture/data-model.md) for the detailed view.
+### Product
 
-## Engineering Highlights
+- [Product Vision](product/product-vision.md)
+- [Current Scope](product/current-scope.md)
+- [Roadmap](product/roadmap.md)
+- [MVP Scope (S1)](product/mvp-scope.md)
+- [User Stories (S1)](product/user-stories.md)
+- [Product Backlog](delivery/product-backlog.md)
 
-- Versioned REST API with an implementation-aligned OpenAPI contract
-- Modular-monolith backend with explicit application, job, parsing, authentication, and user boundaries
-- Automated backend service, controller, security, persistence, OpenAPI, and integration testing
-- Path-filtered frontend and backend CI workflows
-- Build-once deployment of immutable SHA-identified images and frontend artifacts
-- Manual production deployment of an explicit verified SHA
-- PostgreSQL backup plus restore verification
-- Docker restart and EC2 reboot/recovery verification
-- Health checks, production smoke tests, and known-good-SHA rollback capability
+### Architecture
 
-## Documentation Map
+- [Architecture Index](architecture/README.md)
+- [System Context](architecture/system-context.md)
+- [Container Design](architecture/container-design.md)
+- [Data Model](architecture/data-model.md)
+- [API Design](architecture/api-design.md)
+- [Sprint 2 Architecture](architecture/s2/README.md)
 
-| Area | Start Here |
+### Design (Sprint 2)
+
+- [Design Index](design/s2/README.md)
+- [Requirements](design/s2/requirements/README.md)
+- [Technical Design](design/s2/technical/README.md)
+- [UI/UX](design/s2/ui-ux/README.md)
+
+### Decisions
+
+- [ADR Index](decisions/README.md)
+- [Sprint 2 ADRs](decisions/s2/README.md)
+
+### Quality
+
+- [Testing Strategy](quality/testing-strategy.md)
+- [Non-Functional Requirements](quality/non-functional-requirements.md)
+- [Definition of Done](quality/definition-of-done.md)
+- [Sprint 2 Quality](quality/s2/README.md)
+
+### Operations
+
+- [Documentation Governance](operations/documentation-governance.md)
+- [Development Workflow](operations/development-workflow.md)
+- [Deployment Strategy](operations/deployment-strategy.md)
+- [Production Runbook](operations/production-runbook.md)
+- [Sprint 2 Operations](operations/s2/README.md)
+
+### Delivery
+
+- [Sprint 0](delivery/s0/README.md)
+- [Sprint 1](delivery/s1/README.md)
+- [Sprint 2](delivery/s2/README.md)
+  - [Implementation Status](delivery/s2/implementation-status.md)
+  - [Reconciliation](delivery/s2/implementation-reconciliation.md)
+  - [Review](delivery/s2/sprint-review.md)
+  - [Retrospective](delivery/s2/retrospective.md)
+  - [Release Notes](delivery/s2/release-notes.md)
+
+### Technology
+
+- [Technology Stack](technology/tech-stack.md)
+
+## Documentation Model
+
+| Layer | Answers |
 | --- | --- |
-| Product | [Product Vision](product/product-vision.md), [Sprint 1 Scope](product/mvp-scope.md), [Sprint 1 User Stories](product/user-stories.md), [Sprint 2 Requirements](product/sprint-2-requirements.md) |
-| Technology | [Technology Stack](technology/tech-stack.md) |
-| Architecture | [Sprint 2 Architecture Design](architecture/sprint-2-architecture-design.md), [Sprint 1 System Context](architecture/system-context.md), [Sprint 1 Container Design](architecture/container-design.md), [Data Model](architecture/data-model.md), [API Design](architecture/api-design.md) |
-| Design | [Sprint 2 Technical Design Index](design/sprint-2/README.md) — Sections 3.1–3.8 |
-| Decisions | [ADR Index](decisions/README.md) |
-| Quality | [Testing Strategy](quality/testing-strategy.md), [Non-Functional Requirements](quality/non-functional-requirements.md), [Definition of Done](quality/definition-of-done.md) |
-| Operations | [Development Workflow](operations/development-workflow.md), [Deployment Strategy](operations/deployment-strategy.md), [Production Runbook](operations/production-runbook.md), [PostgreSQL Backup and Restore](operations/postgresql-backup-and-restore.md) |
-| Delivery | [Roadmap](delivery/roadmap.md), [Sprint 1 Plan](delivery/sprint-1.md), [Sprint 1 Review](delivery/sprint-1-review.md), [Sprint 1 Retrospective](delivery/sprint-1-retrospective.md), [Sprint 1 Technical Debt](delivery/sprint-1-technical-debt.md) |
+| Architecture | Why is the system shaped this way? |
+| Technical Design | How was the sprint specified to work? |
+| ADR | Why was an important choice made? |
+| Delivery Evidence | What was delivered and released? |
 
-## Roadmap
-
-Sprint 2 Phase 1 Requirement Analysis and Phase 2 Architecture Design are complete and approved; Sprint 2 functionality is not yet represented as delivered. The Browser Extension is the primary feature, initially supporting SEEK and Indeed, while basic Application Analytics is secondary. The approved architecture retains the Spring Boot modular monolith and PostgreSQL, separates page-fact capture from backend Job Intelligence, and uses lightweight Business Events so downstream AI and Analytics do not block core Application operations.
-
-See the authoritative [Sprint 2 Requirements](product/sprint-2-requirements.md), [Sprint 2 Architecture Design](architecture/sprint-2-architecture-design.md), [Delivery Roadmap](delivery/roadmap.md), and [Product Backlog](delivery/product-backlog.md).
+Governance: [Documentation Governance](operations/documentation-governance.md)
 
 ## Release History
 
 | Version | Description |
 | --- | --- |
-| `engineering-v0.1` | Product and initial MVP architecture documentation established |
-| Sprint 1 tag pending | Created only after documentation and sprint closure |
+| `engineering-v0.1` | Initial engineering documentation |
+| `engineering-v0.2` | Sprint 1 documentation baseline |
+| `engineering-s2` | Sprint 2 documentation closeout snapshot |
 
 ## License
 

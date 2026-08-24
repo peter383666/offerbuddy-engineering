@@ -69,6 +69,6 @@ The Sprint 2 requirement-level principle is **fast capture, asynchronous enrichm
 - eligibility screening helps users review possible citizenship, residency, clearance, working-rights, and visa restrictions without making absolute automated decisions;
 - basic Application Analytics is a secondary capability.
 
-Sprint 2 Phase 1 Requirement Analysis is approved, but these capabilities are not described as delivered Sprint 1 functionality. Detailed scope and exclusions are defined in the [Sprint 2 Requirements](sprint-2-requirements.md).
+Sprint 2 Phase 1 Requirement Analysis is approved, but these capabilities are not described as delivered Sprint 1 functionality. Detailed scope and exclusions are defined in the [Sprint 2 Requirements](../design/s2/requirements/s2-scope.md).
 
 Cover Letter generation, resume tailoring, candidate/Job match scoring, Auto Apply, LinkedIn support, and broader job-page assistance remain future ideas rather than Sprint 2 scope.

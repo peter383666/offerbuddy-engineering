@@ -2,7 +2,9 @@
 
 ## Purpose
 
-This document describes the testing and automated validation that exists at the end of Sprint 1. Test quantity alone is not treated as evidence of quality; coverage is evaluated against risks and behaviours.
+This document describes the testing and automated validation that exists for the current OfferBuddy system after Sprint 2. Test quantity alone is not treated as evidence of quality; coverage is evaluated against risks and behaviours.
+
+Sprint 2-specific checklists and gates live under [`quality/s2/`](s2/README.md).
 
 ## Backend Test Layers
 
@@ -18,11 +20,13 @@ Service tests use JUnit 5, Mockito, and focused in-memory stores to exercise bus
 
 Covered behaviour includes:
 
-- application creation, validation, initial `APPLIED` status, and duplicate rejection
+- application creation, validation, initial `APPLIED` status, create-or-reuse, and duplicate behaviour
 - application listing, pagination input, filtering, sorting, detail, update, status update, and deletion
-- job find-or-create behaviour used by application creation
+- job find-or-create / selective refresh behaviour
 - user creation and lookup
 - parsing orchestration and failure mapping
+- Extension request validation and ingestion orchestration where unit-tested
+- Analytics derivation helpers such as no-response classification
 
 ### Controller and API Tests
 
@@ -30,7 +34,9 @@ MockMvc tests exercise the HTTP boundary for:
 
 - current user
 - job parsing
-- application create/list/detail/update/status/delete
+- application create/list/detail/update/status/delete/history/intelligence
+- Extension pairing/track endpoints where covered
+- Analytics dashboard reads
 - request validation
 - pagination and query parameters
 - HTTP response status and JSON shape
@@ -46,27 +52,30 @@ Security-specific tests cover:
 - local user mapping during login
 - unauthenticated API `401` behaviour
 - protected endpoints
-- CSRF requirements on state-changing requests
+- CSRF requirements on state-changing Web requests
 - logout and session invalidation
+- Extension credential authentication paths
 - authorised current-user access
 
-Ownership is also tested through user-scoped application behaviour.
+Ownership is also tested through user-scoped application and analytics behaviour.
 
-### Repository and Transaction Integration Tests
+### Repository, Events, and Transaction Integration Tests
 
 Testcontainers starts PostgreSQL 17 for persistence tests. These verify behaviour that an in-memory substitute would not represent reliably:
 
-- Flyway schema application
+- Flyway schema application including Sprint 2 migrations
 - user repository persistence and identity uniqueness
-- application persistence and list queries
+- application persistence, history, and list queries
 - filters, ordering, and pagination against PostgreSQL
 - duplicate constraints
-- job/application creation in one transaction
-- rollback without leaving an orphan job
+- job/application creation with Business Event persistence
+- Business Event claim/process/retry behaviour
+- Job Intelligence and Analytics persistence/projection paths
+- rollback without leaving orphan Core/event state
 
 ### OpenAPI Tests
 
-The generated springdoc contract is checked for the implemented routes and the session-cookie and CSRF security schemes. Swagger UI availability is tested in the non-production configuration while protected application APIs remain authenticated.
+The generated springdoc contract is checked for implemented routes and the session-cookie and CSRF security schemes. Swagger UI availability is tested in the non-production configuration while protected application APIs remain authenticated.
 
 Production disables springdoc API docs and Swagger UI.
 
@@ -79,6 +88,7 @@ Automated offline tests cover:
 - parsing orchestration
 - valid, missing, malformed, and provider-error JSON
 - Gemini client configuration, timeout, and error mapping
+- Job Intelligence structured-output validation
 - controller responses for parsing failures
 
 A live Gemini integration test exists but is conditional. It runs only when `GOOGLE_API_KEY` is supplied and is skipped in normal offline CI. CI passing therefore does not prove current external-provider availability or model behaviour.
@@ -99,17 +109,28 @@ npm run build
 
 The build includes TypeScript compilation and Vite's production build. On `main` and `release` pushes, CI uploads the resulting immutable `dist` artifact.
 
-Sprint 1 does not have frontend unit, component, or end-to-end automated tests. ESLint, type checking, and a successful build are useful controls but do not prove runtime UI behaviour.
+Frontend Vitest component/page tests exist for key Sprint 2 surfaces (Home extension discovery, Analytics, Job Intelligence section, and related flows). They are executed locally / via precheck and are **not yet a Frontend CI gate**.
 
-Critical user journeys were verified manually in production:
+Critical journeys still require manual verification for OAuth, Nginx, and live Extension/site behaviour.
 
-- Google login/logout
-- application capture and creation
-- list/search/filter/pagination
-- detail and update
-- frontend/backend deployment and smoke checks
+## Browser Extension Validation
 
-Frontend automated testing remains technical debt.
+The Extension package provides:
+
+```text
+npm test
+npm run verify   # tests + production build
+```
+
+There is no dedicated Extension GitHub Actions workflow at Sprint 2 closeout. See [Extension Validation](s2/extension-validation.md).
+
+## Local Precheck
+
+Repository scripts `scripts/precheck.ps1` / `scripts/precheck.sh` mirror the main local verify path:
+
+- frontend lint + build
+- extension verify
+- backend `mvn clean verify`
 
 ## CI Versus Integration Verification
 
@@ -117,68 +138,32 @@ A passing CI run confirms that the source at that commit passed the configured a
 
 - Google production OAuth configuration
 - EC2/Nginx routing and HTTPS
-- job-site accessibility
+- current SEEK/Indeed page compatibility
 - Gemini availability
 - deployment success
 - production data persistence and recovery
-- complete browser behaviour
+- complete browser Extension behaviour
 
 Release-candidate verification and production smoke testing remain separate delivery steps.
 
 ## Known Gaps
 
-- no frontend unit/component suite
-- no browser end-to-end automation
+- Frontend Vitest not gated in Frontend CI
+- no dedicated Extension CI workflow
+- no browser end-to-end automation against live SEEK/Indeed
 - live Gemini test skipped without an API key
-- incomplete generated OpenAPI error-response annotations
+- incomplete generated OpenAPI error-response annotations in places
 - no automated performance/load test
 - no automated EC2 recovery or database restore schedule
-- no request/correlation IDs in error responses
+- limited request/correlation ID coverage
 
-## Sprint 2 Technical Design Test Boundaries
+## Sprint 2 Verification Map
 
-The following are approved future test responsibilities from Sprint 2 Phase 3. They are not claims about tests or implementation that currently exist.
-
-### Browser Extension
-
-- independent SEEK and Indeed adapter extraction fixtures
-- SPA navigation, side-panel replacement, and meaningful DOM-change handling
-- coalescing repeated mutations without duplicate tracking
-- stale-context clearing and safe failure for unsupported or changed pages
-- credential isolation from page execution and authentication-expiry behaviour
-
-### Backend Ingestion and Core
-
-- server-derived ownership and unauthenticated/unauthorised outcomes
-- canonical Job reuse by source platform and external Job identifier
-- selective refresh without null incoming fields erasing known facts
-- create-if-absent tracking and preservation of an existing Application status
-- concurrent Job/Application ingestion with database uniqueness as final protection
-- atomic Job, Application, initial status history, and Business Event persistence
-
-### Events
-
-- rollback leaves neither the domain mutation nor its event partially committed
-- dispatcher claim/restart recovery and bounded retry
-- duplicate delivery and handler idempotency
-- visible terminal failure after retry exhaustion
-- downstream failure does not change a successful Core result
-
-### Job Intelligence
-
-- persisted Job snapshot input and structured-output validation
-- missing, malformed, provider-error, timeout, and bounded-retry outcomes
-- attempt/version history and duplicate-event behaviour
-- provider work remains outside the Core transaction
-- Application tracking remains successful while AI is unavailable
-
-### Analytics
-
-- idempotent projection convergence under duplicate/out-of-order delivery
-- incremental projection and full rebuild produce equivalent reliable facts
-- milestone booleans do not fabricate unknown legacy timestamps
-- `NO_RESPONSE` remains derived and does not create a lifecycle transition
-- authenticated user ownership is resolved server-side
-- Analytics failure or lag does not affect Core Application mutations
-
-Flyway integration tests must apply the real forward migrations to PostgreSQL and verify preservation/backfill rules. No fake Sprint 2 test files are created by the documentation phase.
+| Area | Proof |
+| --- | --- |
+| Extension adapters / lifecycle / boundaries | Extension Vitest + manual current-site checks |
+| Pairing / Track / ownership | Backend tests + manual pairing/save |
+| Business Events | Backend integration tests |
+| Job Intelligence | Backend tests + Detail UI states |
+| Analytics | Backend + frontend tests + manual smoke |
+| Release readiness | [Release Quality Gate](s2/release-quality-gate.md) |

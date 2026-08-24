@@ -89,6 +89,8 @@ A pull request should include:
 
 Documentation-only changes should be committed separately from production-code cleanup when practical.
 
+Engineering documentation branching, Sprint archives, and release tagging follow [Documentation Governance](documentation-governance.md).
+
 ## CI Is a Gate, Not the Release Decision
 
 CI verifies the configured build, tests, lint, and artifact generation for one commit. Integration verification and production verification remain explicit responsibilities because OAuth, Nginx, EC2, external job sites, Gemini, and persistent data cross boundaries not proven by ordinary CI.

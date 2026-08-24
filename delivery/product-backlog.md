@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document records product work that is not committed to a sprint and routes approved scope to its authoritative sprint requirements. Engineering debt is maintained separately in the [Sprint 1 Technical Debt Register](sprint-1-technical-debt.md).
+This document records product work that is not committed to a sprint and routes approved scope to its authoritative sprint requirements. Engineering debt is maintained separately in the [Sprint 1 Technical Debt Register](s1/technical-debt.md).
 
 An item becomes sprint scope only after refinement, prioritisation, sizing, and an explicit sprint decision.
 
@@ -10,7 +10,7 @@ An item becomes sprint scope only after refinement, prioritisation, sizing, and 
 
 Sprint 2 Phase 1 Requirement Analysis is complete and approved. The Browser Extension, SEEK and Indeed Job Capture, eligibility screening, Job Intelligence, non-blocking AI enrichment, fallback AI URL parsing, and basic Application Analytics are no longer unrefined backlog candidates.
 
-Their authoritative scope, priorities, exclusions, failure expectations, non-functional requirements, and deferred decisions are maintained in the [Sprint 2 Requirements](../product/sprint-2-requirements.md). Sprint 2 functionality is not yet represented as delivered.
+Their authoritative scope, priorities, exclusions, failure expectations, non-functional requirements, and deferred decisions are maintained in the [Sprint 2 Requirements](../design/s2/requirements/s2-scope.md). Sprint 2 functionality is recorded as implemented in the application repository and is undergoing documentation wrap-up on `docs/sprint-2`.
 
 Architecture, technical implementation, detailed UI/UX, extension authentication, event implementation, AI execution, and additional recruitment platforms remain deferred to later phases rather than open Requirement Analysis work.
 
@@ -41,4 +41,4 @@ A live Gemini integration test remains conditional on `GOOGLE_API_KEY`; normal C
 
 ## Technical Follow-Up
 
-Refer to [Sprint 1 Technical Debt](sprint-1-technical-debt.md) for frontend automated tests, correlation IDs, secrets/backup hardening, observability, staging, job identity rules, and maintainability work. Those items are not product features and must compete transparently for sprint capacity.
+Refer to [Sprint 1 Technical Debt](s1/technical-debt.md) for frontend automated tests, correlation IDs, secrets/backup hardening, observability, staging, job identity rules, and maintainability work. Those items are not product features and must compete transparently for sprint capacity.
