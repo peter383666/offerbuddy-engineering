@@ -9,7 +9,7 @@ Technical design answers: **how the frozen Sprint 3 architecture is implemented 
 | Resume and Cover Letter artefacts | [Artefact Design](artefact-design.md) | Frozen |
 | Extension integration | [Extension Design](extension-design.md) | Frozen |
 | AI platform and Admin governance | [AI Platform and Admin Design](ai-platform-admin-design.md) | Frozen |
-| Database | `database-design.md` | Pending publication |
+| Database | [Database Design](database-design.md) | Frozen |
 | Events and asynchronous processing | `event-async-design.md` | Pending publication |
 | Security, privacy and AI data boundaries | `security-privacy-design.md` | Pending publication |
 | Concurrency, idempotency and consistency | `consistency-design.md` | Pending publication |
