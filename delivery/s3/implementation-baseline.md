@@ -86,11 +86,11 @@ S3 implementation must not introduce Auto Apply, crawler-based job ingestion, AT
 - Extension platform support is currently SEEK/Indeed only; LinkedIn is a new adapter within the existing contract.
 - S3 business modules and API surfaces do not yet exist, as expected at this baseline.
 
-### Design contradictions requiring resolution
+### Reconciled design findings
 
-1. Phase 3 treats generated Tailored Resume content as immutable, while `S3-UI-04` specifies limited editing, saving, and artefact OCC.
-2. Phase 3 limits sponsor administration to validated official-dataset import, while `S3-UI-18` specifies create/edit/delete-or-disable CRUD over a working dataset.
-3. Earlier Extension design uses backend/Redis sponsor lookup, while the approved page specifications require published-snapshot sync and local negative-path lookup.
-4. Page specifications refer to a frozen Phase 3 API contract, but the available §3.17 source is an outline rather than a completed endpoint/DTO/error contract.
+- Frozen §3.17 defines Tailored Resume generation, limited editing, revision behaviour, and artefact OCC. Generated revisions remain immutable records; approved editing produces the frozen revision/update outcome rather than mutating historical provenance.
+- Sponsor Admin create/edit/delete-or-disable actions are limited operational management of the working/import dataset before validation and publication. They do not bypass the frozen publish lifecycle or provide unrestricted mutation of the published canonical dataset.
+- Sponsor lookup uses layered responsibilities: the published backend dataset remains authoritative, Redis holds the active representation, and the Extension refreshes a versioned local snapshot for page-time lookup. The snapshot is not a second source of truth.
+- Phase 3 §3.17 is complete and frozen and governs endpoint, DTO, error, OCC, idempotency, and async polling semantics.
 
-The reuse and scope baseline is stable and ready for review. Step 2 planning is **not fully ready** for Resume editing, sponsor delivery, or API-dependent slices until the four contradictions above are resolved. Unaffected baseline work must still wait for explicit Step 2 instruction.
+The reuse and scope baseline is stable. The earlier Tailored Resume, Sponsor Admin, Sponsor Extension, and API-contract findings are compatible clarifications resolved by the frozen Phase 3 baseline and the [Dependency, Vertical Slice, and Migration Plan](dependency-and-migration-plan.md); no genuine baseline blocker remains.
