@@ -15,7 +15,7 @@ This unit turns the [Step 1 baseline](implementation-baseline.md) into capabilit
 | `business_events`, leases, retry, and handler registry | Reuse V7; extend contracts/metadata | Resume Import, Job Intelligence, Match, Resume, Cover Letter |
 | AI capability ports, router, runtime configuration, and execution metadata | New over the existing Gemini integration | All S3 AI work; RuoYi configuration and monitoring |
 | Generation identity, provenance, artefact heads, and staleness policy | New S3 consistency foundation | Match, Resume, Cover Letter |
-| Request/correlation logging and safe diagnostics | Extend S2; schema delta pending | HTTP, events, workers, AI, Admin |
+| Request/correlation logging and safe diagnostics | Extend S2; add durable event correlation | HTTP, events, workers, AI, Admin |
 | Site Adapter, service-worker messaging, companion, and extension credentials | Reuse S2; extend | LinkedIn, sponsor snapshot, SEEK cover-letter assistance |
 | RuoYi shell, RBAC, database/Redis connectivity, and deployment | Reuse S2 | Sponsor administration and AI operations |
 
@@ -59,7 +59,7 @@ flowchart TD
 | Resume Import | Candidate persistence; AI extraction port; events | Hard | Draft review may start against contracts, but acceptance requires Candidate OCC |
 | Preparation context | Candidate projection; Job projection/current intelligence | Hard | Composition UI and commands require both domain read contracts |
 | Match | Preparation, Candidate/Job provenance, AI runtime, generation coordination | Hard | Do not build as an isolated provider call |
-| Tailored Resume | Current Match contract, Candidate/Job provenance, AI runtime, storage/rendering boundary | Hard | Generation and review form one business slice; edit behaviour remains blocked |
+| Tailored Resume | Current Match contract, Candidate/Job provenance, AI runtime, storage/rendering boundary | Hard | Generation and limited editing follow frozen §3.17.7; generation revision and artefact OCC remain distinct |
 | Focused Cover Letter | Current Match contract and AI runtime | Hard | Can integrate independently from Resume unless an approved flow explicitly passes Resume context |
 | Application Detail | Preparation summary contract | Contract/integration | Existing page work may use a stubbed contract; final verification needs Preparation |
 | LinkedIn adapter | Existing Site Adapter contract | Hard | Can be implemented and fixture-tested without Preparation backend |
@@ -96,11 +96,11 @@ flowchart TD
 
 ## Material dependency risks
 
-- An incomplete API contract creates shared mutable-contract risk across every client and blocks reliable contract-parallel work.
+- Frozen §3.17 is the contract dependency for HTTP status, errors, OCC, idempotency, and async resource polling; client work must not redefine it locally.
 - Preparation must not import Application services or persistence; Application Detail consumes a Preparation summary in the opposite direction.
 - Candidate/Job version semantics must land before downstream artefact persistence, or provenance will require rework.
 - Generation coordination is shared by Match/Resume/Cover Letter; implementing three local variants would create incompatible idempotency and recency rules.
-- Sponsor publication/local lookup and Tailored Resume mutability remain unresolved design contradictions from Step 1.
+- Sponsor Admin CRUD and sponsor lookup transport remain unresolved where approved UI behaviour conflicts with the earlier frozen Admin/Extension design.
 - S3 changes to existing Application and Extension paths carry direct S2 regression coupling and require additive integration.
 
 ## Flyway baseline and compatibility
@@ -115,23 +115,25 @@ Later Phase 3 decisions added concurrency and generation persistence after the o
 
 | Order | Proposed migration group | Purpose and dependency | Blocks / verification |
 | --- | --- | --- | --- |
-| `V10` | S3 shared revisions | Add `job_applications.version`, `jobs.content_version`, and Job Intelligence source-version metadata | Blocks existing aggregate OCC and provenance; verify existing rows initialise safely and S2 APIs still read/write |
+| `V10` | S3 shared revisions | Add `job_applications.version`, `jobs.content_version`, Job Intelligence source-version metadata, and `business_events.correlation_id` with an appropriate operational index | Blocks existing aggregate OCC, provenance, and durable async correlation; verify existing rows initialise safely and S2 APIs/events still operate |
 | `V11` | Candidate Profile | Candidate root, child facts, constraints, indexes, and `profile_version` | Blocks Candidate and all derived slices; verify one profile per user and aggregate constraints |
 | `V12` | Resume Import | Import operation and draft staging tables | Blocks import slice; verify draft lifecycle, Candidate FK/delete policy, and idempotent acceptance constraints |
 | `V13` | Preparation and Match | Preparation uniqueness, generation operations, artefact heads, Match root/children, source provenance, and unique generation/version bindings | Blocks Match and downstream artefacts; verify concurrent reservation, current-head monotonicity, and stale-source storage |
-| `V14` | Resume artefacts | Base/Tailored Resume documents, sections/evidence, asset/export metadata, indexes and provenance | Blocks Resume slice; final mutable-content/OCC columns depend on design resolution |
+| `V14` | Resume artefacts | Base/Tailored Resume documents, sections/evidence, asset/export metadata, provenance, generation `resume_version`, and independent mutable-artefact OCC `version` | Blocks Resume slice; verify generated revisions coexist while limited user edits update only the selected artefact |
 | `V15` | Cover Letter artefacts | Cover Letter, evidence, asset/export metadata, generation binding and provenance | Blocks Cover Letter; verify generated/user content rules and current-success queries |
 | `V16` | AI platform | Providers, models, capability config/version, execution metadata, and safe config audit | Blocks runtime Admin and production AI routing; verify compatibility and no plaintext secret storage |
-| `V17` | AI capability bootstrap | Seed stable capability identifiers only | Blocks enabled runtime configuration; seed disabled/safe defaults and remain environment-neutral |
+| `V17` | Persistent AI capability bootstrap | Seed only OfferBuddy-owned stable capability identities/config shells | Blocks enabled runtime configuration; use disabled/safe defaults and do not seed provider, model, pricing, or secret data |
 | Pending resolution | Sponsor dataset/publication | Working data, aliases/import state, immutable published versions and snapshot metadata | Do not number or implement until CRUD/import and publication contract is resolved |
-| Pending resolution | Event correlation metadata | Potential `business_events.correlation_id` and index | Do not assign until the unfinished observability design makes its final schema decision |
 
 `business_events` remains the sole async lease/retry store; no `async_tasks`, processed-event ledger, or generic idempotency table is added. Freshness is derived from provenance, so no `is_stale` column or backfill is planned. Analytics and existing Job Intelligence child rows are not rewritten.
+
+`V17` is Flyway-managed because frozen §3.12 defines durable capability rows as stable OfferBuddy reference/configuration data. Runtime application registration still supplies executable capability handlers, while provider/model selection remains environment/Admin-managed operational data.
 
 ## Existing-data and deployment considerations
 
 - `job_applications.version` can be introduced with a uniform non-null initial value; clients transition additively before it becomes mandatory for all writes.
 - `jobs.content_version` can initialise existing rows to `1`; no attempt is made to reconstruct historical semantic revisions.
+- Existing V7 events do not need fabricated correlation backfill. The new correlation column remains legacy-nullable while all new correlated S3 workflows persist it across event creation, claim, retry, worker, and AI execution.
 - Candidate, Preparation, artefact, AI, and sponsor records have no S2 source data to backfill.
 - Existing V8 Job Intelligence rows require an explicit compatibility choice before V10: either map only provably current rows to the initial Job content version or retain them as legacy/stale until regeneration. Flyway must not call the provider, and the plan must not pretend historical semantic versions can be reconstructed.
 - Constraint introduction must be preceded by verification queries where existing data could violate a new invariant. Current Application and Job uniqueness constraints already exist.
@@ -143,4 +145,4 @@ For each group: apply Flyway from a clean database and an upgraded V9 database; 
 
 ## Step 2 readiness
 
-The dependency model and core V10–V17 migration order are ready for review. Backend planning can proceed only after the shared API contract is completed. Sponsor migration numbering, Tailored Resume mutable-state columns, and event correlation schema remain blocked by incomplete or contradictory frozen inputs; they are deliberately not resolved in this plan.
+The dependency model and V10–V17 migration order are ready for review against frozen §3.17. Tailored Resume editing and event correlation are reconciled implementation deltas, not blockers. Sponsor migration numbering remains blocked because Phase 3 forbids arbitrary employer editing and specifies backend/Redis lookup, while `S3-UI-18` requires working-dataset CRUD and Extension snapshot/local lookup. Step 2 does not choose between those frozen sources.
