@@ -7,7 +7,7 @@ Organised by reader intent, not by Phase 1/2/3 process order.
 | Area | Entry | Status |
 | --- | --- | --- |
 | Requirements | [requirements/](requirements/) | Frozen baseline published |
-| Technical Design | `technical/` | Pending publication |
+| Technical Design | [technical/](technical/) | Publication in progress |
 | UI/UX | `ui-ux/` | Pending publication |
 
 Source-of-truth order during implementation:
