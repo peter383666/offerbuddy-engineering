@@ -8,15 +8,15 @@ This unit fixes the Sprint 3 baseline before dependency mapping, migration seque
 
 | Input | Governs implementation |
 | --- | --- |
-| Frozen S3 requirements, including the final scope review | Product scope, acceptance boundary, and exclusions |
-| S3 Phase 2 architecture and final architecture review | Module ownership, dependency direction, runtime boundaries, and non-goals |
-| S3 Phase 3 technical design | Persistence, consistency, async, security, observability, and implementation structure |
-| S3 Phase 4 UI/UX and approved `S3-UI-01`–`S3-UI-20` page specifications | Surface behaviour, states, navigation, reuse, and frontend/backend mapping |
+| [Frozen S3 requirements and final scope review](../../design/s3/requirements/s3-scope.md) | Product scope, acceptance boundary, and exclusions |
+| [S3 Phase 2 architecture and final architecture review](../../architecture/s3/architecture-overview.md) | Module ownership, dependency direction, runtime boundaries, and non-goals |
+| [S3 Phase 3 technical design](../../design/s3/technical/README.md) | Persistence, consistency, async, security, observability, API contract, and implementation structure |
+| [S3 Phase 4 UI/UX](../../design/s3/ui-ux/README.md) and approved `S3-UI-01`–`S3-UI-20` page specifications | Surface behaviour, states, navigation, reuse, and frontend/backend mapping |
 | [`engineering-s2`](../../README.md#release-history) and the current `offerbuddy` source repository | Implemented reuse baseline and current behaviour |
 | [`operations/documentation-governance.md`](../../operations/documentation-governance.md) | Documentation source-of-truth and reconciliation rules |
 | [`quality/definition-of-done.md`](../../quality/definition-of-done.md) and [`operations/development-workflow.md`](../../operations/development-workflow.md) | Verification and delivery conventions |
 
-The S3 design records are currently maintained outside this repository and must be published into the S3 architecture, design, and UI/UX locations before implementation Issues rely on repository links. Until then, their frozen section identifiers and approved page-specification IDs are controlling references.
+The frozen S3 requirements, architecture, technical design/API contract, and approved UI/UX specifications are published in this repository. Implementation Issues must link these governed copies rather than the external working records.
 
 ## Existing S2 reuse baseline
 

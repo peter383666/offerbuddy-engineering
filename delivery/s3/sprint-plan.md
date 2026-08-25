@@ -103,7 +103,7 @@ Sprint 3 is done when:
 - Sponsor freshness spans publication, Redis activation, snapshot refresh, and local lookup; version visibility and invalidation must prevent a second source of truth.
 - V10–V18 is a dense migration sequence; numbering reservation, clean/upgrade tests, and immutable merged scripts are mandatory.
 - Shared Web, Extension, Admin, event, security, and configuration files are conflict-prone; use the single-owner checkpoints in the coordination plan.
-- S3 source design records remain outside this repository at planning time. Publish them into governed S3 architecture/design/UI locations before implementation Issues depend on repository links.
+- Implementation Issues must link the governed S3 requirements, architecture, technical design/API contract, and UI/UX copies now published in this repository; external working records are not implementation authorities.
 
 # Sprint Backlog and Delivery Handoff
 
