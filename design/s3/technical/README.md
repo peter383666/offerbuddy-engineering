@@ -12,7 +12,7 @@ Technical design answers: **how the frozen Sprint 3 architecture is implemented 
 | Database | [Database Design](database-design.md) | Frozen |
 | Events and asynchronous processing | [Event and Async Design](event-async-design.md) | Frozen |
 | Security, privacy and AI data boundaries | [Security and Privacy Design](security-privacy-design.md) | Frozen |
-| Concurrency, idempotency and consistency | `consistency-design.md` | Pending publication |
+| Concurrency, idempotency and consistency | [Consistency Design](consistency-design.md) | Frozen |
 | Observability, audit and diagnostics | `observability-design.md` | Pending publication |
 | API and contract | `api-contract.md` | Pending publication |
 | Implementation structure | `implementation-structure.md` | Pending publication |
