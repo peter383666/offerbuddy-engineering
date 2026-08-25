@@ -1,15 +1,20 @@
 # Sprint 3 — GitHub Issue Backlog (Two-Agent Parallel Delivery)
 
-**Status:** PROPOSED — awaiting review before GitHub Issue creation  
-**Planning IDs:** `S3-F01` … `S3-I01` (temporary; not GitHub numbers)  
-**Target Milestone:** `Sprint 3` (create on Issue creation)  
-**Target Project:** `OfferBuddy Delivery`  
-**Git workflow:** `main` → `feature/<issue#>-kebab` → PR / CI / review → `main`  
-**Authoritative sources:** frozen S3 requirements / architecture / Phase 3 (§3.17 API, §3.15 concurrency, §3.13 events) / Phase 4 `S3-UI-01`–`20` / Phase 5 delivery units
+**Status:** APPROVED — Final Documentation Review passed; ready for GitHub Issue creation
+
+**Planning IDs:** `S3-F01` … `S3-I01` (temporary; not GitHub numbers)
+
+**Target Milestone:** `Sprint 3` (create on Issue creation)
+
+**Target Project:** `OfferBuddy Delivery`
+
+**Git workflow:** `main` → `feature/<issue#>-kebab` → PR / CI / review → `main`
+
+**Authoritative sources:** [frozen requirements](../../design/s3/requirements/s3-scope.md) / [architecture](../../architecture/s3/architecture-overview.md) / [Phase 3 technical design](../../design/s3/technical/README.md), including the [§3.17 API contract](../../design/s3/technical/api-contract.md) / [Phase 4 `S3-UI-01`–`20`](../../design/s3/ui-ux/README.md) / Phase 5 delivery units
 
 This document expands [Delivery Units and Two-Agent Coordination](delivery-coordination-plan.md) into Issue-ready definitions optimised for **two coding agents on two computers**.
 
-**Do not create GitHub Issues, branches, or product code from this document until it is reviewed and approved.**
+This backlog is approved as Issue-creation input. Issue creation, branches, and product implementation remain separate authorised actions.
 
 ---
 
@@ -356,7 +361,7 @@ Tests live **inside** the feature Issue. Happy path alone is insufficient for st
 | Field | Content |
 | --- | --- |
 | **Goal** | User can generate and review an explainable Match for a Preparation (`S3-UI-01`). |
-| **Scope** | Match generate/read/regenerate under Preparation; async 202 + poll; grounded strengths/gaps/unclear; provenance versions; Web Match decision UI. Match optional for later Resume per frozen 3.13 preference; required for Cover Letter. |
+| **Scope** | Match generate/read/regenerate under Preparation; async 202 + poll; grounded strengths/gaps/unclear; provenance versions; Web Match decision UI. A current `READY` Match for the same Candidate/Job source revisions is required by frozen §3.17.7–§3.17.8 before Tailored Resume or Focused Cover Letter generation. |
 | **Reuse** | P01 context; F02 Match capability; events. |
 | **Dependencies** | `S3-P01`, `S3-F02` (and V13 Match tables if deferred from P01 — complete under P01 ownership). |
 | **Workstream** | Workstream A |
@@ -414,8 +419,8 @@ Tests live **inside** the feature Issue. Happy path alone is insufficient for st
 | --- | --- |
 | **Goal** | User can create/review/edit (limited) a Tailored Resume for a Job (`S3-UI-02`–`04`) with provenance and artefact OCC. |
 | **Scope** | Async generation; Base selection/preview integration; limited edit + OCC `version` distinct from generation revision; stale display; regenerate. Cannot invent facts. |
-| **Reuse** | R01 storage + merged V14 schema; P02 Match optional context; F02 resume capability. |
-| **Dependencies** | `S3-R01` (V14 merged), `S3-P02` (or P01+Candidate+JI if Match optional path exercised), `S3-F02`. |
+| **Reuse** | R01 storage + merged V14 schema; P02 current Match contract; F02 resume capability. |
+| **Dependencies** | `S3-R01` (V14 merged), `S3-P02`, `S3-F02`. Tailored Resume generation must not bypass the current-Match precondition in frozen §3.17.7. |
 | **Workstream** | Workstream A |
 | **Code ownership** | Tailored resume services/UI against the **already-merged V14** tables. |
 | **Parallel safety** | Safe with: `S3-L01` after shared generation contract stable. Risk: **MEDIUM**. |
@@ -427,6 +432,7 @@ Tests live **inside** the feature Issue. Happy path alone is insufficient for st
 
 **Acceptance criteria**
 
+- [ ] Generation rejects a missing, stale, non-`READY`, or source-mismatched Match according to frozen §3.17.7
 - [ ] Generation persists provenance source versions
 - [ ] Limited edits update artefact OCC only; do not rewrite provenance falsely
 - [ ] Stale tailored resume viewable but marked stale; regenerate creates new revision
@@ -918,18 +924,18 @@ Map planning ID → GitHub number in this file after creation (add a crosswalk t
 
 ---
 
-## 12. Unresolved blockers / watch items
+## 12. Resolved findings and delivery watch items
 
 | Item | Status | Action before/at Issue creation |
 | --- | --- | --- |
-| Publish frozen design into `offerbuddy-engineering/architecture/s3` & `design/s3` | Open (docs may still cite JOBREVIEWNOTE paths) | Prefer repo links in Issues; temporary external § IDs acceptable per baseline |
+| Publish frozen design into `offerbuddy-engineering/architecture/s3` & `design/s3` | Complete | Use governed repository links in every Issue; external working records are not implementation authorities |
 | Create GitHub Milestone `Sprint 3` | Not created | Create with Issue batch |
 | Object storage + product Redis credentials in prod-like env | Config watch | Stub in F02/R01/S01; finalise in I01 |
-| Match optional vs required for Tailored Resume (3.8 vs 3.13) | Prefer **3.13** (Match optional for Resume; required for CL) | State explicitly in P02/R02 Issue bodies |
+| Match dependency for Tailored Resume | Resolved by frozen §3.17.7: current `READY` Match is required | Enforce in P02/R02 Issue acceptance criteria and API tests |
 | V13 Match tables in P01 vs P02 | **P01 owns V13 file**; P02 must not create competing migration | Call out in P01/P02 |
 | F02 V16/V17 vs early parallel with C01 V11 | Timing rule recorded | F02 runtime first; V16/V17 only when sequence allows |
 
-None of these block **backlog approval**. They should be resolved or explicitly accepted when creating Issues.
+No design blocker remains. The outstanding Milestone/environment/migration-order items are delivery controls to complete at the stated Issue or integration boundary.
 
 ---
 
@@ -950,9 +956,9 @@ None of these block **backlog approval**. They should be resolved or explicitly 
 | Final integration Issue present | Yes (`I01`) |
 | Granularity: coherent PR units, not micro/mega | Yes (20 units) |
 
-### READY FOR GITHUB ISSUE CREATION: **YES** (after human review of this document)
+### READY FOR GITHUB ISSUE CREATION: **YES**
 
-**Next step when approved:** create Milestone `Sprint 3`, create 20 Issues from this backlog, add to Project `OfferBuddy Delivery`, write ID↔number crosswalk, then start Wave 0 (`S3-F01`) from `main`.
+**Next authorised delivery step:** create Milestone `Sprint 3`, create 20 Issues from this backlog, add them to Project `OfferBuddy Delivery`, write the ID↔number crosswalk, then start Wave 0 (`S3-F01`) from `main`.
 
 ---
 

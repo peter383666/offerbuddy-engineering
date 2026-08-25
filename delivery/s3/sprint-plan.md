@@ -5,7 +5,7 @@
 | Item | Value |
 | --- | --- |
 | Sprint | Sprint 3 |
-| Status | Implementation planning complete; ready for final review and Issue creation |
+| Status | Final Documentation Review passed; implementation planning frozen and ready for Issue creation |
 | Primary capability | Candidate-aware Focused Application Preparation while preserving the Sprint 2 Fast Path |
 | Planning branch | `docs/sprint-3` |
 
