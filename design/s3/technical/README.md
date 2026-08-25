@@ -11,7 +11,7 @@ Technical design answers: **how the frozen Sprint 3 architecture is implemented 
 | AI platform and Admin governance | [AI Platform and Admin Design](ai-platform-admin-design.md) | Frozen |
 | Database | [Database Design](database-design.md) | Frozen |
 | Events and asynchronous processing | [Event and Async Design](event-async-design.md) | Frozen |
-| Security, privacy and AI data boundaries | `security-privacy-design.md` | Pending publication |
+| Security, privacy and AI data boundaries | [Security and Privacy Design](security-privacy-design.md) | Frozen |
 | Concurrency, idempotency and consistency | `consistency-design.md` | Pending publication |
 | Observability, audit and diagnostics | `observability-design.md` | Pending publication |
 | API and contract | `api-contract.md` | Pending publication |
