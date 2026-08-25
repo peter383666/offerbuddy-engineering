@@ -212,7 +212,7 @@ Captured input
 
 The boundary provides safe outcomes for successful ingestion, duplicate Application attempts, authentication failure, invalid or unsupported captured data, and backend failure.
 
-The client is not authoritative for ownership, duplicate rules, Job reuse, or Application creation rules. Exact API paths, DTOs, validation annotations, and error-code implementation are deferred to Phase 3.
+The client is not authoritative for ownership, duplicate rules, Job reuse, or Application creation rules. Exact API paths and DTO shapes live in [API Design](../../design/s2/technical/api-design.md) and the application repository.
 
 ## Job and Application Domain Boundary
 
@@ -361,7 +361,7 @@ Web -> Web Session -----------------------> authenticated OfferBuddy user
 Extension -> Extension Credential Boundary -> authenticated OfferBuddy user
 ```
 
-The exact Extension credential mechanism is deferred to Phase 3. Phase 2 does not select JWT refresh infrastructure, an OAuth Authorization Server, Keycloak, Auth0, opaque-token schema, or credential table.
+Extension credentials are finite-lived, revocable tokens established through Web↔Extension pairing (create / approve / exchange). They are not a second Google OIDC login inside the Extension and do not replace the Web session.
 
 Extension credentials remain within privileged Extension execution context such as the Service Worker/API-client boundary. They must not be intentionally exposed to the page DOM, injected page scripts, page-local storage, or untrusted webpage execution context.
 
@@ -420,19 +420,19 @@ The approved backend architecture remains compatible with the current single-hos
 - Redis remains inactive for S2 Analytics/Home;
 - the external AI provider is accessed from the backend only.
 
-The Browser Extension adds a separately delivered client artifact. Exact browser-store distribution, packaging, version compatibility, and release workflow are deferred to Phase 3 and delivery design. No new backend runtime or microservice is introduced.
+The Browser Extension adds a separately delivered client artifact. Chrome Web Store listing and GitHub Actions Extension Publish are recorded under [Extension Publishing](../../operations/s2/extension-publishing.md). No new backend runtime or microservice is introduced.
 
 ## Repository Alignment Gaps
 
-The approved architecture intentionally leads the current Sprint 1 implementation in these areas:
+Historical Phase 2 notes (retained for audit). Sprint 2 closeout treats these as **closed in the application repository**:
 
-1. The current data model stores only current Application status and has no lifecycle/history model. Lifecycle/conversion Analytics requires a historical source in Phase 3 Technical/Data Design.
-2. The current backend has no Business Event, Job Intelligence, or Analytics module. These are approved S2 boundaries, not existing implementation claims.
-3. The current production system has no Browser Extension artifact or Extension credential mechanism. Phase 3 must define both without replacing existing Web session behaviour.
-4. Sprint 1 AI URL parsing combines server-side acquisition and semantic extraction synchronously. S2 keeps it as fallback while the new preferred capture path separates page facts from Job Intelligence.
-5. Redis exists in Compose but is not used. S2 confirms that it remains unnecessary for Home/Analytics.
+1. Application status history and lifecycle Analytics sources are implemented (Flyway V3+).
+2. Business Events, Job Intelligence, and Analytics modules are implemented.
+3. Browser Extension artifact, pairing credentials, Chrome Web Store listing, and Publish workflow exist.
+4. Preferred capture path separates page facts from async Job Intelligence; AI URL parsing remains fallback.
+5. Redis remains present but unused for S2 Home/Analytics.
 
-These gaps require later implementation alignment; they are not resolved by inventing Phase 3 details in this document.
+See [Implementation Status](../../delivery/s2/implementation-status.md) and [Reconciliation](../../delivery/s2/implementation-reconciliation.md).
 
 ## Explicit Architectural Exclusions
 

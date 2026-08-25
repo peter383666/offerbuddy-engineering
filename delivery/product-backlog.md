@@ -10,7 +10,7 @@ An item becomes sprint scope only after refinement, prioritisation, sizing, and 
 
 Sprint 2 Phase 1 Requirement Analysis is complete and approved. The Browser Extension, SEEK and Indeed Job Capture, eligibility screening, Job Intelligence, non-blocking AI enrichment, fallback AI URL parsing, and basic Application Analytics are no longer unrefined backlog candidates.
 
-Their authoritative scope, priorities, exclusions, failure expectations, non-functional requirements, and deferred decisions are maintained in the [Sprint 2 Requirements](../design/s2/requirements/s2-scope.md). Sprint 2 functionality is recorded as implemented in the application repository and is undergoing documentation wrap-up on `docs/sprint-2`.
+Their authoritative scope, priorities, exclusions, failure expectations, non-functional requirements, and deferred decisions are maintained in the [Sprint 2 Requirements](../design/s2/requirements/s2-scope.md). Sprint 2 functionality is recorded as implemented in the application repository (`v0.3.0`, Chrome Web Store listing live). Engineering documentation closeout is tagged `engineering-s2`.
 
 Architecture, technical implementation, detailed UI/UX, extension authentication, event implementation, AI execution, and additional recruitment platforms remain deferred to later phases rather than open Requirement Analysis work.
 

@@ -15,4 +15,6 @@ ADRs record decisions with meaningful alternatives and lasting architectural con
 | [ADR-009](ADR-009-browser-extension-site-adapters.md) | Use Browser Extension Site Adapters for primary Sprint 2 Job Capture | Accepted for Sprint 2 architecture |
 | [ADR-010](ADR-010-lightweight-business-events.md) | Use lightweight Business Events without a message broker | Accepted for Sprint 2 architecture |
 
-Release branch responsibilities are documented as a delivery/operations decision rather than an ADR. Redis retention is documented as current infrastructure state, not as an active application architecture decision.
+Sprint-scoped closeout ADRs: [`decisions/s2/`](s2/) (`ADR-S2-001` … `ADR-S2-005`).
+
+Redis retention is documented as current infrastructure state, not as an active application architecture decision.

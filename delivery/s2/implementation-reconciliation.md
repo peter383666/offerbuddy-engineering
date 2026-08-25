@@ -33,7 +33,7 @@ Source-of-truth order used here:
 
 Sprint 2's Core vertical is implemented: Extension capture for SEEK and Indeed, pairing, Track API, Job/Application core, Business Events, Job Intelligence, Analytics, and Web integration.
 
-The highest-priority documentation conflict is the **tracking model**: Final UI/UX v2.0 and Extension Design emphasise explicit **Save to OfferBuddy**, while `extension-application-tracking.md` and the shipped extension also implement confirmation-based automatic tracking. Code contains both paths.
+Tracking model closeout: Final UI/UX v2.0 and Extension Design emphasise explicit **Save to OfferBuddy** as the primary user action. Confirmation-based automatic tracking also shipped and is an **accepted secondary client path**. Both paths use the authenticated Track API. Private Extension README wording may still emphasise explicit Save only until optionally aligned.
 
 ## Reconciliation Matrix
 
@@ -41,8 +41,8 @@ The highest-priority documentation conflict is the **tracking model**: Final UI/
 | --- | --- | --- | --- | --- |
 | Extension platforms | SEEK + Indeed only | SEEK + Indeed adapters; LinkedIn rejected | None | Confirm; refresh “not started” banners |
 | Explicit Save | UI v2 / extension-design: explicit Save | Popup Save → Track API | None (for this path) | Keep as primary documented user action |
-| Automatic tracking | Tracking spec: confirm submission → auto track; uncertain → ask user | Lifecycle adapters + confirmed ingest + companion confirmation | Design delta | Choose authority: dual-path product, or explicit-only. Update extension-design, UI v2 notes, tracking spec, and extension README together |
-| Eligibility findings | Requirements list citizenship, PR, clearance, working rights, sponsorship | UI and extractors surface citizenship/PR only; tests assert other findings are not surfaced | Implementation detail vs requirements; None vs UI v2 handoff | Close handoff: S2 surfaces citizenship/PR only; mark broader findings deferred |
+| Automatic tracking | Tracking spec: confirm submission → auto track; uncertain → ask user | Lifecycle adapters + confirmed ingest + companion confirmation | Design delta (accepted) | Dual-path accepted for S2: explicit Save primary; confirmation ingest secondary; both use Track API |
+| Eligibility findings | Requirements list citizenship, PR, clearance, working rights, sponsorship | UI and extractors surface citizenship/PR only; tests assert other findings are not surfaced | Implementation detail vs requirements; None vs UI v2 handoff | Closed: S2 surfaces citizenship/PR only; broader findings deferred |
 | Pairing / credentials | Create → approve → exchange; revocable credential | Implemented end-to-end | None | Remove “mechanism deferred” language |
 | Track API | `alreadyTracked`; no sync AI/Analytics | Matches | None | Confirm |
 | Job identity / create-or-reuse / creation_source | Shared Job; WEB/EXTENSION | Matches (V3+) | None | Confirm |
@@ -56,9 +56,10 @@ The highest-priority documentation conflict is the **tracking model**: Final UI/
 | Application Detail intelligence | Pending / unavailable / failed / populated | Implemented including NOT_ANALYSED | None | Confirm naming in UI docs if needed |
 | New Application | Secondary manual + URL prefill | Retained | None | Confirm |
 | Admin | Not an S2 product deliverable | Separate admin stack exists for ops | None (scope) | Label Admin as non-S2 / ops |
-| CI completeness | Plan expects broad automated verification | Backend verify strong; frontend CI lint+build only; no extension workflow | Design delta | Record as known limitation / follow-up |
-| Living architecture status | Several docs still say S2 not implemented | Code implements S2 vertical | Doc action | Sync living architecture during Agent 3 |
+| CI completeness | Plan expects broad automated verification | Backend verify strong; Extension Publish on main; Extension CI + Frontend Vitest gate on follow-up branch | Design delta (closing) | Record follow-up until CI branch merges |
+| Living architecture status | Several docs still say S2 not implemented | Code implements S2 vertical | Doc action | Synced during closeout |
 | `ui-ux/v1/` | Earlier labeled final | Conflicts with v2.0 (Save model, Analytics ranges, NO_RESPONSE) | Superseded | Keep as historical; v2.0 remains UI authority |
+| Chrome Web Store | Release/ops activity | Listing live; Publish workflow on main | None | Recorded in release notes + extension-publishing |
 
 ## Confirmed Completed Capabilities
 
@@ -85,15 +86,13 @@ Matches requirements exclusions:
 - Large Analytics/BI expansion
 - Redis-backed S2 application behaviour
 
-## Open Decisions for Later Closeout Steps
+## Closeout Decisions (Resolved)
 
-These are documentation or follow-up decisions, not invitations to invent new S3 scope:
-
-1. **Tracking model authority** — document dual-path as accepted S2 behaviour, or treat auto-ingest as design drift to reconcile.
-2. **Eligibility contract** — formalise citizenship/PR-only for S2.
-3. **Legacy `NO_RESPONSE` status** — retain with derived Analytics, or plan migration.
-4. **CI gaps** — extension workflow and frontend test gate.
-5. **Living docs sync** — architecture, quality, operations, and ADR extraction (Agents 3–5).
+1. **Tracking model authority** — Dual-path accepted for S2: explicit **Save to OfferBuddy** is the primary documented user action; confirmation-based ingest is an accepted secondary client path. Both use the authenticated Track API.
+2. **Eligibility contract** — S2 surfaces citizenship / permanent-residency findings only; broader eligibility concepts remain deferred.
+3. **Legacy `NO_RESPONSE` status** — Retain persisted enum value for now; Analytics also derives no-response. Migration remains an engineering follow-up.
+4. **CI gaps** — Extension Publish is on application `main`. Extension CI + Frontend Vitest gate are on `review/s2-ci-followups` pending merge.
+5. **ADR extraction** — Sprint-scoped records live under [`decisions/s2/`](../../decisions/s2/).
 
 ## Related
 

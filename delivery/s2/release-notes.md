@@ -36,12 +36,22 @@ Users can record SEEK and Indeed Applications from a Chrome Manifest V3 Browser 
 
 - Deploy frontend and backend by explicit verified SHA as before
 - Ensure `GOOGLE_API_KEY` is configured where Intelligence / AI parsing should run
-- Extension users need the Sprint 2 Extension build loaded or published for capture features
+- Extension users install from the Chrome Web Store listing (or load a production `extension/dist` build for validation)
 - Core Application writes remain valid if Intelligence or Analytics lag
+- Extension store uploads go through application GitHub Actions **Extension Publish** (`upload` or `publish`); bump `manifest.json` version before each upload
+
+## Chrome Web Store
+
+| Item | Value |
+| --- | --- |
+| Listing | https://chromewebstore.google.com/detail/offerbuddy/ihdknldekiocanohajkgebmnhnneoeka |
+| Item ID | `ihdknldekiocanohajkgebmnhnneoeka` |
+| Published version at S2 app release | `0.1.24` |
+| Application release tag | `v0.3.0` |
 
 ## Documentation Snapshot
 
-Engineering documentation closeout lives on branch `docs/sprint-2` and is intended to merge to `main`, then tag `engineering-s2`.
+Engineering documentation closeout is merged to `main` and tagged `engineering-s2`. Post-tag sync covers store publication outcome, Extension Publish workflow, and Sprint-scoped ADR extraction (`decisions/s2/`).
 
 ## Related
 

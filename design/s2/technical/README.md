@@ -15,8 +15,8 @@ Exact private class names, selectors, and full source listings belong in the app
 | Job Intelligence | [job-intelligence-design.md](job-intelligence-design.md) |
 | Analytics | [analytics-design.md](analytics-design.md) |
 | Redis | [redis-design.md](redis-design.md) |
-| Authentication / Security | _pending closeout extraction_ |
-| Failure Handling | _pending closeout extraction_ |
+| Authentication / Security | See [Architecture Overview — Auth](../../../architecture/s2/architecture-overview.md#authentication-architecture) and [Extension Design](extension-design.md); no separate extract |
+| Failure Handling | See [Architecture Overview — Failure](../../../architecture/s2/architecture-overview.md#failure-and-consistency-boundaries) and capability designs; no separate extract |
 
 ## Related
 

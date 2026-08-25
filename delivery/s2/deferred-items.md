@@ -15,18 +15,23 @@ Work intentionally left out of Sprint 2 completion or deferred after closeout. I
 
 ## Engineering Follow-Ups
 
-- Dedicated Extension CI workflow
-- Frontend Vitest gate in Frontend CI
-- Optional alignment of private Extension README language with dual tracking paths
+- Merge Extension CI + Frontend Vitest CI gate (`review/s2-ci-followups`) to application `main`
 - Legacy `NO_RESPONSE` status migration vs long-term retention decision
 - Stronger request correlation / observability if revisit triggers are met
 - Staging environment and managed secret storage (carried from earlier debt themes)
+- Next Chrome Web Store package upload after bumping `manifest.json` above `0.1.24`
 
 ## Documentation Follow-Ups After Tag
 
-- Extract concise `decisions/s2/ADR-S2-*` records from accepted architecture choices where useful
-- Keep `ui-ux/v1/` clearly marked superseded
-- Record Chrome Web Store publication outcome in release notes when available
+Completed in post-tag sync:
+
+- Extract concise `decisions/s2/ADR-S2-*` records
+- Mark `ui-ux/v1/` superseded in-file
+- Record Chrome Web Store publication outcome in release notes
+
+Optional polish:
+
+- Expand Authentication / Security and Failure Handling extracts under `design/s2/technical/` if readers need more than architecture pointers
 
 ## Related
 

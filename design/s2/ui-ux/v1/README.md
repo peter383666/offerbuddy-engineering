@@ -1,23 +1,27 @@
-# OfferBuddy S2 UI/UX Specification
+# OfferBuddy S2 UI/UX Specification (v1 — superseded)
 
-Status: Final specification after Phase 4 UI/UX review\
-Scope: OfferBuddy Sprint 2 (S2)
+> **Superseded.** This `v1/` tree is historical. Implementation authority for Sprint 2 UI/UX is **Final UI/UX Specification v2.0** under [`design/s2/ui-ux/`](../). Do not treat this directory as the handoff for new work.
+
+Status: Superseded early specification (retained for history)\
+Scope: OfferBuddy Sprint 2 (S2) — superseded by v2.0
 
 ## 1. Purpose
 
-This directory is the implementation-facing UI/UX specification for
-OfferBuddy S2.
+This directory was an earlier implementation-facing UI/UX specification for
+OfferBuddy S2. It is kept for history where it conflicts with v2.0
+(especially Save vs confirmation tracking, Analytics ranges, and
+`NO_RESPONSE` handling).
 
 It complements the S2 Technical Design documents already stored under
 `design/s2/`.
 
 -   **Figma** is the visual source of truth.
--   **These specifications** are the behaviour, state, interaction,
+-   **v2.0 specifications** are the behaviour, state, interaction,
     responsive and accessibility source of truth.
 -   **The private code repository** implements the approved Figma and
-    these specifications.
+    v2.0 specifications.
 
-If a Figma frame and this specification appear inconsistent, resolve the
+If a Figma frame and the v2.0 specification appear inconsistent, resolve the
 inconsistency before implementation rather than inventing behaviour.
 
 ## 2. S2 Product Focus

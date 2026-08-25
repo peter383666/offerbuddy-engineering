@@ -54,7 +54,7 @@ The final Sprint 1 tag/release follows documentation approval and sprint closure
 
 **Phase 2 status:** Architecture Design completed and approved.
 
-**Delivery status:** Implemented in the application repository; engineering documentation closeout in progress on `docs/sprint-2`.
+**Delivery status:** Implemented in the application repository (`v0.3.0`); Chrome Web Store listing live; engineering documentation closeout tagged `engineering-s2`.
 
 See [Implementation Status](../delivery/s2/implementation-status.md) and [Implementation Reconciliation](../delivery/s2/implementation-reconciliation.md).
 
