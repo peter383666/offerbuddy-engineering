@@ -10,5 +10,6 @@ Living documentation for OfferBuddy's **current** system architecture.
 | [API Design](api-design.md) | Public API contract (living; Extension contracts detailed in design) |
 | [OpenAPI](openapi.yaml) | Machine-readable API description |
 | [Sprint 2 Architecture](s2/README.md) | S2 structural architecture set |
+| [Sprint 3 Architecture](s3/README.md) | Frozen S3 structural architecture baseline |
 
-Sprint design-time detail remains under [`design/s2/`](../design/s2/). Delivery evidence: [`delivery/s2/`](../delivery/s2/).
+Sprint design-time detail remains under [`design/`](../design/). Delivery evidence remains under [`delivery/`](../delivery/).
