@@ -65,6 +65,7 @@ Release Notes
 - [Data Model](architecture/data-model.md)
 - [API Design](architecture/api-design.md)
 - [Sprint 2 Architecture](architecture/s2/README.md)
+- [Sprint 3 Architecture](architecture/s3/README.md)
 
 ### Design (Sprint 2)
 
@@ -72,6 +73,13 @@ Release Notes
 - [Requirements](design/s2/requirements/README.md)
 - [Technical Design](design/s2/technical/README.md)
 - [UI/UX](design/s2/ui-ux/README.md)
+
+### Design (Sprint 3 — Planning Branch)
+
+- [Design Index](design/s3/README.md)
+- [Requirements](design/s3/requirements/README.md)
+- [Technical Design](design/s3/technical/README.md)
+- [UI/UX](design/s3/ui-ux/README.md)
 
 ### Decisions
 
@@ -103,6 +111,7 @@ Release Notes
   - [Review](delivery/s2/sprint-review.md)
   - [Retrospective](delivery/s2/retrospective.md)
   - [Release Notes](delivery/s2/release-notes.md)
+- [Sprint 3 Implementation Planning](delivery/s3/README.md)
 
 ### Technology
 
