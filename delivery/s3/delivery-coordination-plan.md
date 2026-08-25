@@ -110,3 +110,5 @@ Agents must inspect existing code before adding abstractions, preserve unrelated
 ## Coordination readiness
 
 The units are ready to become GitHub Issues in a later planning/action step. Before Issue creation, confirm the current source integration branch, assign one owner for each high-conflict foundation, and attach authoritative design/page-spec links. This document does not start implementation or allocate final machine ownership.
+
+Expanded Issue-ready definitions, execution waves, TDD/state verification requirements, and migration ownership are in [GitHub Issue Backlog (Two-Agent)](github-issue-backlog.md).

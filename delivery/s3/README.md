@@ -13,3 +13,4 @@ Sprint 3 delivery documentation converts the frozen S3 design into implementatio
 | 5.5 | [Client and Admin Integration Plan](client-admin-integration-plan.md) | Ready for review |
 | 5.6 | [Delivery Units and Two-Agent Coordination](delivery-coordination-plan.md) | Ready for review |
 | 5.7 | [Verification and Release Readiness](verification-release-readiness.md) | Ready for review |
+| Issue backlog | [GitHub Issue Backlog (Two-Agent)](github-issue-backlog.md) | Proposed — review before Issue creation |

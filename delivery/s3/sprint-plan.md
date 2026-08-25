@@ -121,6 +121,8 @@ Frozen S3 baseline
 
 Issue creation is a later delivery action. Each Issue should map to one delivery unit (or a justified smaller split), state its prerequisites, link frozen acceptance criteria, select verification gates, and name any shared-file owner. It must not copy entire Phase 3 or Phase 4 specifications.
 
+The proposed GitHub backlog for two-agent parallel delivery is [github-issue-backlog.md](github-issue-backlog.md).
+
 The Engineering documentation lifecycle follows the established convention: work on `docs/sprint-3`, complete final documentation review, merge to `main`, then tag the merged commit as `engineering-s3`. Tagging before review/merge is not part of the release process.
 
 ---
