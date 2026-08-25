@@ -6,7 +6,7 @@ Technical design answers: **how the frozen Sprint 3 architecture is implemented 
 | --- | --- | --- |
 | Baseline, modules, Candidate and Resume Import | [Candidate and Import Design](candidate-and-import-design.md) | Frozen |
 | Job Intelligence, Match and Preparation | [Preparation Design](preparation-design.md) | Frozen |
-| Resume and Cover Letter artefacts | `artefact-design.md` | Pending publication |
+| Resume and Cover Letter artefacts | [Artefact Design](artefact-design.md) | Frozen |
 | Extension integration | `extension-design.md` | Pending publication |
 | AI platform and Admin governance | `ai-platform-admin-design.md` | Pending publication |
 | Database | `database-design.md` | Pending publication |
