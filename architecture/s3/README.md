@@ -10,6 +10,6 @@ The overview publishes the conclusions of the Phase 2 final architecture review.
 
 Requirements: [`design/s3/requirements/`](../../design/s3/requirements/).
 
-Technical contracts: `design/s3/technical/` (pending publication).
+Technical contracts: [`design/s3/technical/`](../../design/s3/technical/).
 
 Delivery planning: [`delivery/s3/`](../../delivery/s3/).

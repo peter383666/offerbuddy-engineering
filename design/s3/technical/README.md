@@ -15,6 +15,6 @@ Technical design answers: **how the frozen Sprint 3 architecture is implemented 
 | Concurrency, idempotency and consistency | [Consistency Design](consistency-design.md) | Frozen |
 | Observability, audit and diagnostics | [Observability Design](observability-design.md) | Frozen |
 | API and contract | [API and Contract Detailed Design](api-contract.md) | Frozen |
-| Implementation structure | `implementation-structure.md` | Pending publication |
+| Implementation structure | [Implementation Structure](implementation-structure.md) | Frozen |
 
-The [Sprint 3 Architecture](../../../architecture/s3/README.md) remains authoritative for domain ownership and dependency direction. The API contract will be authoritative for external request/response semantics after publication.
+The [Sprint 3 Architecture](../../../architecture/s3/README.md) remains authoritative for domain ownership and dependency direction. The frozen API contract is authoritative for external request/response semantics.
