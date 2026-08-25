@@ -36,9 +36,9 @@ UI v2 / Extension Design emphasised explicit Save, while the tracking specificat
 
 Requirements listed multiple eligibility concepts; UI and extractors settled on citizenship/PR only. The gap was known in the sprint plan watch items and still created documentation churn.
 
-### CI Did Not Fully Catch Up to New Surfaces
+### CI Did Not Fully Catch Up During the Sprint
 
-Extension verification and Frontend Vitest exist locally but are not fully represented as GitHub Actions gates. Local precheck helps, but CI remains uneven across packages.
+During Sprint 2 delivery, Extension verification and Frontend Vitest existed locally but were not fully gated in GitHub Actions. Post-tag follow-up adds Extension Publish (on `main`), with Extension CI + Frontend Vitest gate on `review/s2-ci-followups`.
 
 ### Living Docs Lagged Implementation Again
 
@@ -61,7 +61,7 @@ SEEK/Indeed DOM and SPA behaviour still demand manual current-site checks. Fixtu
 
 - Decide Extension UX authority earlier when multiple design drafts exist.
 - Close eligibility/UI contracts before implementation issues that depend on them.
-- Add Extension CI and Frontend test gates when capacity allows.
+- Add Extension CI and Frontend test gates when capacity allows (in progress on application `review/s2-ci-followups`).
 - Keep implementation status / reconciliation as a required closeout artifact each sprint.
 - Treat current-site Extension validation as release-critical, not optional polish.
 - Update living architecture during documentation sync rather than only at sprint end when practical.

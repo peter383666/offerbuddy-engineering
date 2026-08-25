@@ -21,7 +21,10 @@ Authoritative product scope remains [S2 Scope](../../design/s2/requirements/s2-s
 | Application Analytics | Completed |
 | Web UI integration (Home, Applications, Detail, New Application, Analytics, Connect) | Completed |
 | Forward Flyway migrations (V3–V9) | Completed |
-| Documentation closeout | Complete on `docs/sprint-2` (pending merge/tag) |
+| Documentation closeout | Complete on `main` (tag `engineering-s2`) |
+| Chrome Web Store listing | Live (`ihdknldekiocanohajkgebmnhnneoeka`, manifest `0.1.24`) |
+| Extension Publish workflow | Complete (manual `upload` / `publish`) |
+| Extension CI + Frontend Vitest CI gate | Follow-up on application `review/s2-ci-followups` |
 
 ## Browser Extension
 
@@ -143,7 +146,7 @@ Implemented verification exists for:
 - Extension Vitest suites for adapters, lifecycle, pairing/save, and boundaries
 - Frontend component/page tests for key S2 surfaces
 
-CI note: backend CI runs `mvn verify`; frontend CI runs lint and build; extension has no dedicated GitHub Actions workflow yet. See reconciliation.
+CI note: backend CI runs `mvn verify`; frontend CI runs lint and build (Vitest gate on follow-up branch); Extension Publish workflow is on `main`; Extension CI is on `review/s2-ci-followups` pending merge. See reconciliation.
 
 ## Out of Scope (confirmed absent as S2 product)
 

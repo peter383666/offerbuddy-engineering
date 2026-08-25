@@ -15,7 +15,7 @@ npm run verify   # tests + production build
 
 Coverage includes SEEK/Indeed adapters, lifecycle/tracking, companion behaviour, pairing/save orchestration, popup states, and credential-boundary rules.
 
-There is **no dedicated Extension GitHub Actions workflow** at closeout. Extension verification is local / precheck until a workflow is added.
+**Extension CI** (application repo) runs `npm run verify` on Extension path changes once merged to `main`. Until then, local / precheck verify remains mandatory. **Extension Publish** uploads production zips to the Chrome Web Store via `workflow_dispatch`.
 
 ## Manual Platform Checks
 

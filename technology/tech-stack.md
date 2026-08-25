@@ -36,11 +36,11 @@ Frontend CI currently performs:
 - a Vite production build
 - upload of the built `dist` directory on `main` and `release` pushes
 
-Frontend Vitest component/page tests exist locally and via precheck, but are not yet a Frontend CI gate.
+Frontend Vitest component/page tests exist locally, via precheck, and as a Frontend CI gate on the application CI follow-up branch (`review/s2-ci-followups`) until merged to `main`.
 
 ## Browser Extension
 
-Chrome Manifest V3 Extension packaged with Vite. Local verification uses `npm test` and `npm run verify`. There is no dedicated Extension GitHub Actions workflow at Sprint 2 closeout.
+Chrome Manifest V3 Extension packaged with Vite. Local verification uses `npm test` and `npm run verify`. Application repo workflows: **Extension Publish** (Chrome Web Store upload/submit) on `main`; **Extension CI** (`npm run verify`) on the CI follow-up branch pending merge.
 
 ## Backend
 

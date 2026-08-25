@@ -20,8 +20,7 @@ Records limitations that remain true after Sprint 2 delivery. These are not hidd
 
 ## Quality / CI
 
-- No dedicated Extension GitHub Actions workflow.
-- Frontend Vitest exists but is not a Frontend CI gate.
+- Extension CI and Frontend Vitest as a Frontend CI gate are follow-ups on application `review/s2-ci-followups` until merged to `main`.
 - No browser end-to-end automation against live SEEK/Indeed.
 - Live Gemini verification remains conditional on credentials and is skipped in normal offline CI.
 

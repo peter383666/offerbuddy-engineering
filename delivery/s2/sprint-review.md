@@ -53,9 +53,10 @@ Make OfferBuddy practical in the user's daily job-application workflow by delive
 
 - Extension Vitest coverage for adapters, lifecycle, companion, pairing/save, and boundaries
 - Backend service, API, security, events, intelligence, and analytics tests including Testcontainers
-- Frontend Vitest coverage for key S2 surfaces (not yet gated in Frontend CI)
-- Backend CI `mvn verify` and Frontend CI lint/build retained
-- Documentation closeout information architecture under `docs/sprint-2`
+- Frontend Vitest coverage for key S2 surfaces
+- Backend CI `mvn verify`; Frontend CI lint/build (Vitest gate on follow-up branch)
+- Extension Publish workflow for Chrome Web Store upload/submit
+- Documentation closeout on engineering `main` tagged `engineering-s2`
 
 Test count is not the quality conclusion. The meaningful result is that capture ownership, duplicate safety, Core/async separation, and platform adapter risks received targeted verification.
 
@@ -65,7 +66,8 @@ Test count is not the quality conclusion. The meaningful result is that capture 
 
 - Confirmation-based automatic tracking and uncertain-confirmation UX shipped in addition to explicit Save.
 - Floating Companion became part of the Extension experience.
-- Frontend automated tests landed for important S2 pages/components even though Frontend CI still gates on lint/build only.
+- Frontend automated tests landed for important S2 pages/components; Frontend CI Vitest gate is a post-tag follow-up.
+- Chrome Web Store listing published for the Extension item.
 
 ### Changed
 
@@ -81,8 +83,6 @@ Test count is not the quality conclusion. The meaningful result is that capture 
 - Kafka / RabbitMQ / microservices / Kubernetes
 - Large Analytics/BI expansion
 - Redis-backed application behaviour
-- Dedicated Extension GitHub Actions workflow
-- Frontend Vitest as a CI gate
 - Browser end-to-end automation against live SEEK/Indeed
 
 ## Acceptance Criteria Result
@@ -97,9 +97,10 @@ Test count is not the quality conclusion. The meaningful result is that capture 
 | Basic Application Analytics | Met | Projection + approved ranges |
 | Web integration | Met | Home, Detail, Analytics, Connect, secondary New Application |
 | Forward migrations | Met | V3–V9 |
-| Automated verification | Partially met | Strong backend/extension tests; CI gaps remain |
-| Documentation closeout | Met on branch | `docs/sprint-2` pending merge to `main` and `engineering-s2` tag |
-| Engineering tag `engineering-s2` | Pending | After merge of documentation PR to `main` |
+| Automated verification | Mostly met | Strong backend/extension tests; Extension CI + Frontend Vitest CI gate as follow-up |
+| Documentation closeout | Met | Merged to `main`; tag `engineering-s2` |
+| Chrome Web Store | Met | Listing live; manifest `0.1.24` at app `v0.3.0` |
+| Engineering tag `engineering-s2` | Met | On engineering `main` |
 
 ## Known Limitations
 
@@ -107,15 +108,13 @@ See [Known Limitations](known-limitations.md). Highest-visibility items:
 
 - dual Extension tracking paths require clear product messaging
 - SEEK/Indeed DOM drift remains a live operational risk
-- Extension CI and Frontend test CI gates are incomplete
+- Extension CI and Frontend Vitest CI gates land via follow-up PR when not yet on application `main`
 - Redis remains reserved/unused
 - observability remains health/logs oriented
 
 ## Final Sprint Result
 
-Sprint 2 delivered the intended lower-friction capture increment on the existing modular-monolith foundation. The Browser Extension is the preferred capture path; Core save is independent of AI and Analytics; Web surfaces expose history, intelligence, and basic analytics.
-
-Final engineering documentation release tagging (`engineering-s2`) remains a separate closure action after the `docs/sprint-2` PR merges to `main`.
+Sprint 2 delivered the intended lower-friction capture increment on the existing modular-monolith foundation. The Browser Extension is the preferred capture path; Core save is independent of AI and Analytics; Web surfaces expose history, intelligence, and basic analytics. The Extension is listed on the Chrome Web Store; engineering documentation is tagged `engineering-s2`.
 
 ## Related
 

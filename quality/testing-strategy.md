@@ -109,7 +109,7 @@ npm run build
 
 The build includes TypeScript compilation and Vite's production build. On `main` and `release` pushes, CI uploads the resulting immutable `dist` artifact.
 
-Frontend Vitest component/page tests exist for key Sprint 2 surfaces (Home extension discovery, Analytics, Job Intelligence section, and related flows). They are executed locally / via precheck and are **not yet a Frontend CI gate**.
+Frontend Vitest component/page tests exist for key Sprint 2 surfaces (Home extension discovery, Analytics, Job Intelligence section, and related flows). They run locally / via precheck; Frontend CI adds `npm test` on the application CI follow-up branch (`review/s2-ci-followups`) until merged to `main`.
 
 Critical journeys still require manual verification for OAuth, Nginx, and live Extension/site behaviour.
 
@@ -122,7 +122,7 @@ npm test
 npm run verify   # tests + production build
 ```
 
-There is no dedicated Extension GitHub Actions workflow at Sprint 2 closeout. See [Extension Validation](s2/extension-validation.md).
+There is a dedicated **Extension CI** workflow in the application repository (path-filtered `npm run verify`) on the CI follow-up branch pending merge to `main`. See [Extension Validation](s2/extension-validation.md). **Extension Publish** is separate and manual.
 
 ## Local Precheck
 
@@ -148,8 +148,7 @@ Release-candidate verification and production smoke testing remain separate deli
 
 ## Known Gaps
 
-- Frontend Vitest not gated in Frontend CI
-- no dedicated Extension CI workflow
+- Frontend Vitest gate and Extension CI pending merge of application `review/s2-ci-followups`
 - no browser end-to-end automation against live SEEK/Indeed
 - live Gemini test skipped without an API key
 - incomplete generated OpenAPI error-response annotations in places

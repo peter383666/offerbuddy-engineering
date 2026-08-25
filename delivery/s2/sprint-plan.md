@@ -5,7 +5,7 @@
 | Item | Value |
 | --- | --- |
 | Sprint | Sprint 2 |
-| Status | Implementation complete; documentation closeout in progress |
+| Status | Implementation complete; documentation closeout tagged `engineering-s2` |
 | Primary capability | Browser Extension for SEEK and Indeed |
 
 ---
