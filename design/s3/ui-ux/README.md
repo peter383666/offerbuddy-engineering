@@ -4,6 +4,42 @@ Status: **APPROVED / FROZEN**
 
 The governed page documents are published under [`pages/`](pages/). Approved visual references are stored under [`assets/`](assets/) and must be read with the applicable page specification.
 
+## Governed Page Specifications
+
+### Focused Application
+
+- [S3-UI-01 — Match Analysis](<pages/S3-UI-01 — Match Analysis.md>)
+- [S3-UI-02 — Create Tailored Resume](<pages/S3-UI-02 — Create Tailored Resume.md>)
+- [S3-UI-03 — Base Resume Preview](<pages/S3-UI-03 — Base Resume Preview.md>)
+- [S3-UI-04 — Tailored Resume Review](<pages/S3-UI-04 — Tailored Resume Review.md>)
+- [S3-UI-05 — Focused Cover Letter Review](<pages/S3-UI-05 — Focused Cover Letter Review.md>)
+
+### Candidate Profile
+
+- [S3-UI-06 — Candidate Profile Overview](<pages/S3-UI-06 — Candidate Profile Overview.md>)
+- [S3-UI-07 — Resume Import Review](<pages/S3-UI-07 — Resume Import Review.md>)
+- [S3-UI-08 — Personal Details](pages/S3-UI-08.md)
+- [S3-UI-09 — Professional Summary](<pages/S3-UI-09 — Professional Summary.md>)
+- [S3-UI-10 — Skills](<pages/S3-UI-10 — Skills.md>)
+- [S3-UI-11 — Experience](<pages/S3-UI-11 — Experience.md>)
+- [S3-UI-12 — Education](<pages/S3-UI-12 — Education.md>)
+- [S3-UI-13 — Certifications](<pages/S3-UI-13 — Certifications.md>)
+- [S3-UI-14 — Languages and Eligibility](<pages/S3-UI-14 — Languages & Eligibility.md>)
+
+### Extension and S2 Integration
+
+- [S3-UI-15 — Extension Floating Assistant](<pages/S3-UI-15 — Extension Floating Assistant.md>)
+- [S3-UI-16 — SEEK Cover Letter Assistance](<pages/S3-UI-16 — SEEK Cover Letter Assistance.md>)
+- [S3-UI-17 — Application Detail Integration](<pages/S3-UI-17 — Application Detail Integration.md>)
+
+### RuoYi Admin
+
+- [S3-UI-18 — Sponsor Employers Admin](<pages/S3-UI-18 — Sponsor Employers Admin.md>)
+- [S3-UI-19 — AI Governance and Runtime Configuration](<pages/S3-UI-19 — AI Governance  Runtime Configuration.md>)
+- [S3-UI-20 — AI Monitoring and Operational View](<pages/S3-UI-20 — AI Monitoring  Operational View.md>)
+
+See the [Specification Index](INDEX.md) for dependency order and Figma-frame mapping, and the [Final Coverage Review](coverage-review.md) for freeze evidence.
+
 ## Purpose
 
 This directory defines the implementation contract between the frozen S3
