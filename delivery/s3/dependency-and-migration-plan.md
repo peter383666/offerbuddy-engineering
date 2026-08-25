@@ -64,7 +64,7 @@ flowchart TD
 | Application Detail | Preparation summary contract | Contract/integration | Existing page work may use a stubbed contract; final verification needs Preparation |
 | LinkedIn adapter | Existing Site Adapter contract | Hard | Can be implemented and fixture-tested without Preparation backend |
 | Floating assistant hand-off | Preparation capture/open contract | Integration | Presentation states can proceed after shared Extension message contracts stabilise |
-| Sponsor signal | Published snapshot contract | Hard | Admin publication and Extension cache must agree before end-to-end work |
+| Sponsor signal | Published snapshot contract | Hard | Admin publication, backend/Redis representation, and Extension cache must share one dataset version |
 | AI Admin/monitoring | AI runtime configuration and safe telemetry | Hard | RuoYi UI may start from frozen contracts; integration waits for product services |
 
 ## Vertical slices
@@ -79,7 +79,7 @@ flowchart TD
 | Focused Cover Letter | Match; AI runtime | Generate, review/edit, re-render, and recruitment-site hand-off | Provenance, save conflict, stale display, no Candidate mutation or Auto Apply |
 | Application integration | Preparation summary | Additive section in existing Application Detail | Zero-Preparation state, independent versions/status, existing S2 page tests |
 | LinkedIn and assistant | Existing Extension platform; Prepared Job hand-off | LinkedIn adapter, companion states, capture/open flow | Fixture contracts, partial extraction, auth/failure isolation, SEEK/Indeed regression |
-| Sponsor publication and signal | Resolved sponsor design; RuoYi; snapshot/cache contract | Working dataset → publish → Extension local lookup | Atomic publish, version refresh, cheap negative lookup, permission/audit checks |
+| Sponsor publication and signal | RuoYi; frozen layered Sponsor contract | Working/import data → correction/validation → publish → backend/Redis representation → Extension cache | Atomic publish, version refresh, cheap local negative lookup, permission/audit checks |
 | AI operations | AI runtime; RuoYi | Capability configuration and metadata-only monitoring | RBAC, config conflict, secret/content exclusion, provider failure diagnostics |
 
 ## Parallelisation guidance
@@ -91,7 +91,7 @@ flowchart TD
 | Resume Import and Job Preparation | Parallel after Candidate/AI/event contracts | Different domain modules, but both touch shared workers and migrations if started too early |
 | Match, Resume, and Cover Letter | Parallel only after Preparation/generation contracts | Independent artefacts but shared provenance, generation tables, AI runtime, and Web navigation |
 | Application Detail and RuoYi UI shells | Contract-parallel | Can use frozen read contracts; final integration requires product services |
-| Sponsor Admin and Extension sponsor cache | Parallel after one snapshot contract | Safe only when publication/version/payload semantics are resolved first |
+| Sponsor Admin and Extension sponsor cache | Parallel after shared version/payload contract | Separate clients of the same published dataset; avoid concurrent edits to shared snapshot contracts |
 | Central migrations, `business_events` classes, frontend route/API types, Extension messages/companion, Admin menus | High conflict | Allocate or serialise shared-file changes rather than editing concurrently |
 
 ## Material dependency risks
@@ -100,8 +100,10 @@ flowchart TD
 - Preparation must not import Application services or persistence; Application Detail consumes a Preparation summary in the opposite direction.
 - Candidate/Job version semantics must land before downstream artefact persistence, or provenance will require rework.
 - Generation coordination is shared by Match/Resume/Cover Letter; implementing three local variants would create incompatible idempotency and recency rules.
-- Sponsor Admin CRUD and sponsor lookup transport remain unresolved where approved UI behaviour conflicts with the earlier frozen Admin/Extension design.
+- Sponsor working-data corrections must not bypass publish/version semantics, and Extension cache refresh/fallback must not become a second Sponsor source of truth.
 - S3 changes to existing Application and Extension paths carry direct S2 regression coupling and require additive integration.
+
+The Sponsor interpretation is a compatible implementation clarification. RuoYi create/edit/delete actions are limited to operational correction of the working/import dataset before explicit publication; they do not mutate an active published dataset directly or create a generic Sponsor domain product. PostgreSQL remains durable authority, Redis represents the active backend dataset, and the Extension caches a versioned published projection for page-time lookup. Backend access acquires, refreshes, invalidates, or falls back from that projection rather than requiring a request for every detected Job page.
 
 ## Flyway baseline and compatibility
 
@@ -123,18 +125,20 @@ Later Phase 3 decisions added concurrency and generation persistence after the o
 | `V15` | Cover Letter artefacts | Cover Letter, evidence, asset/export metadata, generation binding and provenance | Blocks Cover Letter; verify generated/user content rules and current-success queries |
 | `V16` | AI platform | Providers, models, capability config/version, execution metadata, and safe config audit | Blocks runtime Admin and production AI routing; verify compatibility and no plaintext secret storage |
 | `V17` | Persistent AI capability bootstrap | Seed only OfferBuddy-owned stable capability identities/config shells | Blocks enabled runtime configuration; use disabled/safe defaults and do not seed provider, model, pricing, or secret data |
-| Pending resolution | Sponsor dataset/publication | Working data, aliases/import state, immutable published versions and snapshot metadata | Do not number or implement until CRUD/import and publication contract is resolved |
+| `V18` | Sponsor reference data | Add the Phase 3-required PostgreSQL working/import dataset, employer records, publication/version state, and active-dataset metadata | Blocks Sponsor Admin and Extension snapshot integration; verify failed import/publish leaves the previous active version usable |
 
 `business_events` remains the sole async lease/retry store; no `async_tasks`, processed-event ledger, or generic idempotency table is added. Freshness is derived from provenance, so no `is_stale` column or backfill is planned. Analytics and existing Job Intelligence child rows are not rewritten.
 
 `V17` is Flyway-managed because frozen §3.12 defines durable capability rows as stable OfferBuddy reference/configuration data. Runtime application registration still supplies executable capability handlers, while provider/model selection remains environment/Admin-managed operational data.
+
+`V18` is schema only. The initial Government dataset is loaded through the validated Admin import/publish workflow, not embedded in Flyway. Step 2 assigns the migration responsibility established by frozen §3.4/§3.11 without inventing the field-level schema omitted from §3.12.
 
 ## Existing-data and deployment considerations
 
 - `job_applications.version` can be introduced with a uniform non-null initial value; clients transition additively before it becomes mandatory for all writes.
 - `jobs.content_version` can initialise existing rows to `1`; no attempt is made to reconstruct historical semantic revisions.
 - Existing V7 events do not need fabricated correlation backfill. The new correlation column remains legacy-nullable while all new correlated S3 workflows persist it across event creation, claim, retry, worker, and AI execution.
-- Candidate, Preparation, artefact, AI, and sponsor records have no S2 source data to backfill.
+- Candidate, Preparation, artefact, AI, and Sponsor records have no S2 source data to backfill. Sponsor rows arrive through the first successful Admin publication.
 - Existing V8 Job Intelligence rows require an explicit compatibility choice before V10: either map only provably current rows to the initial Job content version or retain them as legacy/stale until regeneration. Flyway must not call the provider, and the plan must not pretend historical semantic versions can be reconstructed.
 - Constraint introduction must be preceded by verification queries where existing data could violate a new invariant. Current Application and Job uniqueness constraints already exist.
 - Migrations must not call AI providers, object storage, Redis, or external services.
@@ -145,4 +149,4 @@ For each group: apply Flyway from a clean database and an upgraded V9 database; 
 
 ## Step 2 readiness
 
-The dependency model and V10–V17 migration order are ready for review against frozen §3.17. Tailored Resume editing and event correlation are reconciled implementation deltas, not blockers. Sponsor migration numbering remains blocked because Phase 3 forbids arbitrary employer editing and specifies backend/Redis lookup, while `S3-UI-18` requires working-dataset CRUD and Extension snapshot/local lookup. Step 2 does not choose between those frozen sources.
+The dependency model and V10–V18 migration order are ready to freeze against frozen §3.17. Tailored Resume editing, event correlation, Sponsor working-data management, and Extension snapshot lookup are reconciled implementation clarifications/deltas rather than blockers. No genuine Step 2 dependency or schema blocker remains.
