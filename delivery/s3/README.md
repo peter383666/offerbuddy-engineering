@@ -6,6 +6,7 @@ Sprint 3 delivery documentation converts the frozen S3 design into implementatio
 
 | Unit | Document | Status |
 | --- | --- | --- |
+| Final | [Sprint 3 Implementation Plan](sprint-plan.md) | Ready for final review |
 | 5.1 | [Implementation Baseline and Scope Lock](implementation-baseline.md) | Ready for review |
 | 5.2–5.3 | [Dependency, Vertical Slice, and Migration Plan](dependency-and-migration-plan.md) | Ready for review |
 | 5.4 | [Backend, API, and Async Implementation Plan](backend-api-async-plan.md) | Ready for review |
