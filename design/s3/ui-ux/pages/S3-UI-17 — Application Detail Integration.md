@@ -58,42 +58,46 @@ Apply normally
         ↓
 S2 Application capture
         ↓
-Application
+Application (APPLIED, focused_path=false)
 ```
 
 No Preparation is required.
+Application Detail **must not** show the Focused Preparation card.
+There is **no** “Prepare with OfferBuddy” CTA on Fast Apply Application Detail.
 
-### Focused Apply
+### Focused Prepare (Prepare with OfferBuddy)
 
 ```text
 Recruitment Website
         ↓
 Prepare with OfferBuddy
         ↓
-Candidate + Job Preparation
+Application (PREPARING, focused_path=true)  ← appears in Application list
+        +
+Preparation (Candidate + Job)
+        +
+async Match request (when prerequisites allow)
         ↓
-Match / Resume / Cover Letter
+Application Detail → Open preparation → Match / Resume / Cover Letter
         ↓
-External application
+External application submission
         ↓
-Application
+Application status promotes PREPARING → APPLIED (focused_path stays true)
 ```
 
-Both ultimately converge on the same S2 Application concept.
+Focused path **creates the Application immediately** in `PREPARING` so the user can track it in the list and open AI analysis from Application Detail.
+
+There is still **not** a separate “Focused Application” aggregate — it is the same Application resource with `focused_path=true` and an initial `PREPARING` status.
 
 Therefore:
 
 ```text
 Fast Apply Application
-        │
-        ├──────────────┐
-        │              │
-Focused Apply          │
-        │              │
-        └───────→ Application Detail
-```
+  → Detail without Focused Preparation card
 
-There is **not** a separate “Focused Application” aggregate.
+Focused Prepare Application
+  → Detail with Focused Preparation card (“Only shown for focused applications”)
+```
 
 ------
 
@@ -286,9 +290,17 @@ The UI relationship does not redefine the domain relationship.
 
 ------
 
-# 9. Why Preparation Is Not Application-Owned
+# 9. Why Preparation Is Linked Through Job — and Application Still Appears Early on Focused Path
 
-Focused Preparation may exist **before** Application submission.
+Focused Preparation remains anchored to Candidate + Job.
+
+On the **Focused Prepare** path, OfferBuddy also creates an Application in `PREPARING` immediately so:
+
+1. the Application list shows an in-progress focused item;
+2. Application Detail can host the Focused Preparation entry and AI analysis entry points;
+3. later external submission promotes the same Application to `APPLIED`.
+
+Preparation is still not nested under Application as an owned child aggregate — Application Detail locates Preparation via the shared Job (+ authorised user).
 
 Example:
 
@@ -299,30 +311,20 @@ User finds Job
 10:01
 Prepare with OfferBuddy
 
-10:02
+10:01
+Application created (PREPARING, focused_path=true)
 Preparation created
+Match requested asynchronously when ready
 
 10:03
-Match reviewed
-
-10:05
-Resume prepared
+User opens Application Detail → Open preparation
 
 10:07
 User submits SEEK application
 
 10:08
-Application becomes Applied
+Same Application becomes Applied (focused_path remains true)
 ```
-
-For several minutes:
-
-```text
-Preparation exists
-Application may not yet exist
-```
-
-Therefore Application cannot be the lifecycle root of Preparation.
 
 ------
 
@@ -359,7 +361,7 @@ The user does not need to reconstruct the preparation from scratch.
 
 # 11. Application Detail After Fast Apply
 
-A Fast Apply Application may have no Preparation.
+A Fast Apply Application has `focused_path=false` and no Focused Preparation card.
 
 Example:
 
@@ -372,43 +374,29 @@ Applied
 
 ...
 
-Focused Preparation
-────────────────────────
-
-No focused preparation for this application.
+(no Focused preparation sidebar card)
 ```
 
 This is normal.
 
 It does not indicate an error or incomplete Application.
 
-Fast Apply is a first-class valid workflow.
+Fast Apply is a first-class valid workflow and **must not** offer Prepare-from-Detail.
 
 ------
 
 # 12. Post-Application Preparation
 
-An Application may already be Applied and have no Preparation.
+Post-submission “start Focused Prepare from a Fast Apply Application Detail” is **out of product scope**.
 
-Should the UI allow creating Preparation afterward?
+- Fast Apply Detail: no Focused Preparation card / no Prepare CTA.
+- Focused Prepare starts only from Extension (or an explicit Focused entry that creates `PREPARING` + `focused_path=true`).
 
-The domain model technically allows Candidate + Job Preparation independently of Application.
+Domain technically still allows Candidate + Job Preparation independently, but Application Detail must follow the frozen UI:
 
-However, the primary S3 product workflow is:
+> Only shown for focused applications.
 
-> Preparation before/during applying.
-
-Application Detail should follow the exact frozen Figma CTA/state rather than inventing a new post-application workflow.
-
-If the frozen UI provides:
-
-> Prepare / Review this job
-
-the Agent may use the existing Preparation command.
-
-If not:
-
-> do not invent an additional workflow merely because the backend could technically support it.
+Do not invent a post-Fast-Apply prepare workflow on Application Detail.
 
 ------
 
@@ -480,21 +468,17 @@ Do not create frontend-only domain statuses if the backend already provides the 
 
 ------
 
-# 16. State — No Preparation
+# 16. State — No Focused Preparation Card (Fast Apply)
 
-This represents an Application created through the normal S2 path without Focused Preparation.
+This represents an Application created through Fast Apply (`focused_path=false`).
 
-UI should communicate this neutrally.
-
-For example:
-
-> No focused preparation
+UI must **omit** the Focused Preparation sidebar card entirely.
 
 It must not communicate:
 
 > Incomplete application.
 
-These are different concepts.
+Fast Apply without preparation is a complete, valid Application.
 
 ------
 
@@ -1034,30 +1018,23 @@ Do not infer historical submission facts from current Preparation state.
 
 # 40. UI Structure
 
-Conceptually:
+Conceptually (Focused Prepare applications only):
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Existing S2 Application Detail              │
-│                                              │
-│ Company / Role                              │
-│ Status                                      │
-│ Applied date                                │
-│ Existing S2 actions                         │
-│ Existing metadata                           │
-│ Existing notes / timeline                   │
-│                                              │
-│ ─────────────────────────────────────────── │
-│ Focused Preparation                         │
-│                                              │
-│ [Preparation state]                         │
-│ [small summary]                             │
-│                                              │
-│                     [Open preparation]      │
-└──────────────────────────────────────────────┘
+┌─────────────────────────────┬──────────────────────┐
+│ Existing S2 Application     │ Status History       │
+│ Detail (main)               │                      │
+│                             │ Focused preparation  │
+│ Job Intelligence (AI)       │  summary + CTA       │
+│ Application details / notes │  “Only shown for     │
+│                             │   focused apps”      │
+│                             │ Delete application   │
+└─────────────────────────────┴──────────────────────┘
 ```
 
-The actual position/layout follows `S3-03 Application Detail Integration`.
+Fast Apply applications use the same layout **without** the Focused preparation card.
+
+The actual position/layout follows frozen Figma `S3 Application Detail / Focused Preparation`.
 
 Do not move existing S2 components simply to make S3 visually dominant.
 
@@ -1135,9 +1112,9 @@ Summary lookup failed, while Application Detail remains usable.
 4. Application remains independently user-owned.
 5. Preparation remains anchored to Candidate + Job.
 6. Preparation is not Application-owned.
-7. Preparation may exist before Application.
-8. Fast Apply does not require Preparation.
-9. Focused Apply ultimately uses the same Application model.
+7. Focused Prepare creates Application immediately in `PREPARING` (`focused_path=true`).
+8. Fast Apply does not require Preparation and must not show the Focused Preparation card.
+9. Focused Prepare ultimately uses the same Application model.
 10. No separate Focused Application aggregate exists.
 11. Application status and Preparation status are independent.
 12. Preparation Ready does not mean Applied.
